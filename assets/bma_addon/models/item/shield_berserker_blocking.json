@@ -1,0 +1,47 @@
+{
+    "parent": "bma_addon:item/display_shield_blocking",
+    "textures": {
+        "0": "bma_addon:models/item/berserker_shield"
+    },
+    "elements": [
+        {
+            "name": "Plate",
+            "from": [ -6.0, -11.0, 1.0 ], 
+            "to": [ 6.0, 11.0, 2.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 11.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 0.5, 11.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 11.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 0.5, 11.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 0.5 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 0.5 ] }
+            }
+        },
+        {
+            "name": "Handle",
+            "from": [ -1.0, -3.0, -5.0 ], 
+            "to": [ 1.0, 3.0, 1.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 12.0, 12.0, 13.0, 15.0 ] },
+                "east": { "texture": "#0", "uv": [ 6.0, 0.0, 9.0, 3.0 ] },
+                "south": { "texture": "#0", "uv": [ 12.0, 12.0, 13.0, 15.0 ] },
+                "west": { "texture": "#0", "uv": [ 6.0, 0.0, 9.0, 3.0 ] },
+                "up": { "texture": "#0", "uv": [ 12.0, 12.0, 13.0, 15.0 ] },
+                "down": { "texture": "#0", "uv": [ 12.0, 12.0, 13.0, 15.0 ] }
+            }
+        },
+        {
+            "name": "FrontTest",
+            "from": [ -1.5, -1.5, 2.0 ], 
+            "to": [ 1.5, 1.5, 2.5 ], 
+            "faces": {
+                "north": { "texture": "#-1", "uv": [ 0.0, 0.0, 3.0, 3.0 ] },
+                "east": { "texture": "#0", "uv": [ 11.0, 7.0, 11.5, 10.0 ] },
+                "south": { "texture": "#0", "uv": [ 10.0, 6.0, 13.0, 9.0 ] },
+                "west": { "texture": "#0", "uv": [ 11.0, 7.0, 11.5, 10.0 ] },
+                "up": { "texture": "#0", "uv": [ 12.0, 6.0, 15.0, 6.5 ] },
+                "down": { "texture": "#0", "uv": [ 11.0, 8.0, 14.0, 8.5 ] }
+            }
+        }
+    ]
+}
