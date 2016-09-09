@@ -131,6 +131,12 @@ public class BmaItems {
 		registerRender(mage_legs, mage_legs.getModeltextureLocation());
 		registerRender(mage_feet, mage_feet.getModeltextureLocation());
 
+		registerRender(archer_head, archer_head.getModeltextureLocation());
+		registerRender(archer_chest, archer_chest.getModeltextureLocation());
+		registerRender(archer_legs, archer_legs.getModeltextureLocation());
+		registerRender(archer_feet, archer_feet.getModeltextureLocation());
+
+		
 		registerRender(shield_berserker, "shield_berserker");
 		registerRender(hammer, "hammer");
 
