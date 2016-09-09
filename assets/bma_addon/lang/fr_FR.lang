@@ -1,8 +1,7 @@
-
 #armor materials
-item.a.leather.name=Berserker Leather
-item.t.leather.name=Archer Leather
-item.m.leather.name=Magic Leather
+item.bma_addon:craftLeather_0.name=Studded Leather
+item.bma_addon:craftLeather_1.name=Arcane Cloth
+item.bma_addon:craftLeather_2.name=Animal Hide
 
 #armor
 item.archer_head.name=Archer Cap
@@ -20,6 +19,7 @@ item.berserker_chest.name=Berserker Chestplate
 item.berserker_legs.name=Berserker Leggings
 item.berserker_feet.name=Berserker Boots
 
+item.bma_addon:berserker_shield.name=Iron Thorn
 
 #weapons
 item.bma_addon:hammer.name=Ragebreaker
@@ -39,6 +39,7 @@ item.bma_addon:wand_12.name=Wand
 item.bma_addon:wand_13.name=Wand
 item.bma_addon:wand_14.name=Wand
 item.bma_addon:wand_15.name=Wand
+item.bma_addon:wand_stick.name=Arcane-Sensible Stick
 
 #various items
-
+enchantment.wand_enchantment=Arcane Affinity

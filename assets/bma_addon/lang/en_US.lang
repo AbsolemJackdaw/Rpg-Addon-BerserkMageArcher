@@ -1,8 +1,7 @@
-
 #armor materials
-item.a.leather.name=Berserker Leather
-item.t.leather.name=Archer Leather
-item.m.leather.name=Magic Leather
+item.bma_addon:craftLeather_0.name=Studded Leather
+item.bma_addon:craftLeather_1.name=Arcane Cloth
+item.bma_addon:craftLeather_2.name=Animal Hide
 
 #armor
 item.archer_head.name=Archer Cap
