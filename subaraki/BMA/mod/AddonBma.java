@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import subaraki.BMA.enchantment.EnchantmentHandler;
@@ -46,6 +47,8 @@ public class AddonBma {
 
 		BmaItems.loadItems();
 		BmaItems.register();
+		BmaItems.loadRecipes();
+		
 		proxy.registerRenders();
 		proxy.registerClientEvents();
 
@@ -60,5 +63,10 @@ public class AddonBma {
 		
 		EntityRegistry.registerModEntity(EntityHammerSmash.class, "HammerSmash", 2, instance, 250, 15, false);
 
+	}
+	
+	@EventHandler
+	public void init(FMLInitializationEvent event){
+		proxy.registerColors();
 	}
 }

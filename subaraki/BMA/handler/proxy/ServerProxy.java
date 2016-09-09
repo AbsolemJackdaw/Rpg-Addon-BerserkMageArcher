@@ -8,5 +8,7 @@ public class ServerProxy {
 	
 	public void registerRenders(){};
 	
-	public void registerClientEvents(){};
+	public void registerClientEvents(){}
+
+	public void registerColors() {};
 }
