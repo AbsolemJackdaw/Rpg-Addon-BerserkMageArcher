@@ -120,12 +120,4 @@ public class ModelBerserkerArmor extends ModelBiped {
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-
-	public void showHorns(boolean show) {
-		horns_1.showModel = horns_2.showModel = horns_3.showModel = horns_4.showModel = horns_5.showModel = show;
-	}
-
-	public void showSpaulders(boolean show) {
-		spaulder_L3.showModel = spaulder_L2.showModel = spaulder_L1.showModel = spaulder_R3.showModel = spaulder_R2.showModel = spaulder_R1.showModel = show;
-	}
 }

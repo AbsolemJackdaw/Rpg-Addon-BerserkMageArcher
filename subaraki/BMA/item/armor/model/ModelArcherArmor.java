@@ -6,16 +6,10 @@ import net.minecraft.entity.Entity;
 
 public class ModelArcherArmor extends ModelBiped {
 	// fields
-	ModelRenderer KneeL;
-	ModelRenderer KneeR;
-	ModelRenderer ToetipL;
-	ModelRenderer ToetipR;
-	ModelRenderer head;
-	ModelRenderer body;
-	ModelRenderer rightarm;
-	ModelRenderer leftarm;
-	ModelRenderer rightleg;
-	ModelRenderer leftleg;
+	private ModelRenderer KneeL;
+	private ModelRenderer KneeR;
+	private ModelRenderer ToetipL;
+	private ModelRenderer ToetipR;
 
 	public ModelArcherArmor(float par1) {
 		super(par1, 0, 65, 64);
@@ -67,13 +61,4 @@ public class ModelArcherArmor extends ModelBiped {
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-
-	public void showBoots(boolean show) {
-		ToetipL.showModel = ToetipR.showModel = show;
-	}
-
-	public void showKnee(boolean show) {
-		KneeR.showModel = KneeL.showModel = show;
-	}
-
 }

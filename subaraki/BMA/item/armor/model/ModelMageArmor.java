@@ -5,11 +5,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelMageArmor extends ModelBiped {
-	boolean mageChest = false;
-	boolean mageArms = false;
-	boolean mageFeet = false;
-	boolean magehead = false;
-
 	// fields
 	private ModelRenderer hat_part_1;
 	private ModelRenderer hat_part_2;
@@ -217,26 +212,4 @@ public class ModelMageArmor extends ModelBiped {
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-
-	public void showMageArms(boolean show) {
-		arms_part_L.showModel = arms_part_2.showModel = show;
-	}
-
-	public void showMageChest(boolean show) {
-		chest.showModel = show;
-	}
-
-	public void showMageFeet(boolean show) {
-		feet_part_R1.showModel = feet_part_R2.showModel = feet_part_R3.showModel = 
-				feet_part_L1.showModel = feet_part_L2.showModel = show;
-	}
-
-	public void showMageHat(boolean show) {
-		hat_part_1.showModel = hat_part_2.showModel = hat_part_3.showModel = 
-				hat_part_4.showModel = hat_part_5.showModel = hat_part_6.showModel =
-				hat_part_7.showModel = hat_part_8.showModel = hat_part_9.showModel = 
-				hat_part_10.showModel = hat_part_11.showModel = hat_part_12.showModel = 
-				hat_part_13.showModel = show;
-	}
-
 }
