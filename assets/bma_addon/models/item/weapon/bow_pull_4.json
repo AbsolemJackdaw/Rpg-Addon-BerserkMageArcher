@@ -1,7 +1,9 @@
 {
-    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
-    "textures": {
-        "0": "bma_addon:models/item/bow_colors"
+   "parent": "bma_addon:item/weapon/archer_bow",
+
+   "textures": {
+        "0": "bma_addon:models/item/bow_colors",
+        "1": "bma_addon:models/item/bow_arrow_red"
     },
     "elements": [
         {
@@ -12,9 +14,7 @@
                 "north": { "texture": "#0", "uv": [ 7.0, 7.0, 8.0, 11.0 ] },
                 "east": { "texture": "#0", "uv": [ 9.0, 7.0, 10.0, 11.0 ] },
                 "south": { "texture": "#0", "uv": [ 10.0, 7.0, 11.0, 11.0 ] },
-                "west": { "texture": "#0", "uv": [ 10.0, 7.0, 11.0, 11.0 ] },
-                "up": { "texture": "#-1", "uv": [ 0.0, 0.0, 1.0, 1.0 ] },
-                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 1.0, 1.0 ] }
+                "west": { "texture": "#0", "uv": [ 10.0, 7.0, 11.0, 11.0 ] }
             }
         },
         {
@@ -254,14 +254,65 @@
         {
             "name": "String",
             "from": [ 7.9, 2.0, 13.0 ], 
-            "to": [ 8.1, 14.0, 13.2 ], 
+            "to": [ 8.1, 9.8, 13.2 ], 
+            "shade": false,
+            "rotation": { "origin": [ 8.0, 2.0, 13.0 ], "axis": "x", "angle": 45.0 },
             "faces": {
                 "north": { "texture": "#0", "uv": [ 5.0, 2.0, 5.2, 14.0 ] },
                 "east": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] },
                 "south": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] },
-                "west": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] },
-                "up": { "texture": "#-1", "uv": [ 0.0, 0.0, 0.2, 0.2 ] },
-                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 0.2, 0.2 ] }
+                "west": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] }
+            }
+        },
+        {
+            "name": "Arrow",
+            "from": [ 7.8, 8.0, 5.5 ], 
+            "to": [ 8.2, 8.4, 17.5 ], 
+            "faces": {
+                "north": { "texture": "#1", "uv": [ 3.0, 7.0, 3.4, 4.4 ] },
+                "east": { "texture": "#1", "uv": [ 1.0, 2.0, 1.4, 13.0 ], "rotation": 90 },
+                "south": { "texture": "#1", "uv": [ 3.0, 1.0, 3.4, 1.4 ] },
+                "west": { "texture": "#1", "uv": [ 2.0, 0.0, 2.4, 12.0 ], "rotation": 90 },
+                "up": { "texture": "#1", "uv": [ 3.0, 0.0, 3.4, 12.0 ] },
+                "down": { "texture": "#1", "uv": [ 2.0, 2.0, 2.4, 14.0 ] }
+            }
+        },
+        {
+            "name": "String_top",
+            "from": [ 7.9, 6.3, 13.0 ], 
+            "to": [ 8.1, 14.0, 13.2 ], 
+            "rotation": { "origin": [ 8.0, 14.0, 13.0 ], "axis": "x", "angle": -45.0 },
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 5.0, 2.0, 5.2, 14.0 ] },
+                "east": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] },
+                "south": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] },
+                "west": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] }
+            }
+        },
+        {
+            "name": "Arrow2",
+            "from": [ 7.8, 9.5, 4.0 ], 
+            "to": [ 8.2, 9.9, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#1", "uv": [ 3.0, 7.0, 3.4, 4.4 ] },
+                "east": { "texture": "#1", "uv": [ 1.0, 2.0, 1.4, 13.0 ] },
+                "south": { "texture": "#1", "uv": [ 3.0, 1.0, 3.4, 1.4 ] },
+                "west": { "texture": "#1", "uv": [ 2.0, 0.0, 2.4, 12.0 ] },
+                "up": { "texture": "#1", "uv": [ 3.0, 0.0, 3.4, 12.0 ] },
+                "down": { "texture": "#1", "uv": [ 2.0, 2.0, 2.4, 14.0 ] }
+            }
+        },
+        {
+            "name": "Arrow3",
+            "from": [ 7.8, 6.4, 4.2 ], 
+            "to": [ 8.2, 6.8, 16.2 ], 
+            "faces": {
+                "north": { "texture": "#1", "uv": [ 3.0, 7.0, 3.4, 4.4 ] },
+                "east": { "texture": "#1", "uv": [ 1.0, 2.0, 1.4, 13.0 ] },
+                "south": { "texture": "#1", "uv": [ 3.0, 1.0, 3.4, 1.4 ] },
+                "west": { "texture": "#1", "uv": [ 2.0, 0.0, 2.4, 12.0 ] },
+                "up": { "texture": "#1", "uv": [ 3.0, 0.0, 3.4, 12.0 ] },
+                "down": { "texture": "#1", "uv": [ 2.0, 2.0, 2.4, 14.0 ] }
             }
         }
     ]

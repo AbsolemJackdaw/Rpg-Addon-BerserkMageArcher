@@ -1,5 +1,5 @@
 {
-    "parent": "bma_addon:item/wand_base",
+     "parent":"bma_addon:item/weapon/wand_base",
     
     "textures": {
         "0": "bma_addon:models/item/wand_0_colors"

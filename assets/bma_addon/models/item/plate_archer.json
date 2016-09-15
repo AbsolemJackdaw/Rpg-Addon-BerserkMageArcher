@@ -1,0 +1,6 @@
+{
+    "parent": "bma_addon:item/plate",
+    "textures": {
+        "0": "bma_addon:models/item/archer_shield"
+    }
+}

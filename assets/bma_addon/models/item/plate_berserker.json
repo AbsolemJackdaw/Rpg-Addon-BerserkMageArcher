@@ -1,0 +1,6 @@
+{
+    "parent": "bma_addon:item/plate",
+    "textures": {
+        "0": "blocks/iron_block"
+    }
+}

@@ -41,5 +41,12 @@ item.bma_addon:wand_14.name=Wand
 item.bma_addon:wand_15.name=Wand
 item.bma_addon:wand_stick.name=Arcane-Sensible Stick
 
+#entity
+entity.bma_addon:HellArrow.name=Arrow Rain
+entity.bma_addon:Augolustra.name=Augolustra Hex
+entity.bma_addon:Expelliarmus.name=Expelliarmus Charm
+entity.bma_addon:HammerSmash.name=a Massive Hammer
+
 #various items
 enchantment.wand_enchantment=Arcane Affinity
+itemGroup.BmaTab=Berserker,Mage,Archer
