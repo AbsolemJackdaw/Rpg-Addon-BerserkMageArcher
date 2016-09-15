@@ -7,8 +7,19 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemWrittenBook;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -39,7 +50,6 @@ public class BmaEventHandler {
 	public void heldItemTick(PlayerTickEvent event){
 		EntityPlayer player = event.player;
 		transformToWand(player);
-
 	}
 
 	@SubscribeEvent
@@ -68,10 +78,18 @@ public class BmaEventHandler {
 					int metadata = player.getCapability(RpgInventoryCapability.CAPABILITY, null).getMageIndex();
 					int core = player.getCapability(RpgInventoryCapability.CAPABILITY, null).getCoreIndex();
 
+					if(!currentHeldItem.getTagCompound().hasKey("core")){
+						player.worldObj.playSound(player, new BlockPos(player), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0f, 1f);
+						player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STICK,1));
+						return;
+					}
+					
+					String extraCore = currentHeldItem.getTagCompound().getString("core");
+					
 					ItemStack stack = new ItemStack(BmaItems.wand, 1, metadata);
 					stack.setStackDisplayName(player.getName() + "'s Wand");
 
-					stack.getTagCompound().setString("core", "Core: " + WandInfo.core[core]);
+					stack.getTagCompound().setString("core", "Core: " + extraCore);
 					stack.getTagCompound().setString("wood", "Wood: " + WandInfo.wood[metadata]);
 					stack.getTagCompound().setInteger("core_index",core);
 
@@ -120,7 +138,7 @@ public class BmaEventHandler {
 		if (!player.worldObj.isRemote)
 			PacketHandler.NETWORK.sendTo(new PacketSyncMageIndex(coreIndex,mageIndex), (EntityPlayerMP) player);
 	}
-	
+
 	private void calculateBerserkerBonus(LivingUpdateEvent event){
 		if(!(event.getEntityLiving() instanceof EntityPlayer))
 			return;
@@ -149,18 +167,18 @@ public class BmaEventHandler {
 				removeEnchantment(Enchantments.KNOCKBACK, heldItem);
 			}
 	}
-	
+
 	private void addEnchantment(Enchantment ench, int level, ItemStack stack){
 		Map<Enchantment, Integer> tmp = EnchantmentHelper.getEnchantments(stack);
-		
+
 		if(!tmp.containsKey(ench))
 			tmp.put(ench, level);
 		else if(tmp.get(ench) != level)
 			tmp.put(ench, level);
-		
+
 		EnchantmentHelper.setEnchantments(tmp,stack);
 	}
-	
+
 	private void removeEnchantment(Enchantment ench, ItemStack stack){
 		Map<Enchantment, Integer> tmp = EnchantmentHelper.getEnchantments(stack);
 		if(!tmp.containsKey(ench))

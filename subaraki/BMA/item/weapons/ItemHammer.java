@@ -38,7 +38,7 @@ public class ItemHammer extends ItemSword{
 		if(!world.isRemote)
 			world.spawnEntityInWorld(ehs);
 
-		player.getCooldownTracker().setCooldown(this, 250);
+		player.getCooldownTracker().setCooldown(this, 500);
 
 		return super.onItemRightClick(itemStack, world, player, hand);
 	}

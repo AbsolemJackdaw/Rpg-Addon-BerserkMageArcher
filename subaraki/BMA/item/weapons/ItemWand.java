@@ -38,13 +38,13 @@ public class ItemWand extends Item {
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		int meta = stack.getMetadata();
-		return super.getUnlocalizedName() + "_" + meta ;
-
+		return super.getUnlocalizedName();
 	}
+	
 
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-		for (int i = 0; i < 6; ++i)
+		for (int i = 0; i < 16; ++i)
 		{
 			subItems.add(new ItemStack(itemIn, 1, i));
 		}
@@ -86,7 +86,9 @@ public class ItemWand extends Item {
 					player.worldObj.playSound(player.posX, player.posY, player.posZ, SoundEvents.field_190021_aL, SoundCategory.NEUTRAL, 0.5f, 0.5f, false);
 					return false;
 				}
-				player.heal(WandInfo.isLoyalWand(player, stack) ? 4 : 1);
+				player.heal(WandInfo.isLoyalWand(player, stack) ? 5 : 1);
+				int hunger = player.getFoodStats().getFoodLevel();
+				player.getFoodStats().setFoodLevel(hunger > 1 ? hunger-1 : 0);
 				player.worldObj.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.NEUTRAL, 0.5f, 5f, false);
 
 				player.getCooldownTracker().setCooldown(this, 60);
@@ -203,7 +205,6 @@ public class ItemWand extends Item {
 
 		if(elb.worldObj.isRemote){
 			Random random = elb.worldObj.rand;
-			double d0 = 0.0625D;
 
 			for (int i = 0; i < number; ++i)
 			{

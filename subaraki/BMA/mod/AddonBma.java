@@ -13,13 +13,14 @@ import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;
 import subaraki.BMA.entity.EntityHammerSmash;
+import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.handler.event.BmaEventHandler;
 import subaraki.BMA.handler.event.SpellHandler;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.proxy.ServerProxy;
 import subaraki.BMA.item.BmaItems;
 
-@Mod(modid = AddonBma.MODID, name = AddonBma.NAME, version = AddonBma.VERSION)
+@Mod(modid = AddonBma.MODID, name = AddonBma.NAME, version = AddonBma.VERSION, dependencies = "required-after:rpginventory")
 public class AddonBma {
 
 	public static final String MODID = "bma_addon";
@@ -29,9 +30,6 @@ public class AddonBma {
 	@SidedProxy(clientSide = "subaraki.BMA.handler.proxy.ClientProxy", serverSide = "subaraki.BMA.handler.proxy.ServerProxy")
 	public static ServerProxy proxy;
 
-	@Mod.Instance(AddonBma.MODID)
-	private static AddonBma instance;
-	
 	public static SpellHandler spells;
 
 	@EventHandler
@@ -44,24 +42,19 @@ public class AddonBma {
 		modMeta.description = "Class Armor for Mage, Berserker and Archer";
 		modMeta.url = "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1287896-/";
 
-
 		BmaItems.loadItems();
 		BmaItems.register();
 		BmaItems.loadRecipes();
 		
 		proxy.registerRenders();
 		proxy.registerClientEvents();
-
-		new PacketHandler();
+		proxy.registerEntities();
 		
+		new PacketHandler();
 		new EnchantmentHandler();
 		new BmaEventHandler();
-		spells = new SpellHandler();
-
-		EntityRegistry.registerModEntity(EntityAugolustra.class, "Augolustra", 0, instance, 250, 15, true);
-		EntityRegistry.registerModEntity(EntityExpelliarmus.class, "Expelliarmus", 1, instance, 250, 15, true);
 		
-		EntityRegistry.registerModEntity(EntityHammerSmash.class, "HammerSmash", 2, instance, 250, 15, false);
+		spells = new SpellHandler();
 
 	}
 	

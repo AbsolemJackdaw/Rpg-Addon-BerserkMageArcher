@@ -17,9 +17,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;
 import subaraki.BMA.entity.EntityHammerSmash;
+import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.entity.RenderAugolustra;
 import subaraki.BMA.entity.RenderExpelliarmus;
 import subaraki.BMA.entity.RenderHammerSmash;
+import subaraki.BMA.entity.RenderHellArrow;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.item.armor.model.ModelArcherArmor;
 import subaraki.BMA.item.armor.model.ModelBerserkerArmor;
@@ -73,6 +75,8 @@ public class ClientProxy extends ServerProxy {
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityHammerSmash.class, RenderHammerSmash::new);
 
+		RenderingRegistry.registerEntityRenderingHandler(EntityHellArrow.class, RenderHellArrow::new);
+
 	}
 
 	public void registerClientEvents(){
@@ -124,7 +128,7 @@ public class ClientProxy extends ServerProxy {
 							case 0 : 
 								return 0xa24203;
 							case 1 : 
-								return 0x000020;
+								return 0x3333FF;
 							case 2 : 
 								return 0x71544f;
 							}

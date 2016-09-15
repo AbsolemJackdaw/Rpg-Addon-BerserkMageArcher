@@ -27,22 +27,25 @@ public class WandInfo {
 	};
 
 	public static final String wood [] = new String[]{
-			"Oak Wood",
+			"Holly",
 			"Sacred Birch",
 			"Soft HornBeam",
 			"Dark HornBeam",
 			"Cedar",
 			"Walnut",
-			"Black Oak",
-			"Ebony",
-			"Soft Ebony",
-			"Bamboo",
-			"Birch",
-			"Elder",
-			"HawTorn",
+			
 			"Spruce",
-			"Soft Spruce",
+			"Oak",
+			"Birch",
+			"Dark Oak",
+			"Jungle",
+			"Acacia",
+			
+			"Bamboo",
 			"Dark Bamboo",
+			
+			"Elder",
+			"Light Elder",
 	};
 
 	public static boolean isLoyalWand(EntityPlayer player, ItemStack stack){

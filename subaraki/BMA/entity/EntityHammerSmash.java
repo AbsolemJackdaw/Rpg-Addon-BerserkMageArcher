@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,6 +21,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import scala.actors.threadpool.Arrays;
@@ -106,15 +108,36 @@ public class EntityHammerSmash extends EntityLivingBase{
 		else
 			rotationAngle = 90;
 
-		if(ticksExisted > 90/10){
+		if(ticksExisted == 1)
+			worldObj.playSound(posX, posY, posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 1F, 0.5F, true);
 
-			AxisAlignedBB pool = getEntityBoundingBox().expand(3, 2, 3);
+		if(ticksExisted == 4)
+			worldObj.playSound(posX, posY, posZ, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.NEUTRAL, 0.5F, 0.005F, true);
+
+		if(ticksExisted > 9){
+			
+			if(worldObj.isRemote){
+				for(float fx = -5; fx < 5; fx+=0.5f){
+					for(float fz = -5; fz < 5; fz+=0.5f){
+						double x = (double)((float)posX + fx + rand.nextFloat()/4);
+						double y = (double)((float)posY + rand.nextFloat());
+						double z = (double)((float)posZ + fz + rand.nextFloat()/4);
+
+						worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, -0.05D, 0.0D, new int[0]);
+					}
+				}
+			}
+			
+			AxisAlignedBB pool = getEntityBoundingBox().expand(5, 2, 5);
 			List<EntityLivingBase> entl = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, pool);
 
 			for(EntityLivingBase el : entl){
+				
 				if(el instanceof EntityPlayer)
 					if(((EntityPlayer)el).getUniqueID().equals(getOwnerId()))
 						continue;
+				if(el instanceof EntityHammerSmash)
+					continue;
 
 				double xdir = el.posX - posX;
 				double zdir = el.posZ - posZ;
@@ -123,20 +146,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 				el.motionY =  1.5F;
 				el.motionZ = zdir* (2F);
 
-				if(getOwner() != null)
-					el.attackEntityFrom(DamageSource.causePlayerDamage(getOwner()),8);
-				
-				if(worldObj.isRemote){
-					for(float fx = -4; fx < 4; fx+=0.5f){
-						for(float fz = -4; fz < 4; fz+=0.5f){
-							double x = (double)((float)posX + fx + rand.nextFloat()/4);
-							double y = (double)((float)posY + rand.nextFloat());
-							double z = (double)((float)posZ + fz + rand.nextFloat()/4);
-
-							worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, -0.05D, 0.0D, new int[0]);
-						}
-					}
-				}
+				el.attackEntityFrom(DamageSource.causeIndirectDamage(this, el),20);
 			}
 			if(getOwner() == null )
 				if(inventory[0] != null)
