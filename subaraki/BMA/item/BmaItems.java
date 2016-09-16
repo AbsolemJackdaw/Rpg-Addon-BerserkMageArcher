@@ -222,7 +222,7 @@ public class BmaItems {
 				" I ", " I ", 'I', Items.IRON_INGOT, 'S', Blocks.IRON_BLOCK,
 				'W', new ItemStack(Blocks.WOOL, 1, 1) });
 		
-		GameRegistry.addRecipe(new ItemStack(hammer, 1), new Object[] { "EBR",
+		GameRegistry.addRecipe(new ItemStack(bow, 1), new Object[] { "EBR",
 				"B#S", "RS#", 'E', Items.EMERALD, 'S', Items.STRING,
 				'B', new ItemStack(Blocks.LOG, 1, 2), 'R' , new ItemStack(Blocks.WOOL,1,14) });
 		

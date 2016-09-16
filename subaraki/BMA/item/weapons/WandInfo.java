@@ -33,17 +33,14 @@ public class WandInfo {
 			"Dark HornBeam",
 			"Cedar",
 			"Walnut",
-			
 			"Spruce",
 			"Oak",
 			"Birch",
 			"Dark Oak",
 			"Jungle",
 			"Acacia",
-			
 			"Bamboo",
 			"Dark Bamboo",
-			
 			"Elder",
 			"Light Elder",
 	};
