@@ -5,8 +5,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import subaraki.rpginventory.capability.playerinventory.RpgInventoryCapability;
-import subaraki.rpginventory.mod.RpgInventory;
+import subaraki.BMA.capability.MageDataCapability;
+import subaraki.BMA.mod.AddonBma;
 
 public class PacketSyncMageIndex implements IMessage{
 
@@ -35,12 +35,12 @@ public class PacketSyncMageIndex implements IMessage{
 
 		@Override
 		public IMessage onMessage(PacketSyncMageIndex message, MessageContext ctx) {
-			EntityPlayer player = RpgInventory.proxy.getClientPlayer();
+			EntityPlayer player = AddonBma.proxy.getClientPlayer();
 
 			if(message.core > -1 && player != null)
-				player.getCapability(RpgInventoryCapability.CAPABILITY, null).setCoreIndex(message.core);
+				player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(message.core);
 			if(message.meta > -1 && player != null)
-				player.getCapability(RpgInventoryCapability.CAPABILITY, null).setMageIndex(message.meta);
+				player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(message.meta);
 
 			return null;
 		}

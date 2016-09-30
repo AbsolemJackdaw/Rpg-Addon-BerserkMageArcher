@@ -2,8 +2,10 @@ package subaraki.BMA.handler.event;
 
 import java.util.Map;
 
+import lib.playerclass.PlayerClass;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Enchantments;
@@ -15,17 +17,18 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import subaraki.BMA.capability.CapabilityMageProvider;
+import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.network.PacketSyncMageIndex;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.item.weapons.WandInfo;
-import subaraki.rpginventory.capability.playerinventory.RpgInventoryCapability;
-import subaraki.rpginventory.mod.RpgInventory;
 
 public class BmaEventHandler {
 
@@ -51,6 +54,14 @@ public class BmaEventHandler {
 		calculateBerserkerBonus(event);
 	}
 
+	@SubscribeEvent
+	public void onCapabilityAttach(AttachCapabilitiesEvent.Entity event){
+		final Entity entity = event.getEntity();
+
+		if (entity instanceof EntityPlayer)
+			event.addCapability(CapabilityMageProvider.KEY, new CapabilityMageProvider((EntityPlayer)entity)); 
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,8 +80,8 @@ public class BmaEventHandler {
 		if(currentHeldItem.isItemEnchanted()){
 			for(Enchantment a : EnchantmentHelper.getEnchantments(currentHeldItem).keySet()){
 				if(a.getRegistryName().equals(EnchantmentHandler.wand_enchantment.getRegistryName())){
-					int metadata = player.getCapability(RpgInventoryCapability.CAPABILITY, null).getMageIndex();
-					int core = player.getCapability(RpgInventoryCapability.CAPABILITY, null).getCoreIndex();
+					int metadata = player.getCapability(MageDataCapability.CAPABILITY, null).getMageIndex();
+					int core = player.getCapability(MageDataCapability.CAPABILITY, null).getCoreIndex();
 
 					if(!currentHeldItem.getTagCompound().hasKey("core")){
 						player.worldObj.playSound(player, new BlockPos(player), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0f, 1f);
@@ -126,8 +137,8 @@ public class BmaEventHandler {
 
 		System.out.println(name +" "+ mageIdentifier +" "+ mid_mageIndex +" "+ mageIndex +" "+coreIndex);
 
-		player.getCapability(RpgInventoryCapability.CAPABILITY, null).setMageIndex(mageIndex);
-		player.getCapability(RpgInventoryCapability.CAPABILITY, null).setCoreIndex(coreIndex);
+		player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(mageIndex);
+		player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(coreIndex);
 
 		if (!player.worldObj.isRemote)
 			PacketHandler.NETWORK.sendTo(new PacketSyncMageIndex(coreIndex,mageIndex), (EntityPlayerMP) player);
@@ -147,9 +158,9 @@ public class BmaEventHandler {
 			return;
 		if(heldItem.getItem().equals(BmaItems.hammer))
 
-			if(RpgInventory.playerClass.contains(BmaItems.berserkerClass)){
+			if(PlayerClass.isInstanceOf(BmaItems.berserkerClass)){
 
-				if(RpgInventory.playerClass.contains("_shielded")){
+				if(PlayerClass.isShielded()){
 					if (((player.getFoodStats().getFoodLevel() < 5) || (player.getHealth() < 5)))
 						addEnchantment(Enchantments.KNOCKBACK, 3, heldItem);
 					else

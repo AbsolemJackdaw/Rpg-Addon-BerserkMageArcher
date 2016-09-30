@@ -2,6 +2,7 @@ package subaraki.BMA.item.weapons;
 
 import javax.annotation.Nullable;
 
+import lib.playerclass.PlayerClass;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -24,7 +25,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.item.BmaItems;
-import subaraki.rpginventory.mod.RpgInventory;
 
 public class ItemBowArcher extends Item
 {
@@ -64,7 +64,7 @@ public class ItemBowArcher extends Item
 	 */
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
 	{
-		if(!RpgInventory.playerClass.contains(BmaItems.archerClass))
+		if(!PlayerClass.isInstanceOf(BmaItems.archerClass))
 			return;
 
 		if (entityLiving instanceof EntityPlayer)
@@ -88,7 +88,7 @@ public class ItemBowArcher extends Item
 						spawnArrow(entityplayer, worldIn, stack, f, 0);
 
 					else if( time >= 2f && time < 3f)
-						if(RpgInventory.playerClass.contains(RpgInventory.shielded_class))
+						if(PlayerClass.isShielded())
 							for(int yaw = -4; yaw < 6; yaw+=2)
 								spawnArrow(entityplayer, worldIn, stack, f, yaw);
 						else
@@ -108,7 +108,7 @@ public class ItemBowArcher extends Item
 
 	@Override
 	public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
-		if(!RpgInventory.playerClass.contains(BmaItems.archerClass))
+		if(!PlayerClass.isInstanceOf(BmaItems.archerClass))
 			return;
 
 		if((stack.getMaxItemUseDuration() - player.getItemInUseCount()) / 20.0F >= 3f)
@@ -132,7 +132,7 @@ public class ItemBowArcher extends Item
 		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemStackIn, worldIn, playerIn, hand, false);
 		if (ret != null) return ret;
 
-		if(!RpgInventory.playerClass.contains(BmaItems.archerClass))
+		if(!PlayerClass.isInstanceOf(BmaItems.archerClass))
 			return  new ActionResult(EnumActionResult.FAIL, itemStackIn);
 
 		playerIn.setActiveHand(hand);

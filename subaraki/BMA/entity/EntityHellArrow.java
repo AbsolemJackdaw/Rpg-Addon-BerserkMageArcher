@@ -1,12 +1,12 @@
 package subaraki.BMA.entity;
 
+import lib.playerclass.PlayerClass;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import subaraki.rpginventory.mod.RpgInventory;
 
 public class EntityHellArrow extends EntityThrowable{
 
@@ -39,7 +39,7 @@ public class EntityHellArrow extends EntityThrowable{
 		this.setThrowableHeading(elb.getLookVec().xCoord, elb.getLookVec().yCoord, elb.getLookVec().zCoord, force*3.0f, 0f);
 		arrows = rand.nextInt(3)+1;
 		this.force = force;
-		if(RpgInventory.playerClass.contains(RpgInventory.shielded_class)){
+		if(PlayerClass.isShielded()){
 			attackPower = 3F;
 		}
 	}

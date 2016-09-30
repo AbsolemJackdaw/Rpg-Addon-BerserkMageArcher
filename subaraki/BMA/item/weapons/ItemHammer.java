@@ -2,6 +2,7 @@ package subaraki.BMA.item.weapons;
 
 import java.util.UUID;
 
+import lib.playerclass.PlayerClass;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -11,7 +12,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import subaraki.BMA.entity.EntityHammerSmash;
 import subaraki.BMA.item.BmaItems;
-import subaraki.rpginventory.mod.RpgInventory;
 
 public class ItemHammer extends ItemSword{
 
@@ -22,7 +22,7 @@ public class ItemHammer extends ItemSword{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
 
-		if(!RpgInventory.playerClass.contains(BmaItems.berserkerClass))
+		if(!PlayerClass.isInstanceOf(BmaItems.berserkerClass))
 			return super.onItemRightClick(itemStack, world, player, hand);
 
 		Vec3d vec = player.getLook(1);

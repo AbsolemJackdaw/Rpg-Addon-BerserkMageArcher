@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.handler.event.BmaEventHandler;
 import subaraki.BMA.handler.event.SpellHandler;
@@ -15,7 +16,7 @@ import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.proxy.ServerProxy;
 import subaraki.BMA.item.BmaItems;
 
-@Mod(modid = AddonBma.MODID, name = AddonBma.NAME, version = AddonBma.VERSION, dependencies = "required-after:rpginventory;required-after:subcommonlib")
+@Mod(modid = AddonBma.MODID, name = AddonBma.NAME, version = AddonBma.VERSION, dependencies = "required-after:subcommonlib")
 public class AddonBma {
 
 	public static final String MODID = "bma_addon";
@@ -46,6 +47,8 @@ public class AddonBma {
 		new PacketHandler();
 		new EnchantmentHandler();
 		new BmaEventHandler();
+		
+		new MageDataCapability().register();
 		
 		spells = new SpellHandler();
 

@@ -1,5 +1,6 @@
 package subaraki.BMA.item.armor;
 
+import lib.item.armor.ModeledArmor;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -8,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import subaraki.BMA.handler.proxy.ClientProxy;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
-import subaraki.rpginventory.api.ModeledArmor;
 
 public class ItemBerserkerArmor extends ModeledArmor {
 

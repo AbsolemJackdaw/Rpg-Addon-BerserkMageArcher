@@ -2,8 +2,8 @@ package subaraki.BMA.item.weapons;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.item.BmaItems;
-import subaraki.rpginventory.capability.playerinventory.RpgInventoryCapability;
 
 public class WandInfo {
 
@@ -57,8 +57,8 @@ public class WandInfo {
 		
 		int meta = stack.getMetadata();
 		int core = stack.getTagCompound().getInteger("core_index");
-		int playerMeta = player.getCapability(RpgInventoryCapability.CAPABILITY, null).getMageIndex();
-		int coreMeta = player.getCapability(RpgInventoryCapability.CAPABILITY, null).getCoreIndex();
+		int playerMeta = player.getCapability(MageDataCapability.CAPABILITY, null).getMageIndex();
+		int coreMeta = player.getCapability(MageDataCapability.CAPABILITY, null).getCoreIndex();
 
 		if(coreMeta == core && meta == playerMeta)
 			return true;

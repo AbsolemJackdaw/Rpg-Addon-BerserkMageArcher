@@ -140,4 +140,9 @@ public class ClientProxy extends ServerProxy {
 				BmaItems.craftLeather
 				);
 	}
+	
+	@Override
+	public EntityPlayer getClientPlayer() {
+		return Minecraft.getMinecraft().thePlayer;
+	}
 }

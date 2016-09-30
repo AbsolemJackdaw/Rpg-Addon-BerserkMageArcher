@@ -3,6 +3,7 @@ package subaraki.BMA.item.weapons;
 import java.util.List;
 import java.util.Random;
 
+import lib.playerclass.PlayerClass;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -24,7 +25,6 @@ import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
-import subaraki.rpginventory.mod.RpgInventory;
 
 public class ItemWand extends Item {
 
@@ -64,7 +64,7 @@ public class ItemWand extends Item {
 			if(player.getCooldownTracker().hasCooldown(this))
 				return false;
 
-			if(!RpgInventory.playerClass.contains(BmaItems.mageClass))
+			if(!PlayerClass.isInstanceOf(BmaItems.mageClass))
 				return false;
 			
 			if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Expelliarmus)){
@@ -108,7 +108,7 @@ public class ItemWand extends Item {
 
 		if(player.getCooldownTracker().hasCooldown(this))
 			return false;
-		if(!RpgInventory.playerClass.contains(BmaItems.mageClass))
+		if(!PlayerClass.isInstanceOf(BmaItems.mageClass))
 			return false;
 		
 		if(entity instanceof EntityLivingBase){
@@ -138,7 +138,7 @@ public class ItemWand extends Item {
 	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
 			EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
 
-		if(!RpgInventory.playerClass.contains(BmaItems.mageClass))
+		if(!PlayerClass.isInstanceOf(BmaItems.mageClass))
 			return EnumActionResult.FAIL;
 		
 		if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.AesConverto)){

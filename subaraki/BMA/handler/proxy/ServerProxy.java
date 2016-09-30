@@ -1,6 +1,7 @@
 package subaraki.BMA.handler.proxy;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import subaraki.BMA.entity.EntityAugolustra;
@@ -21,6 +22,8 @@ public class ServerProxy {
 	public void registerClientEvents(){}
 
 	public void registerColors() {};
+	
+	public EntityPlayer getClientPlayer(){return null;}
 	
 	public void registerEntities(){
 		EntityRegistry.registerModEntity(EntityAugolustra.class, "Augolustra", 0, instance, 64, 15, true);
