@@ -1,8 +1,8 @@
 {
-    "parent": "bma_addon:item/display_shield",
+    "parent": "subcommonlib:display/shield/display_shield",
     "textures": {
         "0": "bma_addon:models/item/archer_shield",
-        "1": "bma_addon:models/item/shield_handle"
+        "1": "subcommonlib:models/item/shield_handle"
     },
     "overrides": [
         {

@@ -1,5 +1,5 @@
 {
-    "parent": "bma_addon:item/plate",
+  "parent": "subcommonlib:display/plate/plate",
     "textures": {
         "0": "blocks/iron_block"
     }
