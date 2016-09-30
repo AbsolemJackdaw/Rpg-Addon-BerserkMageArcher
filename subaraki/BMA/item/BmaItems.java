@@ -1,6 +1,9 @@
 package subaraki.BMA.item;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import static lib.item.ItemRegistry.registerRender;
+import static lib.item.ItemRegistry.registerVanillaRender;
+
+import lib.item.shield.ItemCustomShield;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -13,15 +16,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import subaraki.BMA.item.armor.ItemArcherArmor;
 import subaraki.BMA.item.armor.ItemBerserkerArmor;
 import subaraki.BMA.item.armor.ItemMageArmor;
-import subaraki.BMA.item.armor.shields.ItemCustomShield;
 import subaraki.BMA.item.weapons.ItemBowArcher;
 import subaraki.BMA.item.weapons.ItemHammer;
 import subaraki.BMA.item.weapons.ItemWand;
@@ -51,9 +50,9 @@ public class BmaItems {
 
 	public static final ToolMaterial BERSERKER = EnumHelper.addToolMaterial("rage_hammer", 0, 100, 5, 8, 0);
 
-	public static final ArmorMaterial ARMOR_BERSERKER = EnumHelper.addArmorMaterial("berserker", AddonBma.MODID+":berserker", 40, new int[] { 2, 4, 3, 2 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f);
-	public static final ArmorMaterial ARMOR_MAGE = EnumHelper.addArmorMaterial("mage", AddonBma.MODID+":mage", 40, new int[] { 2, 3, 2, 1 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
-	public static final ArmorMaterial ARMOR_ARCHER = EnumHelper.addArmorMaterial("archer", AddonBma.MODID+":archer", 40, new int[] { 3, 2, 2, 1 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
+	public static final ArmorMaterial ARMOR_BERSERKER = EnumHelper.addArmorMaterial("berserker", AddonBma.MODID+":berserker", 250, new int[] { 2, 4, 3, 2 }, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f);
+	public static final ArmorMaterial ARMOR_MAGE = EnumHelper.addArmorMaterial("mage", AddonBma.MODID+":mage", 250, new int[] { 2, 3, 2, 1 }, 25, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
+	public static final ArmorMaterial ARMOR_ARCHER = EnumHelper.addArmorMaterial("archer", AddonBma.MODID+":archer", 250, new int[] { 3, 2, 2, 1 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
 
 	public static final String berserkerClass = "Berserker";
 	public static final String mageClass = "Mage";
@@ -83,17 +82,29 @@ public class BmaItems {
 		archer_legs = (ItemArcherArmor) new ItemArcherArmor(ARMOR_ARCHER, EntityEquipmentSlot.LEGS).setCreativeTab(tab);
 		archer_feet = (ItemArcherArmor) new ItemArcherArmor(ARMOR_ARCHER, EntityEquipmentSlot.FEET).setCreativeTab(tab);
 
-		shield_berserker = (ItemCustomShield) new ItemCustomShield().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":"+"berserker_shield").setRegistryName("berserker_shield");
-		shield_archer = (ItemCustomShield) new ItemCustomShield().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":"+"archer_shield").setRegistryName("archer_shield");
-
 		craftLeather = (ItemCraftLeather) new ItemCraftLeather().setCreativeTab(tab);
 
-		hammer = (ItemHammer) new ItemHammer(BERSERKER).setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":"+"hammer").setRegistryName("hammer");
-		bow = (ItemBowArcher) new ItemBowArcher().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":"+"archer_bow").setRegistryName("archer_bow");
+		hammer = (ItemHammer) new ItemHammer(BERSERKER).setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".hammer").setRegistryName("hammer");
+		bow = (ItemBowArcher) new ItemBowArcher().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".archer_bow").setRegistryName("archer_bow");
 		wand = (ItemWand) new ItemWand().setCreativeTab(tab);
 
-		archer_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":"+"archer_plate").setRegistryName("archer_plate");
-		berserker_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":"+"berserker_plate").setRegistryName("berserker_plate");
+		archer_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".archer_plate").setRegistryName("archer_plate");
+		berserker_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".berserker_plate").setRegistryName("berserker_plate");
+
+		
+		shield_berserker = (ItemCustomShield) new ItemCustomShield(){
+			@Override
+			public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+				return repair.getItem().equals(Items.IRON_INGOT) ? true : super.getIsRepairable(toRepair, repair);
+			}	
+		}.setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".berserker_shield").setRegistryName("berserker_shield").setMaxDamage(100);
+		
+		shield_archer = (ItemCustomShield) new ItemCustomShield(){
+			@Override
+			public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+				return repair.getItem().equals(Blocks.LOG) ? true : super.getIsRepairable(toRepair, repair);
+			}
+		}.setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".archer_shield").setRegistryName("archer_shield").setMaxDamage(100);
 
 		wand_stick = new Item(){
 			@Override
@@ -102,8 +113,10 @@ public class BmaItems {
 			}
 			public boolean isItemTool(ItemStack stack) {return stack.stackSize == 1;}
 
-		}.setMaxDamage(1).setMaxStackSize(1).setRegistryName("wand_stick").setUnlocalizedName(AddonBma.MODID+":"+"wand_stick").setCreativeTab(tab);
-		
+		}.setMaxDamage(1).setMaxStackSize(1).setRegistryName("wand_stick").setUnlocalizedName(AddonBma.MODID+".wand_stick").setCreativeTab(tab);
+	
+		register();
+		loadRecipes();
 	}
 
 	public static void register(){
@@ -138,59 +151,39 @@ public class BmaItems {
 	}
 
 	public static void registerRenderers(){
-		registerRender(berserker_head, berserker_head.getModeltextureLocation());
-		registerRender(berserker_chest, berserker_chest.getModeltextureLocation());
-		registerRender(berserker_legs, berserker_legs.getModeltextureLocation());
-		registerRender(berserker_feet, berserker_feet.getModeltextureLocation());
+		String mod = AddonBma.MODID;
+		registerRender(berserker_head, berserker_head.getModeltextureLocation(),mod);
+		registerRender(berserker_chest, berserker_chest.getModeltextureLocation(),mod);
+		registerRender(berserker_legs, berserker_legs.getModeltextureLocation(),mod);
+		registerRender(berserker_feet, berserker_feet.getModeltextureLocation(),mod);
 
-		registerRender(mage_head, mage_head.getModeltextureLocation());
-		registerRender(mage_chest, mage_chest.getModeltextureLocation());
-		registerRender(mage_legs, mage_legs.getModeltextureLocation());
-		registerRender(mage_feet, mage_feet.getModeltextureLocation());
+		registerRender(mage_head, mage_head.getModeltextureLocation(),mod);
+		registerRender(mage_chest, mage_chest.getModeltextureLocation(),mod);
+		registerRender(mage_legs, mage_legs.getModeltextureLocation(),mod);
+		registerRender(mage_feet, mage_feet.getModeltextureLocation(),mod);
 
-		registerRender(archer_head, archer_head.getModeltextureLocation());
-		registerRender(archer_chest, archer_chest.getModeltextureLocation());
-		registerRender(archer_legs, archer_legs.getModeltextureLocation());
-		registerRender(archer_feet, archer_feet.getModeltextureLocation());
+		registerRender(archer_head, archer_head.getModeltextureLocation(),mod);
+		registerRender(archer_chest, archer_chest.getModeltextureLocation(),mod);
+		registerRender(archer_legs, archer_legs.getModeltextureLocation(),mod);
+		registerRender(archer_feet, archer_feet.getModeltextureLocation(),mod);
 
-		registerRender(shield_berserker, "shield_berserker");
-		registerRender(shield_archer, "shield_archer");
+		registerRender(shield_berserker, "shield_berserker",mod);
+		registerRender(shield_archer, "shield_archer",mod);
 		
-		registerRender(hammer, "weapon/hammer");
-		registerRender(bow, "weapon/archer_bow");
+		registerRender(hammer, "weapon/hammer",mod);
+		registerRender(bow, "weapon/archer_bow",mod);
 		
 		for(int i = 0; i < 16; i++)
-			registerRender(wand, "weapon/wand_"+i, i);
+			registerRender(wand, "weapon/wand_"+i, mod, i);
 		
-		registerRender(archer_plate, "plate_archer");
-		registerRender(berserker_plate, "plate_berserker");
+		registerRender(archer_plate, "plate_archer",mod);
+		registerRender(berserker_plate, "plate_berserker",mod);
 
 		registerVanillaRender(wand_stick, "stick", 0);
 
 		for(int i = 0; i < 3; i++)
 			registerVanillaRender(craftLeather, "leather", i);
 		
-	}
-
-	/**basic registering for model*/
-	private static void registerVanillaRender(Item item, String location, int metadata){
-		ModelLoader.setCustomModelResourceLocation(
-				item,
-				metadata,
-				new ModelResourceLocation(location));
-	}
-
-	/**basic registering for model*/
-	private static void registerRender(Item item, String location){
-		registerRender(item, location, 0);
-	}
-
-	/**with meta*/
-	private static void registerRender(Item item, String location, int metadata){
-		ModelLoader.setCustomModelResourceLocation(
-				item,
-				metadata,
-				new ModelResourceLocation(AddonBma.MODID+":"+location));
 	}
 
 	public static void loadRecipes(){

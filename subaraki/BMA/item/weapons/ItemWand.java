@@ -31,7 +31,7 @@ public class ItemWand extends Item {
 	public ItemWand() {
 
 		this.setHasSubtypes(true);
-		setUnlocalizedName(AddonBma.MODID+":"+"wand");
+		setUnlocalizedName(AddonBma.MODID+"."+"wand");
 		setRegistryName("wand");
 	}
 

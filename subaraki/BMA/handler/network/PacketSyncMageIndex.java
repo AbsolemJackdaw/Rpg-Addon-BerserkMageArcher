@@ -37,9 +37,9 @@ public class PacketSyncMageIndex implements IMessage{
 		public IMessage onMessage(PacketSyncMageIndex message, MessageContext ctx) {
 			EntityPlayer player = RpgInventory.proxy.getClientPlayer();
 
-			if(message.core > -1)
+			if(message.core > -1 && player != null)
 				player.getCapability(RpgInventoryCapability.CAPABILITY, null).setCoreIndex(message.core);
-			if(message.meta > -1)
+			if(message.meta > -1 && player != null)
 				player.getCapability(RpgInventoryCapability.CAPABILITY, null).setMageIndex(message.meta);
 
 			return null;

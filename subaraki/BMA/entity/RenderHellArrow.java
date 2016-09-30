@@ -2,7 +2,6 @@ package subaraki.BMA.entity;
 
 import static net.minecraft.client.renderer.GlStateManager.popMatrix;
 import static net.minecraft.client.renderer.GlStateManager.pushMatrix;
-import static net.minecraft.client.renderer.GlStateManager.rotate;
 import static net.minecraft.client.renderer.GlStateManager.scale;
 import static net.minecraft.client.renderer.GlStateManager.translate;
 
@@ -12,7 +11,6 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;

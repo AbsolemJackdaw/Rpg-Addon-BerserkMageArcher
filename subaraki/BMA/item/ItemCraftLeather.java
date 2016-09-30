@@ -9,10 +9,10 @@ import subaraki.BMA.mod.AddonBma;
 
 public class ItemCraftLeather extends Item{
 
-	public ItemCraftLeather() {
+	public ItemCraftLeather(){
 		super();
 		setHasSubtypes(true);
-		setUnlocalizedName(AddonBma.MODID+":"+"craftLeather");
+		setUnlocalizedName(AddonBma.MODID+"."+"craftLeather");
 		setRegistryName("craftLeather");
 		setMaxStackSize(64);
 	}
