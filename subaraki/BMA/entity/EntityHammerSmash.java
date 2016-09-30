@@ -138,7 +138,9 @@ public class EntityHammerSmash extends EntityLivingBase{
 						continue;
 				if(el instanceof EntityHammerSmash)
 					continue;
-
+				if(el instanceof EntityTameable && ((EntityTameable)el).getOwnerId().equals(getOwnerId()))
+					continue;
+				
 				double xdir = el.posX - posX;
 				double zdir = el.posZ - posZ;
 
