@@ -1,7 +1,7 @@
 #armor materials
-item.bma_addon:craftLeather_0.name=Studded Leather
-item.bma_addon:craftLeather_1.name=Arcane Cloth
-item.bma_addon:craftLeather_2.name=Animal Hide
+item.bma_addon.craftLeather_0.name=Studded Leather
+item.bma_addon.craftLeather_1.name=Arcane Cloth
+item.bma_addon.craftLeather_2.name=Animal Hide
 
 #armor
 item.archer_head.name=Archer Cap
@@ -19,24 +19,24 @@ item.berserker_chest.name=Berserker Chestplate
 item.berserker_legs.name=Berserker Leggings
 item.berserker_feet.name=Berserker Boots
 
-item.bma_addon:berserker_shield.name=Iron Thorn
-item.bma_addon:archer_shield.name=Round Shield
+item.bma_addon.berserker_shield.name=Iron Thorn
+item.bma_addon.archer_shield.name=Round Shield
 
-item.bma_addon:archer_plate.name=Wooden Shield Plating
-item.bma_addon:berserker_plate.name=Iron Shield Plating
+item.bma_addon.archer_plate.name=Wooden Shield Plating
+item.bma_addon.berserker_plate.name=Iron Shield Plating
 
 #weapons
-item.bma_addon:hammer.name=Ragebreaker
-item.bma_addon:archer_bow.name=Advanced Bow
-item.bma_addon:wand.name=Wand
-item.bma_addon:wand_stick.name=Arcane-Sensible Stick
+item.bma_addon.hammer.name=Ragebreaker
+item.bma_addon.archer_bow.name=Advanced Bow
+item.bma_addon.wand.name=Wand
+item.bma_addon.wand_stick.name=Arcane-Sensible Stick
 
 #entity
-entity.bma_addon:HellArrow.name=Arrow Rain
-entity.bma_addon:Augolustra.name=Augolustra Hex
-entity.bma_addon:Expelliarmus.name=Expelliarmus Charm
-entity.bma_addon:HammerSmash.name=a Massive Hammer
+entity.bma_addon.HellArrow.name=Arrow Rain
+entity.bma_addon.Augolustra.name=Augolustra Hex
+entity.bma_addon.Expelliarmus.name=Expelliarmus Charm
+entity.bma_addon.HammerSmash.name=a Massive Hammer
 
 #various items
 enchantment.wand_enchantment=Arcane Affinity
-itemGroup.BmaTab=Berserker,Mage,Archer
+itemGroup.BmaTab=Berserker,Mage and Archer Classes
