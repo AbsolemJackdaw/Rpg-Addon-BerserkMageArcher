@@ -1,6 +1,7 @@
 package subaraki.BMA.handler.network;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -11,9 +12,9 @@ public class PacketSyncSpellList implements IMessage {
 
 	public String spell = "none";
 	public String playerName = "none";
-	
+
 	public PacketSyncSpellList() {}
-	
+
 	public PacketSyncSpellList(String playername, String spell) {
 		this.spell = spell;
 		this.playerName = playername;
@@ -30,12 +31,14 @@ public class PacketSyncSpellList implements IMessage {
 		ByteBufUtils.writeUTF8String(buf, spell);
 		ByteBufUtils.writeUTF8String(buf, playerName);
 	}
-	
+
 	public static class PacketSyncSpellListHandler implements IMessageHandler<PacketSyncSpellList, IMessage>{
 
 		@Override
 		public IMessage onMessage(PacketSyncSpellList message, MessageContext ctx) {
-			AddonBma.spells.addSpokenSpell(message.playerName, message.spell);
+			Minecraft.getMinecraft().addScheduledTask( ()->{
+				AddonBma.spells.addSpokenSpell(message.playerName, message.spell);
+			});
 			return null;
 		}
 	}

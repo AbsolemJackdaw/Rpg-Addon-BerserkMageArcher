@@ -94,7 +94,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 
 		if(compound.hasKey("stack")){
 			NBTTagCompound stackTag = compound.getCompoundTag("stack");
-			inventory[0] = ItemStack.loadItemStackFromNBT(stackTag);
+			inventory[0] = new ItemStack(stackTag);
 		}
 	}
 
@@ -109,27 +109,27 @@ public class EntityHammerSmash extends EntityLivingBase{
 			rotationAngle = 90;
 
 		if(ticksExisted == 1)
-			worldObj.playSound(posX, posY, posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 1F, 0.5F, true);
+			world.playSound(posX, posY, posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 1F, 0.5F, true);
 
 		if(ticksExisted == 4)
-			worldObj.playSound(posX, posY, posZ, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.NEUTRAL, 0.5F, 0.005F, true);
+			world.playSound(posX, posY, posZ, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.NEUTRAL, 0.5F, 0.005F, true);
 
 		if(ticksExisted > 9){
 			
-			if(worldObj.isRemote){
+			if(world.isRemote){
 				for(float fx = -5; fx < 5; fx+=0.5f){
 					for(float fz = -5; fz < 5; fz+=0.5f){
 						double x = (double)((float)posX + fx + rand.nextFloat()/4);
 						double y = (double)((float)posY + rand.nextFloat());
 						double z = (double)((float)posZ + fz + rand.nextFloat()/4);
 
-						worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, -0.05D, 0.0D, new int[0]);
+						world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0D, -0.05D, 0.0D, new int[0]);
 					}
 				}
 			}
 			
 			AxisAlignedBB pool = getEntityBoundingBox().expand(5, 2, 5);
-			List<EntityLivingBase> entl = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, pool);
+			List<EntityLivingBase> entl = world.getEntitiesWithinAABB(EntityLivingBase.class, pool);
 
 			for(EntityLivingBase el : entl){
 				
@@ -152,8 +152,8 @@ public class EntityHammerSmash extends EntityLivingBase{
 			}
 			if(getOwner() == null )
 				if(inventory[0] != null)
-					if(!worldObj.isRemote)
-						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, inventory[0].copy()));
+					if(!world.isRemote)
+						world.spawnEntity(new EntityItem(world, posX, posY, posZ, inventory[0].copy()));
 
 			if(getOwner()!= null && inventory[0] != null)
 				getOwner().inventory.addItemStackToInventory(inventory[0].copy());
@@ -177,6 +177,6 @@ public class EntityHammerSmash extends EntityLivingBase{
 
 	public EntityPlayer getOwner(){
 		UUID uuid = this.getOwnerId();
-		return uuid == null ? null : this.worldObj.getPlayerEntityByUUID(uuid);
+		return uuid == null ? null : this.world.getPlayerEntityByUUID(uuid);
 	}
 }

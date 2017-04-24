@@ -3,8 +3,7 @@
     
     "textures": {
         "0": "bma_addon:models/item/wand_1_colors",
-        "1": "bma_addon:models/item/wand_wing",
-        "2": "bma_addon:models/item/wand_wing_mirror"
+        "1": "bma_addon:models/item/wand_wing"
     },
     "elements": [
         {
@@ -53,7 +52,7 @@
             "rotation": { "origin": [ 8.0, 4.0, 8.0 ], "axis": "z", "angle": 22.5 },
             "faces": {
                 "north": { "texture": "#1", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
-                "south": { "texture": "#2", "uv": [ 0.0, 0.0, -16.0, 16.0 ] }
+                "south": { "texture": "#1", "uv": [ 16.0, 0.0, 0.0, 16.0 ] }
             }
         },
         {
@@ -62,7 +61,7 @@
             "to": [ 12.5, 8.0, 8.01 ], 
             "rotation": { "origin": [ 8.0, 4.0, 8.0 ], "axis": "z", "angle": -22.5 },
             "faces": {
-                "north": { "texture": "#2", "uv": [ 0.0, 0.0, -16.0, 16.0 ] },
+                "north": { "texture": "#1", "uv": [ 16.0, 0.0, 0.0, 16.0 ] },
                 "south": { "texture": "#1", "uv": [ 0.0, 0.0, 16.0, 16.0 ] }
             }
         },

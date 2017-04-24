@@ -60,8 +60,8 @@ public class BmaItems {
 
 	public static final CreativeTabs tab = new CreativeTabs("BmaTab") {
 		@Override
-		public Item getTabIconItem() {
-			return berserker_head;
+		public ItemStack getTabIconItem() {
+			return new ItemStack(berserker_head);
 		}
 	};
 
@@ -111,7 +111,7 @@ public class BmaItems {
 			public int getItemEnchantability() {
 				return 1;
 			}
-			public boolean isItemTool(ItemStack stack) {return stack.stackSize == 1;}
+			public boolean isItemTool(ItemStack stack) {return stack.getCount() == 1;}
 
 		}.setMaxDamage(1).setMaxStackSize(1).setRegistryName("wand_stick").setUnlocalizedName(AddonBma.MODID+".wand_stick").setCreativeTab(tab);
 	

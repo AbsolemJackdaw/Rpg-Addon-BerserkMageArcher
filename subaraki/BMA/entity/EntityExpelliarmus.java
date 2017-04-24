@@ -24,18 +24,18 @@ public class EntityExpelliarmus extends EntityThrowable{
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (!this.worldObj.isRemote){
+		if (!this.world.isRemote){
 			if (result.entityHit != null){
 				EntityLivingBase elb = (EntityLivingBase)result.entityHit;
 				if(elb.getHeldItemMainhand() == null){
 					return;
 				}
 				ItemStack held = elb.getHeldItemMainhand().copy();
-				EntityItem ei = new EntityItem(elb.worldObj, elb.posX, elb.posY, elb.posZ, held);
+				EntityItem ei = new EntityItem(elb.world, elb.posX, elb.posY, elb.posZ, held);
 				ei.motionX *= 2;
 				ei.motionZ *= 2;
 				elb.setHeldItem(EnumHand.MAIN_HAND, null);
-				elb.worldObj.spawnEntityInWorld(ei);
+				elb.world.spawnEntity(ei);
 			}
 
 			this.setDead();
@@ -54,12 +54,12 @@ public class EntityExpelliarmus extends EntityThrowable{
 		if(ticksExisted > 10)
 			this.setDead();
 		
-		if(worldObj.isRemote){
+		if(world.isRemote){
 			for(int i = 0 ; i < 5; i++)
-			worldObj.spawnParticle(EnumParticleTypes.REDSTONE,
-					posX - 0.5f + worldObj.rand.nextFloat()/2f,
+			world.spawnParticle(EnumParticleTypes.REDSTONE,
+					posX - 0.5f + world.rand.nextFloat()/2f,
 					posY,
-					posZ - 0.5f + worldObj.rand.nextFloat()/2f,
+					posZ - 0.5f + world.rand.nextFloat()/2f,
 					0.0D, 0.0D, 0.0D,
 					new int[0]);
 		}

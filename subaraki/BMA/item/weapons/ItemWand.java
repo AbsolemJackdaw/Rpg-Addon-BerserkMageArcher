@@ -18,6 +18,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -43,7 +44,7 @@ public class ItemWand extends Item {
 	
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		for (int i = 0; i < 16; ++i)
 		{
 			subItems.add(new ItemStack(itemIn, 1, i));
@@ -51,8 +52,8 @@ public class ItemWand extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		return super.onItemRightClick(worldIn, playerIn, hand);
 	}
 
 	@Override
@@ -68,32 +69,32 @@ public class ItemWand extends Item {
 				return false;
 			
 			if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Expelliarmus)){
-				if(!player.worldObj.isRemote)
-					player.worldObj.spawnEntityInWorld(new EntityExpelliarmus(player.worldObj, player));
-				player.worldObj.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.NEUTRAL, 0.2f, -10f, false);
+				if(!player.world.isRemote)
+					player.world.spawnEntity(new EntityExpelliarmus(player.world, player));
+				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.NEUTRAL, 0.2f, -10f, false);
 				player.getCooldownTracker().setCooldown(this, 20);
 			}
 
 			else if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Augolustra)){
-				if(!player.worldObj.isRemote)
-					player.worldObj.spawnEntityInWorld(new EntityAugolustra(player.worldObj, player));
-				player.worldObj.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.NEUTRAL, 0.5f, -5f, false);
+				if(!player.world.isRemote)
+					player.world.spawnEntity(new EntityAugolustra(player.world, player));
+				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.NEUTRAL, 0.5f, -5f, false);
 				player.getCooldownTracker().setCooldown(this, 15);
 			}
 			
 			else if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Episkey)){
-				if(!WandInfo.isLoyalWand(player, stack) && player.worldObj.rand.nextInt(5)==0){
-					player.worldObj.playSound(player.posX, player.posY, player.posZ, SoundEvents.field_190021_aL, SoundCategory.NEUTRAL, 0.5f, 0.5f, false);
+				if(!WandInfo.isLoyalWand(player, stack) && player.world.rand.nextInt(5)==0){
+					player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.NEUTRAL, 0.5f, 0.5f, false);
 					return false;
 				}
 				player.heal(WandInfo.isLoyalWand(player, stack) ? 5 : 1);
 				int hunger = player.getFoodStats().getFoodLevel();
 				player.getFoodStats().setFoodLevel(hunger > 1 ? hunger-1 : 0);
-				player.worldObj.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.NEUTRAL, 0.5f, 5f, false);
+				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.NEUTRAL, 0.5f, 5f, false);
 
 				player.getCooldownTracker().setCooldown(this, 60);
 
-				if(player.worldObj.isRemote){
+				if(player.world.isRemote){
 					spawnParticle(5, EnumParticleTypes.HEART, player);
 				}
 				return true;
@@ -113,11 +114,11 @@ public class ItemWand extends Item {
 		
 		if(entity instanceof EntityLivingBase){
 			EntityLivingBase elb = (EntityLivingBase)entity;
-			World world = elb.worldObj;
+			World world = elb.world;
 
 			if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Episkey)){
 				if(!WandInfo.isLoyalWand(player, stack) && world.rand.nextInt(5)==0){
-					world.playSound(player.posX, player.posY, player.posZ, SoundEvents.field_190021_aL, SoundCategory.NEUTRAL, 0.5f, 0.5f, false);
+					world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.NEUTRAL, 0.5f, 0.5f, false);
 					return false;
 				}
 				elb.heal(WandInfo.isLoyalWand(player, stack) ? 10 : 3);
@@ -135,9 +136,11 @@ public class ItemWand extends Item {
 	}
 
 	@Override
-	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos,
 			EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
 
+		ItemStack stack = player.getHeldItem(hand);
+		
 		if(!PlayerClass.isInstanceOf(BmaItems.mageClass))
 			return EnumActionResult.FAIL;
 		
@@ -168,7 +171,7 @@ public class ItemWand extends Item {
 				else{
 					return EnumActionResult.FAIL;
 				}
-				player.worldObj.playSound(player.posX, player.posY, player.posZ, SoundEvents.field_190021_aL, SoundCategory.NEUTRAL, 0.8f, -5f, false);
+				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.NEUTRAL, 0.8f, -5f, false);
 
 			}
 
@@ -186,7 +189,7 @@ public class ItemWand extends Item {
 				}
 			}
 		}
-		return super.onItemUseFirst(stack, player, world, pos, side, hitX, hitY, hitZ, hand);
+		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
 	}
 
 	@Override
@@ -203,8 +206,8 @@ public class ItemWand extends Item {
 
 	private void spawnParticle(int number, EnumParticleTypes particle, EntityLivingBase elb){
 
-		if(elb.worldObj.isRemote){
-			Random random = elb.worldObj.rand;
+		if(elb.world.isRemote){
+			Random random = elb.world.rand;
 
 			for (int i = 0; i < number; ++i)
 			{
@@ -212,7 +215,7 @@ public class ItemWand extends Item {
 				double y = (double)((float)elb.posY + 1f + random.nextFloat());
 				double z = (double)((float)elb.posZ + random.nextFloat()*2);
 
-				elb.worldObj.spawnParticle(particle, x, y, z, 0.0D, 0.0D, 0.0D, new int[0]);
+				elb.world.spawnParticle(particle, x, y, z, 0.0D, 0.0D, 0.0D, new int[0]);
 			}
 		}
 	}

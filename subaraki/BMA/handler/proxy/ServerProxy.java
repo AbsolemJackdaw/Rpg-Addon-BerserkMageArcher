@@ -2,6 +2,7 @@ package subaraki.BMA.handler.proxy;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import subaraki.BMA.entity.EntityAugolustra;
@@ -26,9 +27,9 @@ public class ServerProxy {
 	public EntityPlayer getClientPlayer(){return null;}
 	
 	public void registerEntities(){
-		EntityRegistry.registerModEntity(EntityAugolustra.class, "Augolustra", 0, instance, 64, 15, true);
-		EntityRegistry.registerModEntity(EntityExpelliarmus.class, "Expelliarmus", 1, instance, 64, 15, true);
-		EntityRegistry.registerModEntity(EntityHammerSmash.class, "HammerSmash", 2, instance, 64, 15, false);
-		EntityRegistry.registerModEntity(EntityHellArrow.class, "HellArrow", 3, instance, 256, 20, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("augolustra"),EntityAugolustra.class, "Augolustra", 0, instance, 64, 15, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("expelliarmus"),EntityExpelliarmus.class, "Expelliarmus", 1, instance, 64, 15, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("hammersmash"),EntityHammerSmash.class, "HammerSmash", 2, instance, 64, 15, false);
+		EntityRegistry.registerModEntity(new ResourceLocation("hellarrow"),EntityHellArrow.class, "HellArrow", 3, instance, 256, 20, true);
 	}
 }

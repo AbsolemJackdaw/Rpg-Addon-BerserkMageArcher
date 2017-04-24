@@ -1,6 +1,7 @@
 package subaraki.BMA.handler.network;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -35,13 +36,14 @@ public class PacketSyncMageIndex implements IMessage{
 
 		@Override
 		public IMessage onMessage(PacketSyncMageIndex message, MessageContext ctx) {
-			EntityPlayer player = AddonBma.proxy.getClientPlayer();
+			Minecraft.getMinecraft().addScheduledTask( () -> {
+				EntityPlayer player = AddonBma.proxy.getClientPlayer();
 
-			if(message.core > -1 && player != null)
-				player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(message.core);
-			if(message.meta > -1 && player != null)
-				player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(message.meta);
-
+				if(message.core > -1 && player != null)
+					player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(message.core);
+				if(message.meta > -1 && player != null)
+					player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(message.meta);
+			});
 			return null;
 		}
 	}

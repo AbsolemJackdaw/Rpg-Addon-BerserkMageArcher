@@ -22,7 +22,7 @@ public class EntityAugolustra extends EntityThrowable{
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (!this.worldObj.isRemote){
+		if (!this.world.isRemote){
 			if (result.entityHit != null)
 				result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 5);
 
@@ -42,9 +42,9 @@ public class EntityAugolustra extends EntityThrowable{
 		if(ticksExisted > 30)
 			this.setDead();
 		
-		if(worldObj.isRemote){
+		if(world.isRemote){
 			for(int i = 0 ; i < 5; i++)
-			worldObj.spawnParticle(EnumParticleTypes.LAVA, posX - 0.5f + worldObj.rand.nextFloat()/2f, posY, posZ - 0.5f + worldObj.rand.nextFloat()/2f, 0.0D, 0.0D, 0.0D, new int[0]);
+			world.spawnParticle(EnumParticleTypes.LAVA, posX - 0.5f + world.rand.nextFloat()/2f, posY, posZ - 0.5f + world.rand.nextFloat()/2f, 0.0D, 0.0D, 0.0D, new int[0]);
 		}
 	}
 }

@@ -20,10 +20,12 @@ public class ItemHammer extends ItemSword{
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
+		ItemStack itemStack = player.getHeldItem(hand);
+		
 		if(!PlayerClass.isInstanceOf(BmaItems.berserkerClass))
-			return super.onItemRightClick(itemStack, world, player, hand);
+			return super.onItemRightClick(world, player, hand);
 
 		Vec3d vec = player.getLook(1);
 
@@ -36,11 +38,11 @@ public class ItemHammer extends ItemSword{
 		player.setHeldItem(hand, null);
 
 		if(!world.isRemote)
-			world.spawnEntityInWorld(ehs);
+			world.spawnEntity(ehs);
 
 		player.getCooldownTracker().setCooldown(this, 500);
 
-		return super.onItemRightClick(itemStack, world, player, hand);
+		return super.onItemRightClick(world, player, hand);
 	}
 
 }

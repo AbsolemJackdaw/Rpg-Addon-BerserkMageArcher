@@ -84,7 +84,7 @@ public class BmaEventHandler {
 					int core = player.getCapability(MageDataCapability.CAPABILITY, null).getCoreIndex();
 
 					if(!currentHeldItem.getTagCompound().hasKey("core")){
-						player.worldObj.playSound(player, new BlockPos(player), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0f, 1f);
+						player.world.playSound(player, new BlockPos(player), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0f, 1f);
 						player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STICK,1));
 						return;
 					}
@@ -140,7 +140,7 @@ public class BmaEventHandler {
 		player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(mageIndex);
 		player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(coreIndex);
 
-		if (!player.worldObj.isRemote)
+		if (!player.world.isRemote)
 			PacketHandler.NETWORK.sendTo(new PacketSyncMageIndex(coreIndex,mageIndex), (EntityPlayerMP) player);
 	}
 

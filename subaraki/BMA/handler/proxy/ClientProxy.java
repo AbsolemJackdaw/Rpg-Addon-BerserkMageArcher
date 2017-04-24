@@ -90,7 +90,7 @@ public class ClientProxy extends ServerProxy {
 			return;
 
 		GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 
 		int x = event.getResolution().getScaledWidth();
 		int y = event.getResolution().getScaledHeight();
@@ -143,6 +143,6 @@ public class ClientProxy extends ServerProxy {
 	
 	@Override
 	public EntityPlayer getClientPlayer() {
-		return Minecraft.getMinecraft().thePlayer;
+		return Minecraft.getMinecraft().player;
 	}
 }

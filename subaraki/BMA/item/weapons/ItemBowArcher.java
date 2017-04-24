@@ -112,8 +112,8 @@ public class ItemBowArcher extends Item
 			return;
 
 		if((stack.getMaxItemUseDuration() - player.getItemInUseCount()) / 20.0F >= 3f)
-			if(player.worldObj.isRemote){
-				World world = player.worldObj;
+			if(player.world.isRemote){
+				World world = player.world;
 
 				for(int i = 0; i < 5; i++)
 					world.spawnParticle(EnumParticleTypes.FLAME, 
@@ -193,13 +193,13 @@ public class ItemBowArcher extends Item
 		entityarrow.setKnockbackStrength(1);
 		stack.damageItem(1, entityplayer);
 		entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
-		worldIn.spawnEntityInWorld(entityarrow);
+		worldIn.spawnEntity(entityarrow);
 	}
 
 	private void spawnHellArrow(World world, EntityPlayer player, float force){
 		if(!world.isRemote){
 			EntityHellArrow arrow = new EntityHellArrow(world, player, force);
-			world.spawnEntityInWorld(arrow);
+			world.spawnEntity(arrow);
 		}
 	}
 }

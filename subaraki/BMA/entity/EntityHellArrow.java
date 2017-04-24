@@ -46,7 +46,7 @@ public class EntityHellArrow extends EntityThrowable{
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		if (!this.worldObj.isRemote){
+		if (!this.world.isRemote){
 			if (result.entityHit != null)
 				result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), attackPower);
 
@@ -65,18 +65,18 @@ public class EntityHellArrow extends EntityThrowable{
 
 		if(ticksExisted == 8){
 			for(int i = 0; i < arrows; i++){
-				EntityHellArrow arrow = new EntityHellArrow(worldObj, this);
-				if(!worldObj.isRemote)
-					worldObj.spawnEntityInWorld(arrow);
+				EntityHellArrow arrow = new EntityHellArrow(world, this);
+				if(!world.isRemote)
+					world.spawnEntity(arrow);
 			}
 		}
 		
 		if(ticksExisted > 15)
 			this.setDead();
 
-		if(worldObj.isRemote){
+		if(world.isRemote){
 			for(int i = 0 ; i < 5; i++)
-				worldObj.spawnParticle(EnumParticleTypes.FLAME, posX - 0.5f + worldObj.rand.nextFloat()/2f, posY, posZ - 0.5f + worldObj.rand.nextFloat()/2f, 0.0D, 0.0D, 0.0D, new int[0]);
+				world.spawnParticle(EnumParticleTypes.FLAME, posX - 0.5f + world.rand.nextFloat()/2f, posY, posZ - 0.5f + world.rand.nextFloat()/2f, 0.0D, 0.0D, 0.0D, new int[0]);
 		}
 	}
 	
