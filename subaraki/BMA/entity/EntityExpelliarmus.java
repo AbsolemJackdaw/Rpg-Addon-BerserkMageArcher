@@ -27,14 +27,14 @@ public class EntityExpelliarmus extends EntityThrowable{
 		if (!this.world.isRemote){
 			if (result.entityHit != null){
 				EntityLivingBase elb = (EntityLivingBase)result.entityHit;
-				if(elb.getHeldItemMainhand() == null){
+				if(elb.getHeldItemMainhand() == ItemStack.EMPTY){
 					return;
 				}
 				ItemStack held = elb.getHeldItemMainhand().copy();
 				EntityItem ei = new EntityItem(elb.world, elb.posX, elb.posY, elb.posZ, held);
 				ei.motionX *= 2;
 				ei.motionZ *= 2;
-				elb.setHeldItem(EnumHand.MAIN_HAND, null);
+				elb.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
 				elb.world.spawnEntity(ei);
 			}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -33,7 +34,7 @@ public class SpellHandler {
 
 	@SubscribeEvent
 	public void onSpellSpoken(ServerChatEvent event){
-		if(event.getPlayer().inventory.getCurrentItem() == null)
+		if(event.getPlayer().inventory.getCurrentItem() == ItemStack.EMPTY)
 			return;
 		if(!(event.getPlayer().inventory.getCurrentItem().getItem() instanceof ItemWand))
 			return;

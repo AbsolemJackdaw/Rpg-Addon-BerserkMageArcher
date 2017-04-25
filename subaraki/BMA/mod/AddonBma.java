@@ -21,7 +21,7 @@ public class AddonBma {
 
 	public static final String MODID = "bma_addon";
 	public static final String NAME = "Berserker, Mage, Archer Addon for Rpg Inventory";
-	public static final String VERSION = "1.10.2 v4";
+	public static final String VERSION = "1.11 v4";
 
 	@SidedProxy(clientSide = "subaraki.BMA.handler.proxy.ClientProxy", serverSide = "subaraki.BMA.handler.proxy.ServerProxy")
 	public static ServerProxy proxy;

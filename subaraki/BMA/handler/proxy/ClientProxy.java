@@ -122,7 +122,7 @@ public class ClientProxy extends ServerProxy {
 				new IItemColor() {
 					@Override
 					public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-						if(stack != null){
+						if(stack != ItemStack.EMPTY){
 							switch(stack.getMetadata())
 							{
 							case 0 : 

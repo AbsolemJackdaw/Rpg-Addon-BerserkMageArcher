@@ -195,7 +195,7 @@ public class ItemWand extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 
-		if(stack != null)
+		if(stack != ItemStack.EMPTY)
 			if(stack.getTagCompound() != null){
 				if(stack.getTagCompound().hasKey("wood") && !tooltip.contains("wood:"))
 					tooltip.add(stack.getTagCompound().getString("wood"));

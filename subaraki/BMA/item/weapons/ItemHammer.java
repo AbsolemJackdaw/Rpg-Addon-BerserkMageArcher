@@ -35,7 +35,7 @@ public class ItemHammer extends ItemSword{
 		UUID uuid = player.getUniqueID();
 		ehs.setOwnerId(uuid);
 
-		player.setHeldItem(hand, null);
+		player.setHeldItem(hand, ItemStack.EMPTY);
 
 		if(!world.isRemote)
 			world.spawnEntity(ehs);

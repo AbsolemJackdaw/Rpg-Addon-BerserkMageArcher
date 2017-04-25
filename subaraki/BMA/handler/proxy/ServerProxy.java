@@ -13,9 +13,6 @@ import subaraki.BMA.mod.AddonBma;
 
 public class ServerProxy {
 
-	@Mod.Instance(AddonBma.MODID)
-	private static AddonBma instance;
-	
 	public ModelBiped getArmorModel(String id){return null;}
 	
 	public void registerRenders(){};
@@ -27,9 +24,9 @@ public class ServerProxy {
 	public EntityPlayer getClientPlayer(){return null;}
 	
 	public void registerEntities(){
-		EntityRegistry.registerModEntity(new ResourceLocation("augolustra"),EntityAugolustra.class, "Augolustra", 0, instance, 64, 15, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("expelliarmus"),EntityExpelliarmus.class, "Expelliarmus", 1, instance, 64, 15, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("hammersmash"),EntityHammerSmash.class, "HammerSmash", 2, instance, 64, 15, false);
-		EntityRegistry.registerModEntity(new ResourceLocation("hellarrow"),EntityHellArrow.class, "HellArrow", 3, instance, 256, 20, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","augolustra"),EntityAugolustra.class, "augolustra", 0, AddonBma.MODID, 64, 15, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","expelliarmus"),EntityExpelliarmus.class, "expelliarmus", 1, AddonBma.MODID, 64, 15, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","hammersmash"),EntityHammerSmash.class, "hammersmash", 2, AddonBma.MODID, 64, 15, false);
+		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","hellarrow"),EntityHellArrow.class, "hellarrow", 3, AddonBma.MODID, 256, 20, true);
 	}
 }

@@ -24,7 +24,7 @@ public class ItemArcherArmor extends ModeledArmor {
 
 	@Override
 	protected void get3DArmorModel(EntityLivingBase entityLiving, ItemStack stack, EntityEquipmentSlot armorSlot){
-		if (stack != null) {
+		if (stack != ItemStack.EMPTY) {
 			if (stack.getItem() instanceof ItemArmor) {
 
 				EntityEquipmentSlot type = ((ItemArmor) stack.getItem()).armorType;

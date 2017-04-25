@@ -69,7 +69,7 @@ public class BmaEventHandler {
 	private void transformToWand(EntityPlayer player){
 		if(player == null)
 			return;
-		if(player.inventory.getCurrentItem() == null)
+		if(player.inventory.getCurrentItem() == ItemStack.EMPTY)
 			return;
 
 		ItemStack currentHeldItem = player.inventory.getCurrentItem();
@@ -154,7 +154,7 @@ public class BmaEventHandler {
 
 		ItemStack heldItem = player.getHeldItemMainhand();
 
-		if(heldItem == null)
+		if(heldItem == ItemStack.EMPTY)
 			return;
 		if(heldItem.getItem().equals(BmaItems.hammer))
 

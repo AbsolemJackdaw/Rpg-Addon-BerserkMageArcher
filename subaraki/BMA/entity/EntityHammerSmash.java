@@ -55,7 +55,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 
 	@Override
 	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
-		if(stack == null)
+		if(stack == ItemStack.EMPTY)
 			return;
 		inventory[0] = stack.copy();
 	}
@@ -77,7 +77,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 			this.setOwnerId(UUID.fromString(uuid));
 
 		NBTTagCompound stacktag = new NBTTagCompound();
-		if(inventory[0] != null){
+		if(inventory[0] != ItemStack.EMPTY){
 			inventory[0].writeToNBT(stacktag);
 			compound.setTag("stack", stacktag);
 		}
@@ -151,11 +151,11 @@ public class EntityHammerSmash extends EntityLivingBase{
 				el.attackEntityFrom(DamageSource.causeIndirectDamage(this, el),20);
 			}
 			if(getOwner() == null )
-				if(inventory[0] != null)
+				if(inventory[0] != ItemStack.EMPTY)
 					if(!world.isRemote)
 						world.spawnEntity(new EntityItem(world, posX, posY, posZ, inventory[0].copy()));
 
-			if(getOwner()!= null && inventory[0] != null)
+			if(getOwner()!= null && inventory[0] != ItemStack.EMPTY)
 				getOwner().inventory.addItemStackToInventory(inventory[0].copy());
 
 			this.setDead();

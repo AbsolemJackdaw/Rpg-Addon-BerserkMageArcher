@@ -46,7 +46,7 @@ public class WandInfo {
 	};
 
 	public static boolean isLoyalWand(EntityPlayer player, ItemStack stack){
-		if(stack == null)
+		if(stack == ItemStack.EMPTY)
 			return false;
 		if(!stack.getItem().equals(BmaItems.wand))
 			return false;
