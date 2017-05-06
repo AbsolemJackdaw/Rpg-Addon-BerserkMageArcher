@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import lib.playerclass.PlayerClass;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ActionResult;
@@ -45,4 +47,8 @@ public class ItemHammer extends ItemSword{
 		return super.onItemRightClick(world, player, hand);
 	}
 
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		return repair.getItem().equals(Items.IRON_INGOT) ? true : super.getIsRepairable(toRepair, repair);
+	}
 }

@@ -37,7 +37,6 @@ public class MageIndexData {
 	public void readData(NBTBase nbt){
 		mageIndex = ((NBTTagCompound)nbt).getInteger("mage_type");
 		coreIndex = ((NBTTagCompound)nbt).getInteger("core_type");
-
 	}
 	
 	public int getMageIndex() {

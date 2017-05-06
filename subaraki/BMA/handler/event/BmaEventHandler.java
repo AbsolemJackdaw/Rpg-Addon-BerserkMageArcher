@@ -22,6 +22,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import subaraki.BMA.capability.CapabilityMageProvider;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.enchantment.EnchantmentHandler;
@@ -29,6 +30,7 @@ import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.network.PacketSyncMageIndex;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.item.weapons.WandInfo;
+import subaraki.BMA.mod.AddonBma;
 
 public class BmaEventHandler {
 
@@ -45,8 +47,11 @@ public class BmaEventHandler {
 
 	@SubscribeEvent
 	public void heldItemTick(PlayerTickEvent event){
-		EntityPlayer player = event.player;
-		transformToWand(player);
+		if(event.side == Side.SERVER)
+		{
+			EntityPlayer player = event.player;
+			transformToWand(player);
+		}
 	}
 
 	@SubscribeEvent
@@ -69,27 +74,28 @@ public class BmaEventHandler {
 	private void transformToWand(EntityPlayer player){
 		if(player == null)
 			return;
-		if(player.inventory.getCurrentItem() == ItemStack.EMPTY)
+		
+		ItemStack heldStackMain = player.getHeldItem(EnumHand.MAIN_HAND);
+		
+		if(heldStackMain.isEmpty())
 			return;
 
-		ItemStack currentHeldItem = player.inventory.getCurrentItem();
-
-		if(currentHeldItem.getItem() == null || !(currentHeldItem.getItem().equals(BmaItems.wand_stick)))
+		if(heldStackMain.getItem() != BmaItems.wand_stick)
 			return;
 
-		if(currentHeldItem.isItemEnchanted()){
-			for(Enchantment a : EnchantmentHelper.getEnchantments(currentHeldItem).keySet()){
-				if(a.getRegistryName().equals(EnchantmentHandler.wand_enchantment.getRegistryName())){
+		if(heldStackMain.isItemEnchanted()){
+			for(Enchantment enchantment : EnchantmentHelper.getEnchantments(heldStackMain).keySet()){
+				if(enchantment.getRegistryName().equals(EnchantmentHandler.wand_enchantment.getRegistryName())){
 					int metadata = player.getCapability(MageDataCapability.CAPABILITY, null).getMageIndex();
 					int core = player.getCapability(MageDataCapability.CAPABILITY, null).getCoreIndex();
 
-					if(!currentHeldItem.getTagCompound().hasKey("core")){
+					if(!heldStackMain.getTagCompound().hasKey("core")){
 						player.world.playSound(player, new BlockPos(player), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0f, 1f);
 						player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STICK,1));
 						return;
 					}
 					
-					String extraCore = currentHeldItem.getTagCompound().getString("core");
+					String extraCore = heldStackMain.getTagCompound().getString("core");
 					
 					ItemStack stack = new ItemStack(BmaItems.wand, 1, metadata);
 					stack.setStackDisplayName(player.getName() + "'s Wand");
@@ -135,8 +141,9 @@ public class BmaEventHandler {
 		String core_id = mid_mageIndex.substring(0, 1);
 		int coreIndex = Integer.parseInt(core_id, 16);
 
-		System.out.println(name +" "+ mageIdentifier +" "+ mid_mageIndex +" "+ mageIndex +" "+coreIndex);
-
+		AddonBma.log.info("Mage Index Calculated for " + name + ". Values are :");
+		AddonBma.log.info(mageIdentifier + " " + mid_mageIndex + " " + mageIndex + " " + coreIndex);
+		
 		player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(mageIndex);
 		player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(coreIndex);
 

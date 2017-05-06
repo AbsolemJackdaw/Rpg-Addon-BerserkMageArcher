@@ -39,10 +39,12 @@ public class PacketSyncMageIndex implements IMessage{
 			Minecraft.getMinecraft().addScheduledTask( () -> {
 				EntityPlayer player = AddonBma.proxy.getClientPlayer();
 
-				if(message.core > -1 && player != null)
+				if(player != null)
+				{
+					AddonBma.log.info("wand info communicated to client. Core index : " + message.core + ", Wand meta : " + message.meta);
 					player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(message.core);
-				if(message.meta > -1 && player != null)
 					player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(message.meta);
+				}
 			});
 			return null;
 		}

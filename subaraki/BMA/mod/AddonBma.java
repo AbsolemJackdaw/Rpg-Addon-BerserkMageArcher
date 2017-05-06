@@ -2,6 +2,9 @@ package subaraki.BMA.mod;
 
 import java.util.Arrays;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ModMetadata;
@@ -21,13 +24,15 @@ public class AddonBma {
 
 	public static final String MODID = "bma_addon";
 	public static final String NAME = "Berserker, Mage, Archer Addon for Rpg Inventory";
-	public static final String VERSION = "1.11 v4";
+	public static final String VERSION = "1.11.2 4.0.1.0";
 
 	@SidedProxy(clientSide = "subaraki.BMA.handler.proxy.ClientProxy", serverSide = "subaraki.BMA.handler.proxy.ServerProxy")
 	public static ServerProxy proxy;
 
 	public static SpellHandler spells;
 
+	public static Logger log = LogManager.getLogger(MODID);
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event){
 

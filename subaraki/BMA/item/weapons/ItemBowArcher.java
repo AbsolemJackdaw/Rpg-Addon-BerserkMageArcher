@@ -6,6 +6,7 @@ import lib.playerclass.PlayerClass;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
@@ -201,5 +202,10 @@ public class ItemBowArcher extends Item
 			EntityHellArrow arrow = new EntityHellArrow(world, player, force);
 			world.spawnEntity(arrow);
 		}
+	}
+	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		return repair.getItem().equals(Items.EMERALD) ? true : super.getIsRepairable(toRepair, repair);
 	}
 }

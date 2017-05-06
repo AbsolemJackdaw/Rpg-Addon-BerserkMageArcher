@@ -36,8 +36,8 @@ public class PacketExpelliarmus implements IMessage {
 
 		@Override
 		public IMessage onMessage(PacketExpelliarmus message, MessageContext ctx) {
-			((WorldServer)ctx.getServerHandler().playerEntity.world).addScheduledTask(() -> {
-				World world = ctx.getServerHandler().playerEntity.world;
+			((WorldServer)ctx.getServerHandler().player.world).addScheduledTask(() -> {
+				World world = ctx.getServerHandler().player.world;
 				Entity entity = world.getEntityByID(message.entity_ID);
 
 				if(entity instanceof EntityLivingBase){
