@@ -16,8 +16,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import subaraki.BMA.item.armor.ItemArcherArmor;
 import subaraki.BMA.item.armor.ItemBerserkerArmor;
 import subaraki.BMA.item.armor.ItemMageArmor;
@@ -116,6 +119,9 @@ public class BmaItems {
 		}.setMaxDamage(1).setMaxStackSize(1).setRegistryName("wand_stick").setUnlocalizedName(AddonBma.MODID+".wand_stick").setCreativeTab(tab);
 	
 		register();
+
+		addToOreDict();
+		
 		loadRecipes();
 	}
 
@@ -259,22 +265,36 @@ public class BmaItems {
 					new ItemStack(craftLeather,1,1) });
 	}
 
-	private static void addWandRecipe(){
-		ItemStack[] wandRecipeItems = new ItemStack[]{
-				new ItemStack(Items.GOLD_NUGGET),new ItemStack(Items.SPECKLED_MELON),
-				new ItemStack(Items.EMERALD),new ItemStack(Items.DIAMOND),
-				new ItemStack(Items.DYE,1,4),new ItemStack(Items.BLAZE_ROD),
-				new ItemStack(Items.BLAZE_POWDER),new ItemStack(Items.BONE),
-				new ItemStack(Items.ENDER_PEARL),new ItemStack(Items.GLOWSTONE_DUST),
-				new ItemStack(Items.SPIDER_EYE),new ItemStack(Items.FERMENTED_SPIDER_EYE),
-				new ItemStack(Items.RABBIT_FOOT),new ItemStack(Items.CHORUS_FRUIT),
-				new ItemStack(Items.FISH,1,2),new ItemStack(Items.FISH,1,3)
-		};
+	private static void addToOreDict() {
+		OreDictionary.registerOre("plate", berserker_plate);
+		OreDictionary.registerOre("plate", archer_plate);
 		
-		for(int i = 0; i < wandRecipeItems.length; i++){
-			ItemStack o1 = wandRecipeItems[i];
-			for(int j = 0; j < wandRecipeItems.length; j++){
-				ItemStack o2 = wandRecipeItems[j];
+		OreDictionary.registerOre("wandCore",Items.GOLD_NUGGET);
+		OreDictionary.registerOre("wandCore",Items.SPECKLED_MELON);
+		OreDictionary.registerOre("wandCore",Items.EMERALD);
+		OreDictionary.registerOre("wandCore",Items.DIAMOND);
+		OreDictionary.registerOre("wandCore",Items.BLAZE_ROD);
+		OreDictionary.registerOre("wandCore",new ItemStack(Items.DYE,1,4));
+		OreDictionary.registerOre("wandCore",Items.BLAZE_POWDER);
+		OreDictionary.registerOre("wandCore",Items.BONE);
+		OreDictionary.registerOre("wandCore",Items.ENDER_PEARL);
+		OreDictionary.registerOre("wandCore",Items.GLOWSTONE_DUST);
+		OreDictionary.registerOre("wandCore",Items.SPIDER_EYE);
+		OreDictionary.registerOre("wandCore",Items.FERMENTED_SPIDER_EYE);
+		OreDictionary.registerOre("wandCore",Items.RABBIT_FOOT);
+		OreDictionary.registerOre("wandCore",Items.CHORUS_FRUIT);
+		OreDictionary.registerOre("wandCore",new ItemStack(Items.FISH,1,2));
+		OreDictionary.registerOre("wandCore",new ItemStack(Items.FISH,1,3));
+	}
+	
+	private static void addWandRecipe(){
+		
+		NonNullList<ItemStack> wandRecipeItems =OreDictionary.getOres("wandCore");
+		
+		for(int i = 0; i < wandRecipeItems.size(); i++){
+			ItemStack o1 = wandRecipeItems.get(i);
+			for(int j = 0; j < wandRecipeItems.size(); j++){
+				ItemStack o2 = wandRecipeItems.get(j);
 				
 				if(o1.equals(o2))
 					continue; //if both are the same item, do not register

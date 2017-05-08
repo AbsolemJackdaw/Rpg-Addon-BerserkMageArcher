@@ -32,10 +32,10 @@ item.bma_addon.wand.name=Wand
 item.bma_addon.wand_stick.name=Arcane-Sensible Stick
 
 #entity
-entity.bma_addon.HellArrow.name=Arrow Rain
+entity.bma_addon.HellArrow.name=Plui De Flêches
 entity.bma_addon.Augolustra.name=Augolustra Hex
-entity.bma_addon.Expelliarmus.name=Expelliarmus Charm
-entity.bma_addon.HammerSmash.name=a Massive Hammer
+entity.bma_addon.Expelliarmus.name=Sors Expelliarmus
+entity.bma_addon.HammerSmash.name=Rage Breaker
 
 #various items
 enchantment.wand_enchantment=Arcane Affinity
