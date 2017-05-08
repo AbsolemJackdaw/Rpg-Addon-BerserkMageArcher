@@ -2,7 +2,7 @@ package subaraki.BMA.handler.event;
 
 import java.util.Map;
 
-import lib.playerclass.PlayerClass;
+import lib.playerclass.capability.PlayerClass;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -165,9 +165,9 @@ public class BmaEventHandler {
 			return;
 		if(heldItem.getItem().equals(BmaItems.hammer))
 
-			if(PlayerClass.isInstanceOf(BmaItems.berserkerClass)){
+			if(PlayerClass.armorClass(player).isInstanceOf(BmaItems.berserkerClass)){
 
-				if(PlayerClass.isShielded()){
+				if(PlayerClass.armorClass(player).isShielded()){
 					if (((player.getFoodStats().getFoodLevel() < 5) || (player.getHealth() < 5)))
 						addEnchantment(Enchantments.KNOCKBACK, 3, heldItem);
 					else

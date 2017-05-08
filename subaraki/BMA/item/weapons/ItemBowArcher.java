@@ -2,11 +2,10 @@ package subaraki.BMA.item.weapons;
 
 import javax.annotation.Nullable;
 
-import lib.playerclass.PlayerClass;
+import lib.playerclass.capability.PlayerClass;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
@@ -65,12 +64,13 @@ public class ItemBowArcher extends Item
 	 */
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
 	{
-		if(!PlayerClass.isInstanceOf(BmaItems.archerClass))
-			return;
-
 		if (entityLiving instanceof EntityPlayer)
 		{
-			EntityPlayer entityplayer = (EntityPlayer)entityLiving;
+			EntityPlayer player = (EntityPlayer)entityLiving;
+			
+			if(!PlayerClass.armorClass(player).isInstanceOf(BmaItems.archerClass))
+				return;
+			
 			int i = this.getMaxItemUseDuration(stack) - timeLeft;
 			i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, (EntityPlayer)entityLiving, i, true);
 			if (i < 0) return;
@@ -86,41 +86,43 @@ public class ItemBowArcher extends Item
 					float time = (stack.getMaxItemUseDuration() - entityLiving.getItemInUseCount()) / 20.0F;
 
 					if(time < 2f)
-						spawnArrow(entityplayer, worldIn, stack, f, 0);
+						spawnArrow(player, worldIn, stack, f, 0);
 
 					else if( time >= 2f && time < 3f)
-						if(PlayerClass.isShielded())
+						if(PlayerClass.armorClass(player).isShielded())
 							for(int yaw = -4; yaw < 6; yaw+=2)
-								spawnArrow(entityplayer, worldIn, stack, f, yaw);
+								spawnArrow(player, worldIn, stack, f, yaw);
 						else
 							for(int yaw = -2; yaw < 4; yaw+=2)
-								spawnArrow(entityplayer, worldIn, stack, f, yaw);
+								spawnArrow(player, worldIn, stack, f, yaw);
 
 					else if(time >= 3f)
-						spawnHellArrow(worldIn, entityplayer, f);
+						spawnHellArrow(worldIn, player, f);
 				}
 
-				worldIn.playSound((EntityPlayer)null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+				worldIn.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
-				entityplayer.addStat(StatList.getObjectUseStats(this));
+				player.addStat(StatList.getObjectUseStats(this));
 			}
 		}
 	}
 
 	@Override
-	public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
-		if(!PlayerClass.isInstanceOf(BmaItems.archerClass))
+	public void onUsingTick(ItemStack stack, EntityLivingBase elb, int count) {
+		
+		if(elb instanceof EntityPlayer)
+		if(!PlayerClass.armorClass((EntityPlayer)elb).isInstanceOf(BmaItems.archerClass))
 			return;
 
-		if((stack.getMaxItemUseDuration() - player.getItemInUseCount()) / 20.0F >= 3f)
-			if(player.world.isRemote){
-				World world = player.world;
+		if((stack.getMaxItemUseDuration() - elb.getItemInUseCount()) / 20.0F >= 3f)
+			if(elb.world.isRemote){
+				World world = elb.world;
 
 				for(int i = 0; i < 5; i++)
 					world.spawnParticle(EnumParticleTypes.FLAME, 
-							player.posX + (0.5D + world.rand.nextDouble()*2) - 1.25D, 
-							player.posY + world.rand.nextDouble(), 
-							player.posZ + (0.5D + world.rand.nextDouble()*2) - 1.25D,
+							elb.posX + (0.5D + world.rand.nextDouble()*2) - 1.25D, 
+							elb.posY + world.rand.nextDouble(), 
+							elb.posZ + (0.5D + world.rand.nextDouble()*2) - 1.25D,
 							0, 0, 0, new int[0]);
 
 			}
@@ -133,7 +135,7 @@ public class ItemBowArcher extends Item
 		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemStackIn, worldIn, playerIn, hand, false);
 		if (ret != null) return ret;
 
-		if(!PlayerClass.isInstanceOf(BmaItems.archerClass))
+		if(!PlayerClass.armorClass(playerIn).isInstanceOf(BmaItems.archerClass))
 			return  new ActionResult(EnumActionResult.FAIL, itemStackIn);
 
 		playerIn.setActiveHand(hand);

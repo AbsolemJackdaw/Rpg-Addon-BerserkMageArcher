@@ -2,9 +2,8 @@ package subaraki.BMA.item.weapons;
 
 import java.util.UUID;
 
-import lib.playerclass.PlayerClass;
+import lib.playerclass.capability.PlayerClass;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -26,7 +25,7 @@ public class ItemHammer extends ItemSword{
 
 		ItemStack itemStack = player.getHeldItem(hand);
 		
-		if(!PlayerClass.isInstanceOf(BmaItems.berserkerClass))
+		if(!PlayerClass.armorClass(player).isInstanceOf(BmaItems.berserkerClass))
 			return super.onItemRightClick(world, player, hand);
 
 		Vec3d vec = player.getLook(1);
