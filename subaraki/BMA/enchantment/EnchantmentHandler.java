@@ -1,10 +1,8 @@
 package subaraki.BMA.enchantment;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.item.Item;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import subaraki.BMA.item.BmaItems;

@@ -3,7 +3,6 @@ package subaraki.BMA.handler.proxy;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;

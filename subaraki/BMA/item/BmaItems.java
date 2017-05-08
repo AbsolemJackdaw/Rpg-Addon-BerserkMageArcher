@@ -20,7 +20,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import subaraki.BMA.item.armor.ItemArcherArmor;
 import subaraki.BMA.item.armor.ItemBerserkerArmor;
 import subaraki.BMA.item.armor.ItemMageArmor;
