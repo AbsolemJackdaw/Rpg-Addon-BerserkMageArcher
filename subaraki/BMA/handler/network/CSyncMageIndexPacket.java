@@ -9,13 +9,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.mod.AddonBma;
 
-public class PacketSyncMageIndex implements IMessage{
+public class CSyncMageIndexPacket implements IMessage{
 
 	int core = -1;
 	int meta = -1;
-	public PacketSyncMageIndex() {
+	public CSyncMageIndexPacket() {
 	}
-	public PacketSyncMageIndex(int core, int meta){
+	public CSyncMageIndexPacket(int core, int meta){
 		this.core=core;
 		this.meta=meta;
 	}
@@ -32,10 +32,10 @@ public class PacketSyncMageIndex implements IMessage{
 		buf.writeInt(meta);
 	}
 
-	public static class PacketSyncMageIndexHandler implements IMessageHandler<PacketSyncMageIndex, IMessage>{
+	public static class PacketSyncMageIndexHandler implements IMessageHandler<CSyncMageIndexPacket, IMessage>{
 
 		@Override
-		public IMessage onMessage(PacketSyncMageIndex message, MessageContext ctx) {
+		public IMessage onMessage(CSyncMageIndexPacket message, MessageContext ctx) {
 			Minecraft.getMinecraft().addScheduledTask( () -> {
 				EntityPlayer player = AddonBma.proxy.getClientPlayer();
 

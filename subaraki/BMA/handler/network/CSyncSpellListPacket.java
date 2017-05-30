@@ -8,14 +8,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import subaraki.BMA.mod.AddonBma;
 
-public class PacketSyncSpellList implements IMessage {
+public class CSyncSpellListPacket implements IMessage {
 
 	public String spell = "none";
 	public String playerName = "none";
 
-	public PacketSyncSpellList() {}
+	public CSyncSpellListPacket() {}
 
-	public PacketSyncSpellList(String playername, String spell) {
+	public CSyncSpellListPacket(String playername, String spell) {
 		this.spell = spell;
 		this.playerName = playername;
 	}
@@ -32,10 +32,10 @@ public class PacketSyncSpellList implements IMessage {
 		ByteBufUtils.writeUTF8String(buf, playerName);
 	}
 
-	public static class PacketSyncSpellListHandler implements IMessageHandler<PacketSyncSpellList, IMessage>{
+	public static class PacketSyncSpellListHandler implements IMessageHandler<CSyncSpellListPacket, IMessage>{
 
 		@Override
-		public IMessage onMessage(PacketSyncSpellList message, MessageContext ctx) {
+		public IMessage onMessage(CSyncSpellListPacket message, MessageContext ctx) {
 			Minecraft.getMinecraft().addScheduledTask( ()->{
 				AddonBma.spells.addSpokenSpell(message.playerName, message.spell);
 			});

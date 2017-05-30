@@ -12,13 +12,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketExpelliarmus implements IMessage {
+public class SPacketExpelliarmus implements IMessage {
 
 	public int entity_ID = -1;
 
-	public PacketExpelliarmus() {}
+	public SPacketExpelliarmus() {}
 
-	public PacketExpelliarmus(int id) {
+	public SPacketExpelliarmus(int id) {
 		entity_ID = id;
 	}
 
@@ -32,10 +32,10 @@ public class PacketExpelliarmus implements IMessage {
 		buf.writeInt(entity_ID);
 	}
 
-	public static class PacketExpelliarmusHandler implements IMessageHandler<PacketExpelliarmus, IMessage>{
+	public static class PacketExpelliarmusHandler implements IMessageHandler<SPacketExpelliarmus, IMessage>{
 
 		@Override
-		public IMessage onMessage(PacketExpelliarmus message, MessageContext ctx) {
+		public IMessage onMessage(SPacketExpelliarmus message, MessageContext ctx) {
 			((WorldServer)ctx.getServerHandler().player.world).addScheduledTask(() -> {
 				World world = ctx.getServerHandler().player.world;
 				Entity entity = world.getEntityByID(message.entity_ID);
