@@ -218,6 +218,7 @@ public class ItemWand extends Item {
 					world.spawnParticle(EnumParticleTypes.SPELL, d1, d2, d3, 0.0D, 0.0D, 0.0D, new int[0]);
 				}
 			}
+			return EnumActionResult.SUCCESS;
 		}
 		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
 	}
