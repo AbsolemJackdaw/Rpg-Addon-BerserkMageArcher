@@ -9,7 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import subaraki.BMA.handler.network.PacketHandler;
-import subaraki.BMA.handler.network.PacketSyncSpellList;
+import subaraki.BMA.handler.network.CSyncSpellListPacket;
 import subaraki.BMA.item.weapons.ItemWand;
 
 public class SpellHandler {
@@ -46,7 +46,7 @@ public class SpellHandler {
 			return;
 
 		addSpokenSpell(event.getUsername(), event.getMessage());
-		PacketHandler.NETWORK.sendToAll(new PacketSyncSpellList(event.getUsername(), event.getMessage()));//send message to add spell to list client side
+		PacketHandler.NETWORK.sendToAll(new CSyncSpellListPacket(event.getUsername(), event.getMessage()));//send message to add spell to list client side
 	}
 
 	public boolean hasSpokenSpell(EntityPlayer player, String spell){

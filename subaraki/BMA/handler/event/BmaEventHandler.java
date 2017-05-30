@@ -18,16 +18,20 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import subaraki.BMA.capability.CapabilityMageProvider;
 import subaraki.BMA.capability.MageDataCapability;
+import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.handler.network.PacketHandler;
-import subaraki.BMA.handler.network.PacketSyncMageIndex;
+import subaraki.BMA.handler.network.CSyncMageIndexPacket;
+import subaraki.BMA.handler.network.CSyncShieldPacket;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.item.weapons.WandInfo;
 import subaraki.BMA.mod.AddonBma;
@@ -51,14 +55,40 @@ public class BmaEventHandler {
 		{
 			EntityPlayer player = event.player;
 			transformToWand(player);
+
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerUpdateTick(LivingUpdateEvent event){
-		calculateBerserkerBonus(event);
+		if(!event.getEntityLiving().world.isRemote)
+		{
+			calculateBerserkerBonus(event);
+		}
 	}
+	
+	@SubscribeEvent
+	public void onDamage(LivingHurtEvent event){
+		if(event.getEntityLiving() instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)event.getEntityLiving();
+			
+			MageIndexData data = MageIndexData.get(player);
+			
+			if(data.isProtectedByMagic())
+			{
+				event.setAmount(event.getAmount()/4f); //decreased by 75%
+				data.decreaseShieldCapacity();
 
+				if(data.getShieldCapacity() <= 0)
+					data.setProtectedByMagic(false);
+				
+				if(player instanceof EntityPlayerMP)
+					PacketHandler.NETWORK.sendTo(new CSyncShieldPacket(data.getShieldCapacity() > 0, data.getShieldCapacity()), (EntityPlayerMP)player);
+			}
+		}
+	}
+	
 	@SubscribeEvent
 	public void onCapabilityAttach(AttachCapabilitiesEvent.Entity event){
 		final Entity entity = event.getEntity();
@@ -66,7 +96,7 @@ public class BmaEventHandler {
 		if (entity instanceof EntityPlayer)
 			event.addCapability(CapabilityMageProvider.KEY, new CapabilityMageProvider((EntityPlayer)entity)); 
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,9 +104,9 @@ public class BmaEventHandler {
 	private void transformToWand(EntityPlayer player){
 		if(player == null)
 			return;
-		
+
 		ItemStack heldStackMain = player.getHeldItem(EnumHand.MAIN_HAND);
-		
+
 		if(heldStackMain.isEmpty())
 			return;
 
@@ -94,9 +124,9 @@ public class BmaEventHandler {
 						player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.STICK,1));
 						return;
 					}
-					
+
 					String extraCore = heldStackMain.getTagCompound().getString("core");
-					
+
 					ItemStack stack = new ItemStack(BmaItems.wand, 1, metadata);
 					stack.setStackDisplayName(player.getName() + "'s Wand");
 
@@ -143,12 +173,12 @@ public class BmaEventHandler {
 
 		AddonBma.log.info("Mage Index Calculated for " + name + ". Values are :");
 		AddonBma.log.info(mageIdentifier + " " + mid_mageIndex + " " + mageIndex + " " + coreIndex);
-		
+
 		player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(mageIndex);
 		player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(coreIndex);
 
 		if (!player.world.isRemote)
-			PacketHandler.NETWORK.sendTo(new PacketSyncMageIndex(coreIndex,mageIndex), (EntityPlayerMP) player);
+			PacketHandler.NETWORK.sendTo(new CSyncMageIndexPacket(coreIndex,mageIndex), (EntityPlayerMP) player);
 	}
 
 	private void calculateBerserkerBonus(LivingUpdateEvent event){

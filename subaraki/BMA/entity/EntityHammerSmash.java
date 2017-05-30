@@ -117,8 +117,8 @@ public class EntityHammerSmash extends EntityLivingBase{
 		if(ticksExisted > 9){
 			
 			if(world.isRemote){
-				for(float fx = -5; fx < 5; fx+=0.5f){
-					for(float fz = -5; fz < 5; fz+=0.5f){
+				for(float fx = -6; fx < 6; fx+=0.5f){
+					for(float fz = -6; fz < 6; fz+=0.5f){
 						double x = (double)((float)posX + fx + rand.nextFloat()/4);
 						double y = (double)((float)posY + rand.nextFloat());
 						double z = (double)((float)posZ + fz + rand.nextFloat()/4);
@@ -128,7 +128,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 				}
 			}
 			
-			AxisAlignedBB pool = getEntityBoundingBox().expand(5, 2, 5);
+			AxisAlignedBB pool = getEntityBoundingBox().expand(6, 2, 6);
 			List<EntityLivingBase> entl = world.getEntitiesWithinAABB(EntityLivingBase.class, pool);
 
 			for(EntityLivingBase el : entl){

@@ -8,6 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -43,7 +44,8 @@ public class ItemHammer extends ItemSword{
 
 		player.getCooldownTracker().setCooldown(this, 500);
 
-		return super.onItemRightClick(world, player, hand);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+		
 	}
 
 	@Override

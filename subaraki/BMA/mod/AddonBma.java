@@ -62,5 +62,7 @@ public class AddonBma {
 	@EventHandler
 	public void init(FMLInitializationEvent event){
 		proxy.registerColors();
+		proxy.addRenderLayers();
+		proxy.registerRenderInformation();
 	}
 }

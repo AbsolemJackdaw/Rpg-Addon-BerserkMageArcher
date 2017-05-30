@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -22,10 +23,15 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;
+import subaraki.BMA.handler.network.CSyncMageIndexPacket;
+import subaraki.BMA.handler.network.CSyncShieldPacket;
+import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
+import subaraki.rpginventory.mod.RpgInventory;
 
 public class ItemWand extends Item {
 
@@ -41,7 +47,7 @@ public class ItemWand extends Item {
 		int meta = stack.getMetadata();
 		return super.getUnlocalizedName();
 	}
-	
+
 
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
@@ -67,21 +73,45 @@ public class ItemWand extends Item {
 
 			if(!PlayerClass.get(player).isPlayerClass(BmaItems.mageClass))
 				return false;
-			
-			if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Expelliarmus)){
+
+			if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Expelliarmus))
+			{
 				if(!player.world.isRemote)
+				{
 					player.world.spawnEntity(new EntityExpelliarmus(player.world, player));
+					player.getCooldownTracker().setCooldown(this, 20);
+				}
 				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.NEUTRAL, 0.2f, -10f, false);
-				player.getCooldownTracker().setCooldown(this, 20);
 			}
 
-			else if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Augolustra)){
+			else if (AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.ContegoAspida))
+			{
+				MageIndexData data = MageIndexData.get(player);
+
 				if(!player.world.isRemote)
-					player.world.spawnEntity(new EntityAugolustra(player.world, player));
-				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.NEUTRAL, 0.5f, -5f, false);
-				player.getCooldownTracker().setCooldown(this, 15);
+				{
+					if(!data.isProtectedByMagic())
+					{
+						int cap = 20+player.world.rand.nextInt(20);
+						data.setShieldCapacity(cap);
+						data.setProtectedByMagic(true);
+
+						if(player instanceof EntityPlayerMP)
+							PacketHandler.NETWORK.sendTo(new CSyncShieldPacket(true, cap), (EntityPlayerMP)player);
+					}
+				}
 			}
-			
+
+			else if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Augolustra))
+			{
+				if(!player.world.isRemote)
+				{
+					player.world.spawnEntity(new EntityAugolustra(player.world, player));
+					player.getCooldownTracker().setCooldown(this, 15);
+				}
+				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.NEUTRAL, 0.5f, -5f, false);
+			}
+
 			else if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Episkey)){
 				if(!WandInfo.isLoyalWand(player, stack) && player.world.rand.nextInt(5)==0){
 					player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.NEUTRAL, 0.5f, 0.5f, false);
@@ -111,7 +141,7 @@ public class ItemWand extends Item {
 			return false;
 		if(!PlayerClass.get(player).isPlayerClass(BmaItems.mageClass))
 			return false;
-		
+
 		if(entity instanceof EntityLivingBase){
 			EntityLivingBase elb = (EntityLivingBase)entity;
 			World world = elb.world;
@@ -140,10 +170,10 @@ public class ItemWand extends Item {
 			EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
 
 		ItemStack stack = player.getHeldItem(hand);
-		
+
 		if(!PlayerClass.get(player).isPlayerClass(BmaItems.mageClass))
 			return EnumActionResult.FAIL;
-		
+
 		if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.AesConverto)){
 
 			Block block = world.getBlockState(pos).getBlock();

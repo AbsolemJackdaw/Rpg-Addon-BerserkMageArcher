@@ -93,7 +93,6 @@ public class BmaItems {
 		archer_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".archer_plate").setRegistryName("archer_plate");
 		berserker_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".berserker_plate").setRegistryName("berserker_plate");
 
-		
 		shield_berserker = (ItemCustomShield) new ItemCustomShield(){
 			@Override
 			public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {

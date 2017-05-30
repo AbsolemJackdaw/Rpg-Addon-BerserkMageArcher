@@ -1,10 +1,15 @@
 package subaraki.BMA.handler.proxy;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.glu.Sphere;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -27,6 +32,7 @@ import subaraki.BMA.item.armor.model.ModelArcherArmor;
 import subaraki.BMA.item.armor.model.ModelBerserkerArmor;
 import subaraki.BMA.item.armor.model.ModelMageArmor;
 import subaraki.BMA.mod.AddonBma;
+import subaraki.BMA.render.LayerMageProtection;
 
 public class ClientProxy extends ServerProxy {
 
@@ -140,9 +146,76 @@ public class ClientProxy extends ServerProxy {
 				BmaItems.craftLeather
 				);
 	}
-	
+
 	@Override
 	public EntityPlayer getClientPlayer() {
 		return Minecraft.getMinecraft().player;
+	}
+
+	public static int outsideSphereID;
+	public static int insideSphereID;
+
+	@Override
+	public int getSphereID(boolean isFirstPerson) {
+		return isFirstPerson ? insideSphereID : outsideSphereID;
+	}
+
+	@Override
+	public void registerRenderInformation() {
+
+		Sphere sphere = new Sphere();
+		// GLU_POINT will render it as dots.
+		// GLU_LINE will render as wireframe
+		// GLU_SILHOUETTE will render as ?shadowed? wireframe
+		// GLU_FILL as a solid.
+		sphere.setDrawStyle(GLU.GLU_FILL);
+		// GLU_SMOOTH will try to smoothly apply lighting
+		// GLU_FLAT will have a solid brightness per face, and will not shade.
+		// GLU_NONE will be completely solid, and probably will have no depth to
+		// it's appearance.
+		sphere.setNormals(GLU.GLU_SMOOTH);
+		// GLU_INSIDE will render as if you are inside the sphere, making it
+		// appear inside out.(Similar to how ender portals are rendered)
+		sphere.setOrientation(GLU.GLU_OUTSIDE);
+
+		sphere.setTextureFlag(true);
+		// Simple 1x1 red texture to serve as the spheres skin, the only pixel
+		// in this image is red.
+		// sphereID is returned from our sphereID() method
+		outsideSphereID = GL11.glGenLists(1);
+		// Create a new list to hold our sphere data.
+		GL11.glNewList(outsideSphereID, GL11.GL_COMPILE);
+		// Offset the sphere by it's radius so it will be centered
+		GL11.glTranslatef(0.50F, 0.50F, 0.50F);
+
+		sphere.draw(0.5F, 12, 24);
+		// Drawing done, unbind our texture
+		// Tell LWJGL that we are done creating our list.
+		GL11.glEndList();
+
+		Sphere sphereInside = new Sphere();
+		sphereInside.setDrawStyle(GLU.GLU_FILL);
+		sphereInside.setNormals(GLU.GLU_NONE);
+		sphereInside.setOrientation(GLU.GLU_INSIDE);
+
+		sphereInside.setTextureFlag(true);
+		insideSphereID = GL11.glGenLists(1);
+		GL11.glNewList(insideSphereID, GL11.GL_COMPILE);
+		GL11.glTranslatef(0.50F, 0.50F, 0.50F);
+
+		sphereInside.draw(0.5F, 12, 24);
+		GL11.glEndList();
+
+	}
+	
+	@Override
+	public void addRenderLayers(){
+
+		String types[] = new String[]{"default","slim"};
+
+		for(String type : types){
+			RenderPlayer renderer = ((RenderPlayer)Minecraft.getMinecraft().getRenderManager().getSkinMap().get(type));
+			renderer.addLayer(new LayerMageProtection(renderer));
+		}
 	}
 }

@@ -22,10 +22,17 @@ public class ServerProxy {
 	
 	public EntityPlayer getClientPlayer(){return null;}
 	
+	public void registerRenderInformation(){}
+	
+	public int getSphereID(boolean isFirstPerson){return 0;};
+	
 	public void registerEntities(){
 		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","augolustra"),EntityAugolustra.class, "augolustra", 0, AddonBma.MODID, 64, 15, true);
 		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","expelliarmus"),EntityExpelliarmus.class, "expelliarmus", 1, AddonBma.MODID, 64, 15, true);
 		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","hammersmash"),EntityHammerSmash.class, "hammersmash", 2, AddonBma.MODID, 64, 15, false);
 		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","hellarrow"),EntityHellArrow.class, "hellarrow", 3, AddonBma.MODID, 256, 20, true);
+	}
+
+	public void addRenderLayers() {
 	}
 }
