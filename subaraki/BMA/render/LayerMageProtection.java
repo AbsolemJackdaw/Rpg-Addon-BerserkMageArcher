@@ -25,8 +25,8 @@ public class LayerMageProtection implements LayerRenderer<AbstractClientPlayer>{
 	@Override
 	public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float limbSwing, float limbSwingAmount,
 			float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		
 		MageIndexData data = MageIndexData.get(entitylivingbaseIn);
-
 		if(data.isProtectedByMagic())
 		{
 			renderMantle(entitylivingbaseIn);

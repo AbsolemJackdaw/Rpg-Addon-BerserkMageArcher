@@ -40,3 +40,16 @@ entity.bma_addon.HammerSmash.name=Rage Breaker
 #various items
 enchantment.wand_enchantment=Arcane Affinity
 itemGroup.BmaTab=Berserker,Mage,Archer
+
+#book
+page1="\"§l§nChapter One:\\nIntroductions§r\\n\\nMagic asks for a lot of imagination. It is not just waving around a wand and blurting out odd words. It requires a mind, set to believe things he might never see, energy he may feel or foul with negative thoughts.\"",
+page2="\"Beware,for the arcane in you might manifest wrongly.\\n\\nSo focus, stay on the path you feel is righteous, and take it with a little wit, for serious mages never have gained the knowledge that connects nature with the arcane !\"",
+page3="\"§l§nChapter Two:\\nSurvival\\n§rOn your journey troughout the world to study the arcane, you will most likely encounter dangerous foes. There are two nifty basic spells that can aid you in preventing early death.\"",
+page4="\"§nAugolustra:\\n§r\\nCalling forth a small combustion, propulsing a stream of hot air towards your foe. \\n\\nStay steady, articulate well, and give a little left-flick with your wand to keep your enemy at bay.\"",
+page5="\"§nExpelliarmus\\n\\n§rCall forth a stream of red arcane dust that disarms your foe.\\n\\nStay steady, articulate well, and left-flick with your wand when ready to disarm your foe.\"",
+page6="\"§l§nChapter three:\\nFirst Aid\\n\\n§rMay you have harmed a friend or yourself while messing around with our basic survival spell, remember then that there is always aid to be given for small wounds and barely broken bones.\"",
+page7="\"§nEpiskey\\n\\n§rHeals the targetted living person or creature.\\n\\nArticulate clearely, stay close to wounded subject,and give a soft swish.\\n\\nImportant : do not be hasty, you might end up hurting your ally.\"",
+page8="\"§l§nChapter Three\\nTransmutation\\n\\n§rThe art of making oneself rich. This branch of magic should be only used when needed, because greed has never led to any good... you might be swimming in gold, but there are places where nothing can be bought !\"",
+page9="\"§nAes Converto\\n\\n§rConvert raw ore into gold.\\n\\nBreath softly, speak the named spell, and strike softly over the ore with a slow, right-flick.\"",
+page10="\"§l§nChapter Fi   \\u003e\\nAdvanced M/\\n§r               /\\nFor the Ma \\u003e\\ngotten th /\\nwithout /\\u003e\\nYou c/\\n/\\u003e/\\n\\u003e/\\n/\\n\\n(the pages seem to be torn out ...)\""
+ 

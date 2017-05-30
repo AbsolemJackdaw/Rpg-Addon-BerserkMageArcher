@@ -4,6 +4,7 @@ import static lib.item.ItemRegistry.registerRender;
 import static lib.item.ItemRegistry.registerVanillaRender;
 
 import lib.item.shield.ItemCustomShield;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -38,11 +39,11 @@ public class BmaItems {
 
 	public static ItemArcherArmor 
 	archer_head, archer_chest, archer_legs, archer_feet;
-	
+
 	public static ItemHammer hammer;
 
 	public static ItemBowArcher bow;
-	
+
 	public static ItemWand wand;
 	public static Item wand_stick, archer_plate, berserker_plate;
 
@@ -99,7 +100,7 @@ public class BmaItems {
 				return repair.getItem().equals(Items.IRON_INGOT) ? true : super.getIsRepairable(toRepair, repair);
 			}	
 		}.setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".berserker_shield").setRegistryName("berserker_shield").setMaxDamage(100);
-		
+
 		shield_archer = (ItemCustomShield) new ItemCustomShield(){
 			@Override
 			public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
@@ -115,11 +116,11 @@ public class BmaItems {
 			public boolean isItemTool(ItemStack stack) {return stack.getCount() == 1;}
 
 		}.setMaxDamage(1).setMaxStackSize(1).setRegistryName("wand_stick").setUnlocalizedName(AddonBma.MODID+".wand_stick").setCreativeTab(tab);
-	
+
 		register();
 
 		addToOreDict();
-		
+
 		loadRecipes();
 	}
 
@@ -138,7 +139,7 @@ public class BmaItems {
 		GameRegistry.register(archer_chest);
 		GameRegistry.register(archer_legs);
 		GameRegistry.register(archer_feet);
-		
+
 		GameRegistry.register(hammer);
 		GameRegistry.register(wand);
 		GameRegistry.register(bow);
@@ -148,7 +149,7 @@ public class BmaItems {
 
 		GameRegistry.register(archer_plate);
 		GameRegistry.register(berserker_plate);
-		
+
 		GameRegistry.register(shield_berserker);
 		GameRegistry.register(shield_archer);
 
@@ -173,13 +174,13 @@ public class BmaItems {
 
 		registerRender(shield_berserker, "shield_berserker",mod);
 		registerRender(shield_archer, "shield_archer",mod);
-		
+
 		registerRender(hammer, "weapon/hammer",mod);
 		registerRender(bow, "weapon/archer_bow",mod);
-		
+
 		for(int i = 0; i < 16; i++)
 			registerRender(wand, "weapon/wand_"+i, mod, i);
-		
+
 		registerRender(archer_plate, "plate_archer",mod);
 		registerRender(berserker_plate, "plate_berserker",mod);
 
@@ -187,12 +188,12 @@ public class BmaItems {
 
 		for(int i = 0; i < 3; i++)
 			registerVanillaRender(craftLeather, "leather", i);
-		
+
 	}
 
 	public static void loadRecipes(){
 		loadMageBook();
-		
+
 		//leather
 		GameRegistry.addShapelessRecipe(new ItemStack(craftLeather, 1, 0),
 				new Object[] { Items.LEATHER, Items.IRON_INGOT, new ItemStack(Blocks.WOOL, 1, 0) });
@@ -208,65 +209,65 @@ public class BmaItems {
 				new Object[] { "IPI","P#P","IPI", 'I', Items.IRON_INGOT, 'P', Blocks.PLANKS });
 		GameRegistry.addRecipe(new ItemStack(shield_archer,1),
 				new Object[] { "#P#","PIP", 'I', Items.IRON_INGOT, 'P', archer_plate });
-		
+
 		GameRegistry.addRecipe(new ItemStack(berserker_plate,1),
 				new Object[] { "II","PP","II", 'I', Items.IRON_INGOT, 'P', Blocks.PLANKS });
 		GameRegistry.addRecipe(new ItemStack(shield_berserker,1),
 				new Object[] { "PP","PP","PP", 'P', berserker_plate });
-		
+
 		//weapons
 		GameRegistry.addRecipe(new ItemStack(hammer, 1), new Object[] { "SWS",
 				" I ", " I ", 'I', Items.IRON_INGOT, 'S', Blocks.IRON_BLOCK,
 				'W', new ItemStack(Blocks.WOOL, 1, 1) });
-		
+
 		GameRegistry.addRecipe(new ItemStack(bow, 1), new Object[] { "EBR",
 				"B#S", "RS#", 'E', Items.EMERALD, 'S', Items.STRING,
 				'B', new ItemStack(Blocks.LOG, 1, 2), 'R' , new ItemStack(Blocks.WOOL,1,14) });
-		
+
 		addWandRecipe();
-		
+
 		//armor
 		addArmorRecipe();
 	}
 
 	private static void loadMageBook() {
-		//text needs to be surounded bu quote control characters ! " \"mypage text goes here\" ";
+		//text needs to be surrounded by quote control characters ! " \"mypage text goes here\" ";
 		String pages[] = new String[]{
-				"\"§l§nChapter One:\\nIntroductions§r\\n\\nMagic asks for a lot of imagination. It is not just waving around a wand and blurting out odd words. It requires a mind, set to believe things he might never see, energy he may feel or foul with negative thoughts.\"",
-				"\"Beware,for the arcane in you might manifest wrongly.\\n\\nSo focus, stay on the path you feel is righteous, and take it with a little wit, for serious mages never have gained the knowledge that connects nature with the arcane !\"",
-				"\"§l§nChapter Two:\\nSurvival\\n§rOn your journey troughout the world to study the arcane, you will most likely encounter dangerous foes. There are two nifty basic spells that can aid you in preventing early death.\"",
-				"\"§nAugolustra:\\n§r\\nCalling forth a small combustion, propulsing a stream of hot air towards your foe. \\n\\nStay steady, articulate well, and give a little left-flick with your wand to keep your enemy at bay.\"",
-				"\"§nExpelliarmus\\n\\n§rCall forth a stream of red arcane dust that disarms your foe.\\n\\nStay steady, articulate well, and left-flick with your wand when ready to disarm your foe.\"",
-				"\"§l§nChapter three:\\nFirst Aid\\n\\n§rMay you have harmed a friend or yourself while messing around with our basic survival spell, remember then that there is always aid to be given for small wounds and barely broken bones.\"",
-				"\"§nEpiskey\\n\\n§rHeals the targetted living person or creature.\\n\\nArticulate clearely, stay close to wounded subject,and give a soft swish.\\n\\nImportant : do not be hasty, you might end up hurting your ally.\"",
-				"\"§l§nChapter Three\\nTransmutation\\n\\n§rThe art of making oneself rich. This branch of magic should be only used when needed, because greed has never led to any good... you might be swimming in gold, but there are places where nothing can be bought !\"",
-				"\"§nAes Converto\\n\\n§rConvert raw ore into gold.\\n\\nBreath softly, speak the named spell, and strike softly over the ore with a slow, right-flick.\"",
-				"\"§l§nChapter Fi   \\u003e\\nAdvanced M/\\n§r               /\\nFor the Ma \\u003e\\ngotten th /\\nwithout /\\u003e\\nYou c/\\n/\\u003e/\\n\\u003e/\\n/\\n\\n(the pages seem to be torn out ...)\""
-			};
-			
-			NBTTagCompound tag = new NBTTagCompound();
-			tag.setString("author", "Rebentar Strepitus");
-			tag.setString("title", "Magic For Beginners");
-			 
-			NBTTagList taglist = new NBTTagList();
-			for(int i = 0; i < 10;i++){
-				NBTTagString page = new NBTTagString(pages[i]);
-				taglist.appendTag(page);
-			}
-			tag.setTag("pages", taglist);
-			
-			ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-	        stack.setTagCompound(tag);
-	        
-			GameRegistry.addRecipe(stack, new Object[] {
-					"LP", "#P", "#P", 'P', new ItemStack(Items.PAPER, 1), 'L',
-					new ItemStack(craftLeather,1,1) });
+				I18n.format("page1"),
+				I18n.format("page2"),
+				I18n.format("page3"),
+				I18n.format("page4"),
+				I18n.format("page5"),
+				I18n.format("page6"),
+				I18n.format("page7"),
+				I18n.format("page8"),
+				I18n.format("page9"),
+				I18n.format("page10")
+		};
+
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setString("author", "Rebentar Strepitus");
+		tag.setString("title", "Magic For Beginners");
+
+		NBTTagList taglist = new NBTTagList();
+		for(int i = 0; i < 10;i++){
+			NBTTagString page = new NBTTagString(pages[i]);
+			taglist.appendTag(page);
+		}
+		tag.setTag("pages", taglist);
+
+		ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
+		stack.setTagCompound(tag);
+
+		GameRegistry.addRecipe(stack, new Object[] {
+				"LP", "#P", "#P", 'P', new ItemStack(Items.PAPER, 1), 'L',
+				new ItemStack(craftLeather,1,1) });
 	}
 
 	private static void addToOreDict() {
 		OreDictionary.registerOre("plate", berserker_plate);
 		OreDictionary.registerOre("plate", archer_plate);
-		
+
 		OreDictionary.registerOre("wandCore",Items.GOLD_NUGGET);
 		OreDictionary.registerOre("wandCore",Items.SPECKLED_MELON);
 		OreDictionary.registerOre("wandCore",Items.EMERALD);
@@ -284,30 +285,30 @@ public class BmaItems {
 		OreDictionary.registerOre("wandCore",new ItemStack(Items.FISH,1,2));
 		OreDictionary.registerOre("wandCore",new ItemStack(Items.FISH,1,3));
 	}
-	
+
 	private static void addWandRecipe(){
-		
+
 		NonNullList<ItemStack> wandRecipeItems = OreDictionary.getOres("wandCore");
-		
+
 		for(int i = 0; i < wandRecipeItems.size(); i++){
 			ItemStack o1 = wandRecipeItems.get(i);
 			for(int j = 0; j < wandRecipeItems.size(); j++){
 				ItemStack o2 = wandRecipeItems.get(j);
-				
+
 				if(o1.equals(o2))
 					continue; //if both are the same item, do not register
-				
+
 				ItemStack thewand = new ItemStack(wand_stick);
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setString("core", o1.getDisplayName()+" and "+o2.getDisplayName());
 				thewand.setTagCompound(tag);
-				
+
 				GameRegistry.addRecipe(thewand, new Object[] {
 						"X##","#S#","##Z", 'S', Items.STICK, 'X', o1, 'Z', o2});
 			}
 		}
 	}
-	
+
 	private static void addArmorRecipe(){
 		String [][] recipePatterns = new String[][] { { "XXX", "X X" },
 			{ "X X", "XXX", "XXX" }, { "XXX", "X X", "X X" },
