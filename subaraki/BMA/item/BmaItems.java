@@ -288,7 +288,7 @@ public class BmaItems {
 	
 	private static void addWandRecipe(){
 		
-		NonNullList<ItemStack> wandRecipeItems =OreDictionary.getOres("wandCore");
+		NonNullList<ItemStack> wandRecipeItems = OreDictionary.getOres("wandCore");
 		
 		for(int i = 0; i < wandRecipeItems.size(); i++){
 			ItemStack o1 = wandRecipeItems.get(i);

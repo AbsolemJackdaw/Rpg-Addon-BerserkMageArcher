@@ -25,7 +25,7 @@ public class ItemHammer extends ItemSword{
 
 		ItemStack itemStack = player.getHeldItem(hand);
 		
-		if(!PlayerClass.armorClass(player).isInstanceOf(BmaItems.berserkerClass))
+		if(!PlayerClass.get(player).isPlayerClass(BmaItems.berserkerClass))
 			return super.onItemRightClick(world, player, hand);
 
 		Vec3d vec = player.getLook(1);

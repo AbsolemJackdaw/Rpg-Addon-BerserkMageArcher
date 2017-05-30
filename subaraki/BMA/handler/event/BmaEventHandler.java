@@ -165,9 +165,9 @@ public class BmaEventHandler {
 			return;
 		if(heldItem.getItem().equals(BmaItems.hammer))
 
-			if(PlayerClass.armorClass(player).isInstanceOf(BmaItems.berserkerClass)){
+			if(PlayerClass.get(player).isPlayerClass(BmaItems.berserkerClass)){
 
-				if(PlayerClass.armorClass(player).isShielded()){
+				if(PlayerClass.get(player).isShielded()){
 					if (((player.getFoodStats().getFoodLevel() < 5) || (player.getHealth() < 5)))
 						addEnchantment(Enchantments.KNOCKBACK, 3, heldItem);
 					else

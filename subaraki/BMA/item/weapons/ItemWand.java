@@ -65,7 +65,7 @@ public class ItemWand extends Item {
 			if(player.getCooldownTracker().hasCooldown(this))
 				return false;
 
-			if(!PlayerClass.armorClass(player).isInstanceOf(BmaItems.mageClass))
+			if(!PlayerClass.get(player).isPlayerClass(BmaItems.mageClass))
 				return false;
 			
 			if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Expelliarmus)){
@@ -109,7 +109,7 @@ public class ItemWand extends Item {
 
 		if(player.getCooldownTracker().hasCooldown(this))
 			return false;
-		if(!PlayerClass.armorClass(player).isInstanceOf(BmaItems.mageClass))
+		if(!PlayerClass.get(player).isPlayerClass(BmaItems.mageClass))
 			return false;
 		
 		if(entity instanceof EntityLivingBase){
@@ -141,7 +141,7 @@ public class ItemWand extends Item {
 
 		ItemStack stack = player.getHeldItem(hand);
 		
-		if(!PlayerClass.armorClass(player).isInstanceOf(BmaItems.mageClass))
+		if(!PlayerClass.get(player).isPlayerClass(BmaItems.mageClass))
 			return EnumActionResult.FAIL;
 		
 		if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.AesConverto)){

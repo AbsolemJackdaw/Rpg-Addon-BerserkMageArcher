@@ -68,7 +68,7 @@ public class ItemBowArcher extends Item
 		{
 			EntityPlayer player = (EntityPlayer)entityLiving;
 			
-			if(!PlayerClass.armorClass(player).isInstanceOf(BmaItems.archerClass))
+			if(!PlayerClass.get(player).isPlayerClass(BmaItems.archerClass))
 				return;
 			
 			int i = this.getMaxItemUseDuration(stack) - timeLeft;
@@ -89,7 +89,7 @@ public class ItemBowArcher extends Item
 						spawnArrow(player, worldIn, stack, f, 0);
 
 					else if( time >= 2f && time < 3f)
-						if(PlayerClass.armorClass(player).isShielded())
+						if(PlayerClass.get(player).isShielded())
 							for(int yaw = -4; yaw < 6; yaw+=2)
 								spawnArrow(player, worldIn, stack, f, yaw);
 						else
@@ -111,7 +111,7 @@ public class ItemBowArcher extends Item
 	public void onUsingTick(ItemStack stack, EntityLivingBase elb, int count) {
 		
 		if(elb instanceof EntityPlayer)
-		if(!PlayerClass.armorClass((EntityPlayer)elb).isInstanceOf(BmaItems.archerClass))
+		if(!PlayerClass.get((EntityPlayer)elb).isPlayerClass(BmaItems.archerClass))
 			return;
 
 		if((stack.getMaxItemUseDuration() - elb.getItemInUseCount()) / 20.0F >= 3f)
@@ -135,7 +135,7 @@ public class ItemBowArcher extends Item
 		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemStackIn, worldIn, playerIn, hand, false);
 		if (ret != null) return ret;
 
-		if(!PlayerClass.armorClass(playerIn).isInstanceOf(BmaItems.archerClass))
+		if(!PlayerClass.get(playerIn).isPlayerClass(BmaItems.archerClass))
 			return  new ActionResult(EnumActionResult.FAIL, itemStackIn);
 
 		playerIn.setActiveHand(hand);

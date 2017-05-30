@@ -41,7 +41,7 @@ public class EntityHellArrow extends EntityThrowable{
 		arrows = rand.nextInt(3)+1;
 		this.force = force;
 		if(elb instanceof EntityPlayer)
-			if(PlayerClass.armorClass((EntityPlayer)elb).isShielded()){
+			if(PlayerClass.get((EntityPlayer)elb).isShielded()){
 				attackPower = 3F;
 			}
 	}

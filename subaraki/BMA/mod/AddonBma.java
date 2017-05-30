@@ -19,7 +19,7 @@ import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.proxy.ServerProxy;
 import subaraki.BMA.item.BmaItems;
 
-@Mod(modid = AddonBma.MODID, name = AddonBma.NAME, version = AddonBma.VERSION, dependencies = "required-after:subcommonlib")
+@Mod(modid = AddonBma.MODID, name = AddonBma.NAME, version = AddonBma.VERSION, dependencies = "required-after:subcommonlib@[1.2,)")
 public class AddonBma {
 
 	public static final String MODID = "bma_addon";
