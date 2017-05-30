@@ -153,12 +153,6 @@ public class ClientProxy extends ServerProxy {
 	}
 
 	public static int outsideSphereID;
-	public static int insideSphereID;
-
-	@Override
-	public int getSphereID(boolean isFirstPerson) {
-		return isFirstPerson ? insideSphereID : outsideSphereID;
-	}
 
 	@Override
 	public void registerRenderInformation() {
@@ -192,20 +186,6 @@ public class ClientProxy extends ServerProxy {
 		// Drawing done, unbind our texture
 		// Tell LWJGL that we are done creating our list.
 		GL11.glEndList();
-
-		Sphere sphereInside = new Sphere();
-		sphereInside.setDrawStyle(GLU.GLU_FILL);
-		sphereInside.setNormals(GLU.GLU_NONE);
-		sphereInside.setOrientation(GLU.GLU_INSIDE);
-
-		sphereInside.setTextureFlag(true);
-		insideSphereID = GL11.glGenLists(1);
-		GL11.glNewList(insideSphereID, GL11.GL_COMPILE);
-		GL11.glTranslatef(0.50F, 0.50F, 0.50F);
-
-		sphereInside.draw(0.5F, 12, 24);
-		GL11.glEndList();
-
 	}
 	
 	@Override

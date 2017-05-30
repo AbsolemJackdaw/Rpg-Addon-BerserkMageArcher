@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.handler.event.BmaEventHandler;
+import subaraki.BMA.handler.event.FirstPersonEventHandler;
 import subaraki.BMA.handler.event.SpellHandler;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.proxy.ServerProxy;
@@ -52,6 +53,7 @@ public class AddonBma {
 		new PacketHandler();
 		new EnchantmentHandler();
 		new BmaEventHandler();
+		new FirstPersonEventHandler();
 		
 		new MageDataCapability().register();
 		

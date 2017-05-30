@@ -55,7 +55,6 @@ public class BmaEventHandler {
 		{
 			EntityPlayer player = event.player;
 			transformToWand(player);
-
 		}
 	}
 
@@ -66,15 +65,15 @@ public class BmaEventHandler {
 			calculateBerserkerBonus(event);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onDamage(LivingHurtEvent event){
 		if(event.getEntityLiving() instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)event.getEntityLiving();
-			
+
 			MageIndexData data = MageIndexData.get(player);
-			
+
 			if(data.isProtectedByMagic())
 			{
 				event.setAmount(event.getAmount()/4f); //decreased by 75%
@@ -82,13 +81,13 @@ public class BmaEventHandler {
 
 				if(data.getShieldCapacity() <= 0)
 					data.setProtectedByMagic(false);
-				
+
 				if(player instanceof EntityPlayerMP)
 					PacketHandler.NETWORK.sendTo(new CSyncShieldPacket(data.getShieldCapacity() > 0, data.getShieldCapacity()), (EntityPlayerMP)player);
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onCapabilityAttach(AttachCapabilitiesEvent.Entity event){
 		final Entity entity = event.getEntity();
@@ -144,6 +143,8 @@ public class BmaEventHandler {
 	/**sets the index for the player that determines what kind of mage wand he has*/
 	private void setMageIndex(EntityPlayer player){
 
+		MageIndexData data = MageIndexData.get(player);
+		
 		String playerName = player.getDisplayNameString();
 		String name = playerName.substring(0, 4); //only get the four first letters
 		//a reference alphabet for index retrieving
@@ -174,11 +175,17 @@ public class BmaEventHandler {
 		AddonBma.log.info("Mage Index Calculated for " + name + ". Values are :");
 		AddonBma.log.info(mageIdentifier + " " + mid_mageIndex + " " + mageIndex + " " + coreIndex);
 
-		player.getCapability(MageDataCapability.CAPABILITY, null).setMageIndex(mageIndex);
-		player.getCapability(MageDataCapability.CAPABILITY, null).setCoreIndex(coreIndex);
+		data.setMageIndex(mageIndex);
+		data.setCoreIndex(coreIndex);
 
 		if (!player.world.isRemote)
-			PacketHandler.NETWORK.sendTo(new CSyncMageIndexPacket(coreIndex,mageIndex), (EntityPlayerMP) player);
+		{
+			if(player instanceof EntityPlayerMP)
+			{
+				PacketHandler.NETWORK.sendTo(new CSyncShieldPacket(data.getShieldCapacity() > 0, data.getShieldCapacity()), (EntityPlayerMP)player);
+				PacketHandler.NETWORK.sendTo(new CSyncMageIndexPacket(coreIndex,mageIndex), (EntityPlayerMP) player);
+			}
+		}
 	}
 
 	private void calculateBerserkerBonus(LivingUpdateEvent event){

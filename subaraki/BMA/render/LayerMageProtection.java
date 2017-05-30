@@ -2,9 +2,7 @@ package subaraki.BMA.render;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,8 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import subaraki.BMA.capability.MageIndexData;
+import subaraki.BMA.handler.proxy.ClientProxy;
 import subaraki.BMA.mod.AddonBma;
-import subaraki.rpginventory.mod.RpgInventory;
 
 public class LayerMageProtection implements LayerRenderer<AbstractClientPlayer>{
 
@@ -31,7 +29,7 @@ public class LayerMageProtection implements LayerRenderer<AbstractClientPlayer>{
 
 		if(data.isProtectedByMagic())
 		{
-			renderMantle(entitylivingbaseIn, false);
+			renderMantle(entitylivingbaseIn);
 		}
 	}
 
@@ -42,7 +40,7 @@ public class LayerMageProtection implements LayerRenderer<AbstractClientPlayer>{
 
 	private int rotation;
 
-	private void renderMantle(EntityPlayer player, boolean isFirstPerson) {
+	private void renderMantle(EntityPlayer player) {
 
 		ResourceLocation shield = new ResourceLocation(AddonBma.MODID+":textures/item/talisman.png");
 
@@ -57,13 +55,13 @@ public class LayerMageProtection implements LayerRenderer<AbstractClientPlayer>{
 		int health = data.getShieldCapacity();
 		float scaled = (float)health * 0.15f; //40 * 0.15 = 6 
 		float max = 360 / (int)scaled; //360 / 6 = 60 
+		
 		for(float i = 0; i < 360 ; i+= max)
 		{
 			GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
 
 			GL11.glPushMatrix();
-			//Vec3d vec = player.getVectorForRotation(0, i + player.rotationYawHead);
-			
+
 			float yaw = i;
 					
 			float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
@@ -87,13 +85,12 @@ public class LayerMageProtection implements LayerRenderer<AbstractClientPlayer>{
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
 			GL11.glRotatef(rotation, 1F, 1F, 1F);
 
-			GL11.glCallList(AddonBma.proxy.getSphereID(false));
+			GL11.glCallList(ClientProxy.outsideSphereID);
 
 			GL11.glColor4f(1, 1, 1, 1);
 
 			GL11.glPopMatrix();
 			GL11.glPopAttrib();	
 		}
-
 	}
 }

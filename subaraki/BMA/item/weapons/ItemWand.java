@@ -87,7 +87,6 @@ public class ItemWand extends Item {
 			else if (AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.ContegoAspida))
 			{
 				MageIndexData data = MageIndexData.get(player);
-
 				if(!player.world.isRemote)
 				{
 					if(!data.isProtectedByMagic())
