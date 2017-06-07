@@ -5,20 +5,13 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Sphere;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;
 import subaraki.BMA.entity.EntityHammerSmash;
@@ -27,11 +20,11 @@ import subaraki.BMA.entity.RenderAugolustra;
 import subaraki.BMA.entity.RenderExpelliarmus;
 import subaraki.BMA.entity.RenderHammerSmash;
 import subaraki.BMA.entity.RenderHellArrow;
+import subaraki.BMA.handler.event.ClientEventsHandler;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.item.armor.model.ModelArcherArmor;
 import subaraki.BMA.item.armor.model.ModelBerserkerArmor;
 import subaraki.BMA.item.armor.model.ModelMageArmor;
-import subaraki.BMA.mod.AddonBma;
 import subaraki.BMA.render.LayerMageProtection;
 
 public class ClientProxy extends ServerProxy {
@@ -86,36 +79,7 @@ public class ClientProxy extends ServerProxy {
 	}
 
 	public void registerClientEvents(){
-		MinecraftForge.EVENT_BUS.register(this);
-	}
-
-	@SubscribeEvent
-	public void overlay(RenderGameOverlayEvent event){
-
-		if(!event.getType().equals(ElementType.HOTBAR))
-			return;
-
-		GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
-		EntityPlayer player = Minecraft.getMinecraft().player;
-
-		int x = event.getResolution().getScaledWidth();
-		int y = event.getResolution().getScaledHeight();
-
-		int x1 = x/2 - 90 + 9 * 20 + 5;
-		int y1 = y - 20;
-
-		String spokenSpell = " ¸¸.•*|*•.¸¸ ";
-
-		if(player.getHeldItem(EnumHand.MAIN_HAND)== null || ! player.getHeldItem(EnumHand.MAIN_HAND).getItem().equals(BmaItems.wand))
-			return;
-
-		String spell = AddonBma.spells.getSpokenSpell(player);
-
-		if(spell != null && spell.length() > 4)
-			spokenSpell = spell;
-
-		gui.drawString(gui.getFontRenderer(), TextFormatting.ITALIC+spokenSpell, x1,y1, 0xffffff);
-
+		new ClientEventsHandler();
 	}
 
 	@Override
@@ -187,7 +151,7 @@ public class ClientProxy extends ServerProxy {
 		// Tell LWJGL that we are done creating our list.
 		GL11.glEndList();
 	}
-	
+
 	@Override
 	public void addRenderLayers(){
 
