@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.handler.event.BmaEventHandler;
-import subaraki.BMA.handler.event.FirstPersonEventHandler;
+import subaraki.BMA.handler.event.ClientEventsHandler;
 import subaraki.BMA.handler.event.SpellHandler;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.proxy.ServerProxy;
@@ -25,7 +25,7 @@ public class AddonBma {
 
 	public static final String MODID = "bma_addon";
 	public static final String NAME = "Berserker, Mage, Archer Addon for Rpg Inventory";
-	public static final String VERSION = "1.11.2 4.0.1.0";
+	public static final String VERSION = "1.11.2 4.0.2.0";
 
 	@SidedProxy(clientSide = "subaraki.BMA.handler.proxy.ClientProxy", serverSide = "subaraki.BMA.handler.proxy.ServerProxy")
 	public static ServerProxy proxy;
@@ -53,7 +53,7 @@ public class AddonBma {
 		new PacketHandler();
 		new EnchantmentHandler();
 		new BmaEventHandler();
-		new FirstPersonEventHandler();
+		
 		
 		new MageDataCapability().register();
 		
