@@ -89,9 +89,11 @@ public class ItemWand extends Item {
 				MageIndexData data = MageIndexData.get(player);
 				if(!player.world.isRemote)
 				{
-					if(!data.isProtectedByMagic())
+					int cap = 20+player.world.rand.nextInt(21);
+						
+					if(!data.isProtectedByMagic() || cap > data.getShieldCapacity()) //allow for a refresh without the shield having to be worn out
 					{
-						int cap = 20+player.world.rand.nextInt(20);
+						
 						data.setShieldCapacity(cap);
 						data.setProtectedByMagic(true);
 

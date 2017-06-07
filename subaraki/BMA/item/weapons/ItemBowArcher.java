@@ -25,36 +25,38 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.item.BmaItems;
+import subaraki.BMA.mod.AddonBma;
 
 public class ItemBowArcher extends Item
 {
 	public ItemBowArcher()
 	{
 		this.maxStackSize = 1;
-		this.addPropertyOverride(new ResourceLocation("pull_archer"), new IItemPropertyGetter()
+
+		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":shenanigans"), new IItemPropertyGetter()
 		{
-			@SideOnly(Side.CLIENT)
+			@SideOnly(Side.CLIENT)@Override
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
 			{
-				if (entityIn == null)
-				{
-					return 0.0F;
-				}
-				else
-				{
-					ItemStack itemstack = entityIn.getActiveItemStack();
-					float timer = itemstack != ItemStack.EMPTY && itemstack.getItem() == BmaItems.bow ? (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F : 0.0F;
-
-					return timer;
-				}
+				return 5F;
 			}
 		});
-		this.addPropertyOverride(new ResourceLocation("pulling_archer"), new IItemPropertyGetter()
+		
+		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":pulling_archer"), new IItemPropertyGetter()
 		{
-			@SideOnly(Side.CLIENT)
+			@SideOnly(Side.CLIENT)@Override
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
 			{
-				return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
+					return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
+			}
+		});
+
+		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":pull_archer"), new IItemPropertyGetter()
+		{
+			@SideOnly(Side.CLIENT) @Override
+			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
+			{
+                return entityIn == null ? 0.0F : (entityIn.getActiveItemStack().getItem() != BmaItems.bow ? 0.0F : (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F);
 			}
 		});
 	}
@@ -62,15 +64,16 @@ public class ItemBowArcher extends Item
 	/**
 	 * Called when the player stops using an Item (stops holding the right mouse button).
 	 */
+	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
 	{
 		if (entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)entityLiving;
-			
+
 			if(!PlayerClass.get(player).isPlayerClass(BmaItems.archerClass))
 				return;
-			
+
 			int i = this.getMaxItemUseDuration(stack) - timeLeft;
 			i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, (EntityPlayer)entityLiving, i, true);
 			if (i < 0) return;
@@ -109,10 +112,10 @@ public class ItemBowArcher extends Item
 
 	@Override
 	public void onUsingTick(ItemStack stack, EntityLivingBase elb, int count) {
-		
+
 		if(elb instanceof EntityPlayer)
-		if(!PlayerClass.get((EntityPlayer)elb).isPlayerClass(BmaItems.archerClass))
-			return;
+			if(!PlayerClass.get((EntityPlayer)elb).isPlayerClass(BmaItems.archerClass))
+				return;
 
 		if((stack.getMaxItemUseDuration() - elb.getItemInUseCount()) / 20.0F >= 3f)
 			if(elb.world.isRemote){
@@ -129,17 +132,19 @@ public class ItemBowArcher extends Item
 
 	}
 
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
+		ItemStack stack = playerIn.getHeldItem(hand);
 
-		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemStackIn, worldIn, playerIn, hand, false);
+		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(stack, worldIn, playerIn, hand, false);
 		if (ret != null) return ret;
 
 		if(!PlayerClass.get(playerIn).isPlayerClass(BmaItems.archerClass))
-			return  new ActionResult(EnumActionResult.FAIL, itemStackIn);
+			return  new ActionResult(EnumActionResult.FAIL, stack);
 
 		playerIn.setActiveHand(hand);
-		return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+		return new ActionResult(EnumActionResult.SUCCESS, stack);
 	}
 	/**
 	 * Gets the velocity of the arrow entity from the bow's charge
@@ -160,6 +165,7 @@ public class ItemBowArcher extends Item
 	/**
 	 * How long it takes to use or consume an item
 	 */
+	@Override
 	public int getMaxItemUseDuration(ItemStack stack)
 	{
 		return 72000;
@@ -168,6 +174,7 @@ public class ItemBowArcher extends Item
 	/**
 	 * returns the action that specifies what animation to play when the items is being used
 	 */
+	@Override
 	public EnumAction getItemUseAction(ItemStack stack)
 	{
 		//		System.out.println(RpgInventory.playerClass);
@@ -180,6 +187,7 @@ public class ItemBowArcher extends Item
 	/**
 	 * Return the enchantability factor of the item, most of the time is based on material.
 	 */
+	@Override
 	public int getItemEnchantability()
 	{
 		return 0;
@@ -205,7 +213,7 @@ public class ItemBowArcher extends Item
 			world.spawnEntity(arrow);
 		}
 	}
-	
+
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return repair.getItem().equals(Items.EMERALD) ? true : super.getIsRepairable(toRepair, repair);

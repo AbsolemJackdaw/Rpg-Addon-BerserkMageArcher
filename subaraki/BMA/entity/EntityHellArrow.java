@@ -32,7 +32,7 @@ public class EntityHellArrow extends EntityThrowable{
 
 		arrows = rand.nextInt(3)+1;
 		force = prevArrow.getForce();
-		attackPower = prevArrow.getAttackPower()+1.8F;
+		attackPower = prevArrow.getAttackPower()+1.9F;
 	}
 
 	public EntityHellArrow(World worldIn, EntityLivingBase elb, float force){
