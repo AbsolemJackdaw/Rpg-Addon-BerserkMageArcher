@@ -32,31 +32,22 @@ public class ItemBowArcher extends Item
 	public ItemBowArcher()
 	{
 		this.maxStackSize = 1;
-
-		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":shenanigans"), new IItemPropertyGetter()
+		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":pull_amount"), new IItemPropertyGetter()
 		{
-			@SideOnly(Side.CLIENT)@Override
+			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
 			{
-				return 5F;
+				float value = entityIn == null ? 0.0F : (entityIn.getActiveItemStack().getItem() != BmaItems.bow ? 0.0F : (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F);
+				return value;
 			}
 		});
-		
-		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":pulling_archer"), new IItemPropertyGetter()
+		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":ispulling"), new IItemPropertyGetter()
 		{
-			@SideOnly(Side.CLIENT)@Override
+			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
 			{
-					return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
-			}
-		});
-
-		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":pull_archer"), new IItemPropertyGetter()
-		{
-			@SideOnly(Side.CLIENT) @Override
-			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
-			{
-                return entityIn == null ? 0.0F : (entityIn.getActiveItemStack().getItem() != BmaItems.bow ? 0.0F : (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F);
+				float value = entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
+				return value;
 			}
 		});
 	}
@@ -177,10 +168,6 @@ public class ItemBowArcher extends Item
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		//		System.out.println(RpgInventory.playerClass);
-		//		if(!RpgInventory.playerClass.contains(BmaItems.archerClass))
-		//			return EnumAction.NONE;
-
 		return EnumAction.BOW;
 	}
 
