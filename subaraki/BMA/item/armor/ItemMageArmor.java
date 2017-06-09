@@ -47,6 +47,6 @@ public class ItemMageArmor extends ModeledArmor {
 
 	@Override
 	public Item getLinkedShieldItem() {
-		return Items.ACACIA_BOAT;
+		return Items.AIR;
 	}
 }
