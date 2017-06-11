@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.network.CSyncSpellListPacket;
+import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.item.weapons.ItemWand;
 
 public class SpellHandler {

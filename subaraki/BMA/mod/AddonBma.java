@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.handler.event.BmaEventHandler;
-import subaraki.BMA.handler.event.ClientEventsHandler;
 import subaraki.BMA.handler.event.SpellHandler;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.proxy.ServerProxy;

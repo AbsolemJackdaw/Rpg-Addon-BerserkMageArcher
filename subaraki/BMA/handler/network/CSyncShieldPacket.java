@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.mod.AddonBma;
 

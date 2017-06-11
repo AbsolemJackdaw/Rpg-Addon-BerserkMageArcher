@@ -26,12 +26,10 @@ import net.minecraft.world.World;
 import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;
-import subaraki.BMA.handler.network.CSyncMageIndexPacket;
 import subaraki.BMA.handler.network.CSyncShieldPacket;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
-import subaraki.rpginventory.mod.RpgInventory;
 
 public class ItemWand extends Item {
 
