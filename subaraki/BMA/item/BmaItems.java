@@ -96,8 +96,8 @@ public class BmaItems {
 		crossbow = (ItemCrossBow) new ItemCrossBow().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".crossbow").setRegistryName("crossbow");
 		wand = (ItemWand) new ItemWand().setCreativeTab(tab);
 
-		dart = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":dart").setRegistryName("dart");
-		headless_arrow = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":headless_arrow").setRegistryName("headless_arrow");
+		dart = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".dart").setRegistryName("dart");
+		headless_arrow = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".headless_arrow").setRegistryName("headless_arrow");
 		archer_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".archer_plate").setRegistryName("archer_plate");
 		berserker_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".berserker_plate").setRegistryName("berserker_plate");
 

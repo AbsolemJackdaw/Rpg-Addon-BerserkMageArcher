@@ -41,6 +41,10 @@ entity.bma_addon.HammerSmash.name=a Massive Hammer
 enchantment.wand_enchantment=Arcane Affinity
 itemGroup.BmaTab=Berserker,Mage,Archer
 
+item.bma_addon.dart.name=Dart
+item.bma_addon.headless_arrow.name=Headless Arrow
+item.bma_addon.crossbow.name=Crossbow
+
 #book
 
 page1title=Chapter One:

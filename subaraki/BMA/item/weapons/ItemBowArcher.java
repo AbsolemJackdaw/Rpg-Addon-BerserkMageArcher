@@ -102,7 +102,7 @@ public class ItemBowArcher extends Item
 							//8/2 = 4 
 							//-4, -2 , 0 , 2 , 4 = 5 arrows
 							//so count = arrows / 2 + 1
-							int arrows = (int) (arrowPower / 1.5f) ;
+							int arrows = (int) (arrowPower / 2f) ;
 							if (arrows > arrowStack.getCount())
 								arrows = arrowStack.getCount()*2-2;
 
@@ -150,10 +150,10 @@ public class ItemBowArcher extends Item
 
 				for(int i = 0; i < 5; i++)
 					world.spawnParticle(EnumParticleTypes.FLAME, 
-							elb.posX + (0.5D + world.rand.nextDouble()*2) - 1.25D, 
-							elb.posY + world.rand.nextDouble(), 
-							elb.posZ + (0.5D + world.rand.nextDouble()*2) - 1.25D,
-							0, 0, 0, new int[0]);
+							elb.posX + 0.25d+(world.rand.nextDouble()*2) - 1.25D, 
+							elb.posY , 
+							elb.posZ + 0.25d+(world.rand.nextDouble()*2) - 1.25D,
+							0, 0.1d, 0, new int[0]);
 			}
 	}
 

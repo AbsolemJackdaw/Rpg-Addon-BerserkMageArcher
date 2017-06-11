@@ -41,6 +41,9 @@ entity.bma_addon.HammerSmash.name=Rage Breaker
 enchantment.wand_enchantment=Arcane Affinity
 itemGroup.BmaTab=Berserker,Mage and Archer Classes
 
+item.bma_addon.dart.name=Dart
+item.bma_addon.headless_arrow.name=Headless Arrow
+item.bma_addon.crossbow.name=Crossbow
 
 #book
 
