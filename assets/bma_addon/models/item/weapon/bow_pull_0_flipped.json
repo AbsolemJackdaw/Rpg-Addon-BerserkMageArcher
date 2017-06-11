@@ -1,106 +1,10 @@
 {
-    "textures": {
-        "0": "bma_addon:models/item/bow_colors"
+   "parent": "bma_addon:item/weapon/archer_bow_flipped",
+ 
+   "textures": {
+        "0": "bma_addon:models/item/bow_colors",
+        "1": "bma_addon:models/item/bow_arrow"
     },
-     "display": {
-        "gui": {
-            "rotation": [ 0,90,0 ],
-            "translation": [ 0, 0, 0 ],
-            "scale": [ 1,1,1 ]
-        },
-        "ground": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ 0, 3, 0],
-            "scale":[ 0.5, 0.5, 0.5 ]
-        },
-        "thirdperson_righthand": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ -1, -2, 0.5 ],
-            "scale": [ 1, 1.2, 1 ]
-        },
-        "thirdperson_lefthand": {
-            "rotation": [ 0, 0, 0 ],
-            "translation": [ -1, -2, 0.5 ],
-            "scale": [ 1, 1.2, 1 ]
-        },
-        "firstperson_righthand": {
-            "rotation": [ 25, 0, 0 ],
-            "translation": [ 1.13, 3.2, -2.13],
-            "scale": [ 1, 1.2, 1 ]
-        },
-        "firstperson_lefthand": {
-            "rotation": [ 25, 0, 0 ],
-            "translation": [ 1.13, 3.2, -2.13],
-            "scale": [ 1, 1.2, 1 ]
-        }
-    },
-     "overrides": [
-        {
-            "predicate": {
-                "bma_addon:pull_amount": 0.0,
-                "bma_addon:ispulling": 0,
-                "bma_addon:flipped": 1
-            },
-            "model": "bma_addon:item/weapon/archer_bow_flipped"
-        },
-        {
-            "predicate": {
-                "bma_addon:pull_amount": 0.0,
-                "bma_addon:ispulling": 1,
-                "bma_addon:flipped": 0
-            },
-            "model": "bma_addon:item/weapon/bow_pull_0"
-        },
-        {
-            "predicate": {
-                "bma_addon:pull_amount": 0.0,
-                "bma_addon:ispulling": 1,
-                "bma_addon:flipped": 1
-            },
-            "model": "bma_addon:item/weapon/bow_pull_0_flipped"
-        },
-        
-        {
-            "predicate": {
-                "bma_addon:pull_amount": 0.65,
-                "bma_addon:ispulling": 1,
-                "bma_addon:flipped": 0
-            },
-            "model": "bma_addon:item/weapon/bow_pull_1"
-        },
-        {
-            "predicate": {
-                "bma_addon:pull_amount": 0.65,
-                "bma_addon:ispulling": 1,
-                "bma_addon:flipped": 1
-            },
-            "model": "bma_addon:item/weapon/bow_pull_1_flipped"
-        },
-        {
-            "predicate": {
-                "bma_addon:pull_amount": 0.9,
-                "bma_addon:ispulling": 1,
-                "bma_addon:flipped": 0
-            },
-            "model": "bma_addon:item/weapon/bow_pull_2"
-        },
-        {
-            "predicate": {
-                "bma_addon:pull_amount": 0.9,
-                "bma_addon:ispulling": 1,
-                "bma_addon:flipped": 1
-            },
-            "model": "bma_addon:item/weapon/bow_pull_2_flipped"
-        },
-        {
-            "predicate": {
-                "bma_addon:pull_amount": 1.5,
-                "bma_addon:ispulling": 1,
-                "bma_addon:flipped": 1
-            },
-            "model": "bma_addon:item/weapon/bow_pull_3_flipped"
-        }
-    ],
     "elements": [
         {
             "name": "Handle",
@@ -350,7 +254,33 @@
         {
             "name": "String",
             "from": [ 7.9, 2.0, 13.0 ], 
+            "to": [ 8.1, 8.2, 13.2 ], 
+            "rotation": { "origin": [ 8.0, 2.0, 13.0 ], "axis": "x", "angle": 22.5 },
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 5.0, 2.0, 5.2, 14.0 ] },
+                "east": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] },
+                "south": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] },
+                "west": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] }
+            }
+        },
+        {
+            "name": "Arrow",
+            "from": [ 7.8, 8.0, 2.1 ], 
+            "to": [ 8.2, 8.4, 14.1 ], 
+            "faces": {
+                "north": { "texture": "#1", "uv": [ 3.0, 7.0, 3.4, 4.4 ] },
+                "east": { "texture": "#1", "uv": [ 1.0, 2.0, 1.4, 13.0 ], "rotation": 90 },
+                "south": { "texture": "#1", "uv": [ 3.0, 1.0, 3.4, 1.4 ] },
+                "west": { "texture": "#1", "uv": [ 2.0, 0.0, 2.4, 12.0 ], "rotation": 90 },
+                "up": { "texture": "#1", "uv": [ 3.0, 0.0, 3.4, 12.0 ] },
+                "down": { "texture": "#1", "uv": [ 2.0, 2.0, 2.4, 14.0 ] }
+            }
+        },
+        {
+            "name": "String_top",
+            "from": [ 7.9, 8.0, 13.0 ], 
             "to": [ 8.1, 14.0, 13.2 ], 
+            "rotation": { "origin": [ 8.0, 14.0, 13.0 ], "axis": "x", "angle": -22.5 },
             "faces": {
                 "north": { "texture": "#0", "uv": [ 5.0, 2.0, 5.2, 14.0 ] },
                 "east": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] },
@@ -358,5 +288,5 @@
                 "west": { "texture": "#0", "uv": [ 5.0, 0.0, 5.2, 12.0 ] }
             }
         }
-    ]    
+    ]
 }

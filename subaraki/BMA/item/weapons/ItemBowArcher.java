@@ -13,6 +13,7 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -29,6 +30,8 @@ import subaraki.BMA.mod.AddonBma;
 
 public class ItemBowArcher extends Item
 {
+	private boolean isFlipped;
+
 	public ItemBowArcher()
 	{
 		this.maxStackSize = 1;
@@ -50,6 +53,14 @@ public class ItemBowArcher extends Item
 				return value;
 			}
 		});
+		this.addPropertyOverride(new ResourceLocation(AddonBma.MODID+":flipped"), new IItemPropertyGetter()
+		{
+			@SideOnly(Side.CLIENT)
+			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
+			{
+				return stack.getItem() == BmaItems.bow && ((ItemBowArcher)stack.getItem()).isFlipped() ? 1F : 0F;
+			}
+		});
 	}
 
 	/**
@@ -62,39 +73,64 @@ public class ItemBowArcher extends Item
 		{
 			EntityPlayer player = (EntityPlayer)entityLiving;
 
+			ItemStack arrowStack = this.findAmmo((EntityPlayer) entityLiving);
+
 			if(!PlayerClass.get(player).isPlayerClass(BmaItems.archerClass))
+				return;
+			if(arrowStack.isEmpty())
 				return;
 
 			int i = this.getMaxItemUseDuration(stack) - timeLeft;
 			i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, (EntityPlayer)entityLiving, i, true);
 			if (i < 0) return;
 
-			float f = getArrowVelocity(i)*2f;
-			if(f > 1f)
-				f=1f;
+			float arrowPower = getArrowVelocity(i)*2f;
 
-			if ((double)f >= 0.1D)
+			ItemBowArcher bow = (ItemBowArcher) stack.getItem();
+
+			if ((double)arrowPower >= 0.1D)
 			{
 				if (!worldIn.isRemote)
 				{
 					float time = (stack.getMaxItemUseDuration() - entityLiving.getItemInUseCount()) / 20.0F;
 
-					if(time < 2f)
-						spawnArrow(player, worldIn, stack, f, 0);
-
-					else if( time >= 2f && time < 3f)
+					if(time >= 1.5f && bow.isFlipped())
+					{
 						if(PlayerClass.get(player).isShielded())
-							for(int yaw = -4; yaw < 6; yaw+=2)
-								spawnArrow(player, worldIn, stack, f, yaw);
-						else
-							for(int yaw = -2; yaw < 4; yaw+=2)
-								spawnArrow(player, worldIn, stack, f, yaw);
+						{
+							//if arrows = 8, then it would shoot :
+							//8/2 = 4 
+							//-4, -2 , 0 , 2 , 4 = 5 arrows
+							//so count = arrows / 2 + 1
+							int arrows = (int) (arrowPower / 1.5f) ;
+							if (arrows > arrowStack.getCount())
+								arrows = arrowStack.getCount()*2-2;
 
-					else if(time >= 3f)
-						spawnHellArrow(worldIn, player, f);
+							for(int yaw = (-arrows/2); yaw <= (arrows/2); yaw+=2)
+								spawnArrow(player, worldIn, stack, arrowPower > 1F ? 1f : arrowPower, yaw);
+							arrowStack.shrink(arrows/2+1);
+						}
+
+						else
+						{
+							int arrows = arrowStack.getCount() ;
+							if (arrows >= 3)
+								arrows = 4;
+
+							for(int yaw = (-arrows/2); yaw <= (arrows/2); yaw+=2)
+								spawnArrow(player, worldIn, stack, arrowPower > 1F ? 1f : arrowPower, yaw);
+							arrowStack.shrink(arrows/2+1);
+						}
+					}
+
+					else
+					{
+						spawnArrow(player, worldIn, stack, arrowPower > 5F ? 5f : arrowPower, 0);
+						arrowStack.shrink(1);
+					}
 				}
 
-				worldIn.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+				worldIn.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + arrowPower * 0.5F);
 
 				player.addStat(StatList.getObjectUseStats(this));
 			}
@@ -108,7 +144,7 @@ public class ItemBowArcher extends Item
 			if(!PlayerClass.get((EntityPlayer)elb).isPlayerClass(BmaItems.archerClass))
 				return;
 
-		if((stack.getMaxItemUseDuration() - elb.getItemInUseCount()) / 20.0F >= 3f)
+		if(getArrowVelocity((int)((stack.getMaxItemUseDuration() - elb.getItemInUseCount())))*2f >= 4f && !isFlipped)
 			if(elb.world.isRemote){
 				World world = elb.world;
 
@@ -118,9 +154,7 @@ public class ItemBowArcher extends Item
 							elb.posY + world.rand.nextDouble(), 
 							elb.posZ + (0.5D + world.rand.nextDouble()*2) - 1.25D,
 							0, 0, 0, new int[0]);
-
 			}
-
 	}
 
 	@Override
@@ -131,12 +165,26 @@ public class ItemBowArcher extends Item
 		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(stack, worldIn, playerIn, hand, false);
 		if (ret != null) return ret;
 
-		if(!PlayerClass.get(playerIn).isPlayerClass(BmaItems.archerClass))
+		if(!PlayerClass.get(playerIn).isPlayerClass(BmaItems.archerClass) || findAmmo(playerIn).isEmpty())
 			return  new ActionResult(EnumActionResult.FAIL, stack);
-
+		
 		playerIn.setActiveHand(hand);
 		return new ActionResult(EnumActionResult.SUCCESS, stack);
 	}
+
+	@Override
+	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+		if(entityLiving.isSwingInProgress)
+		{
+			if(stack.getItem() == BmaItems.bow && !entityLiving.world.isRemote)
+			{
+				ItemBowArcher bow = (ItemBowArcher)stack.getItem();
+				bow.setFlipped(!bow.isFlipped());
+			}
+		}
+		return super.onEntitySwing(entityLiving, stack);
+	}
+
 	/**
 	 * Gets the velocity of the arrow entity from the bow's charge
 	 */
@@ -144,11 +192,6 @@ public class ItemBowArcher extends Item
 	{
 		float f = (float)charge / 30.0F;
 		f = (f * f + f * 2.0F) / 3.0F;
-
-		if (f > 1.0F)
-		{
-			f = 1.0F;
-		}
 
 		return f;
 	}
@@ -181,16 +224,19 @@ public class ItemBowArcher extends Item
 	}
 
 	private void spawnArrow(EntityPlayer entityplayer, World worldIn, ItemStack stack, float power, float yaw){
+		if(worldIn.isRemote)
+			return;
+		
 		ItemArrow itemarrow = (ItemArrow) Items.ARROW;
 		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(Items.ARROW), entityplayer);
-		entityarrow.setAim(entityplayer, entityplayer.rotationPitch + yaw / 2f, entityplayer.rotationYaw, 0.0F, power * 3.0F, 0.3F);
+		entityarrow.setAim(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * (isFlipped ? 3.0F : 1.5f), power > 1F ? 0.0F : 0.3f);
 
-		if (power> 1.0F)
+		if (power> 1.0F && isFlipped)
 			entityarrow.setIsCritical(true);
-		entityarrow.setDamage(entityarrow.getDamage() + (double)2 * 0.5D + 0.5D);
+		entityarrow.setDamage(entityarrow.getDamage() + 1.5D);
 		entityarrow.setKnockbackStrength(1);
 		stack.damageItem(1, entityplayer);
-		entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
+		entityarrow.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
 		worldIn.spawnEntity(entityarrow);
 	}
 
@@ -204,5 +250,44 @@ public class ItemBowArcher extends Item
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return repair.getItem().equals(Items.EMERALD) ? true : super.getIsRepairable(toRepair, repair);
+	}
+
+	public void setFlipped(boolean isFlipped) {
+		this.isFlipped = isFlipped;
+	}
+
+	public boolean isFlipped() {
+		return isFlipped;
+	}
+
+	private ItemStack findAmmo(EntityPlayer player)
+	{
+		if (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND)))
+		{
+			return player.getHeldItem(EnumHand.OFF_HAND);
+		}
+		else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND)))
+		{
+			return player.getHeldItem(EnumHand.MAIN_HAND);
+		}
+		else
+		{
+			for (int i = 0; i < player.inventory.getSizeInventory(); ++i)
+			{
+				ItemStack itemstack = player.inventory.getStackInSlot(i);
+
+				if (this.isArrow(itemstack))
+				{
+					return itemstack;
+				}
+			}
+
+			return ItemStack.EMPTY;
+		}
+	}
+
+	protected boolean isArrow(ItemStack stack)
+	{
+		return stack.getItem() instanceof ItemArrow;
 	}
 }

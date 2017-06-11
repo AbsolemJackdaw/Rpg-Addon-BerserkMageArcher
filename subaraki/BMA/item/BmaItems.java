@@ -27,6 +27,7 @@ import subaraki.BMA.item.armor.ItemArcherArmor;
 import subaraki.BMA.item.armor.ItemBerserkerArmor;
 import subaraki.BMA.item.armor.ItemMageArmor;
 import subaraki.BMA.item.weapons.ItemBowArcher;
+import subaraki.BMA.item.weapons.ItemCrossBow;
 import subaraki.BMA.item.weapons.ItemHammer;
 import subaraki.BMA.item.weapons.ItemWand;
 import subaraki.BMA.mod.AddonBma;
@@ -45,9 +46,10 @@ public class BmaItems {
 	public static ItemHammer hammer;
 
 	public static ItemBowArcher bow;
+	public static ItemCrossBow crossbow;
 
 	public static ItemWand wand;
-	public static Item wand_stick, archer_plate, berserker_plate;
+	public static Item wand_stick, archer_plate, berserker_plate, dart, headless_arrow;
 
 	public static ItemCraftLeather craftLeather;
 
@@ -91,8 +93,11 @@ public class BmaItems {
 
 		hammer = (ItemHammer) new ItemHammer(BERSERKER).setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".hammer").setRegistryName("hammer");
 		bow = (ItemBowArcher) new ItemBowArcher().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".archer_bow").setRegistryName("archer_bow");
+		crossbow = (ItemCrossBow) new ItemCrossBow().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".crossbow").setRegistryName("crossbow");
 		wand = (ItemWand) new ItemWand().setCreativeTab(tab);
 
+		dart = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":dart").setRegistryName("dart");
+		headless_arrow = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+":headless_arrow").setRegistryName("headless_arrow");
 		archer_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".archer_plate").setRegistryName("archer_plate");
 		berserker_plate = new Item().setCreativeTab(tab).setUnlocalizedName(AddonBma.MODID+".berserker_plate").setRegistryName("berserker_plate");
 
@@ -145,12 +150,16 @@ public class BmaItems {
 		GameRegistry.register(hammer);
 		GameRegistry.register(wand);
 		GameRegistry.register(bow);
+		GameRegistry.register(crossbow);
 
 		GameRegistry.register(wand_stick);
 		GameRegistry.register(craftLeather);
 
 		GameRegistry.register(archer_plate);
 		GameRegistry.register(berserker_plate);
+
+		GameRegistry.register(dart);
+		GameRegistry.register(headless_arrow);
 
 		GameRegistry.register(shield_berserker);
 		GameRegistry.register(shield_archer);
@@ -179,6 +188,9 @@ public class BmaItems {
 
 		registerRender(hammer, "weapon/hammer",mod);
 		registerRender(bow, "weapon/archer_bow",mod);
+		registerRender(crossbow, "weapon/crossbow",mod);
+		
+		registerRender(headless_arrow, "headless_arrow",mod);
 
 		for(int i = 0; i < 16; i++)
 			registerRender(wand, "weapon/wand_"+i, mod, i);
@@ -187,6 +199,7 @@ public class BmaItems {
 		registerRender(berserker_plate, "plate_berserker",mod);
 
 		registerVanillaRender(wand_stick, "stick", 0);
+		registerVanillaRender(dart, "arrow", 0);
 
 		for(int i = 0; i < 3; i++)
 			registerVanillaRender(craftLeather, "leather", i);
@@ -226,6 +239,22 @@ public class BmaItems {
 				"B#S", "RS#", 'E', Items.EMERALD, 'S', Items.STRING,
 				'B', new ItemStack(Blocks.LOG, 1, 2), 'R' , new ItemStack(Blocks.WOOL,1,14) });
 
+		GameRegistry.addRecipe(new ItemStack(crossbow,1),
+				new Object[] { "xxB","xpx","pxx", 'B', Items.BOW, 'p', Blocks.PLANKS });
+		
+		GameRegistry.addRecipe(new ItemStack(Items.ARROW, 8),
+				new Object[] { "HHH","HFH","HHH", 'H', headless_arrow, 'F', Items.FLINT });
+		
+		GameRegistry.addRecipe(new ItemStack(dart, 8),
+				new Object[] { "HHH","HFH","HHH", 'H', headless_arrow, 'F', Items.IRON_INGOT });
+		
+		GameRegistry.addRecipe(new ItemStack(dart,1),
+				new Object[] { " I","H ", 'I', Items.field_191525_da, 'H', headless_arrow });
+		
+		GameRegistry.addRecipe(new ItemStack(headless_arrow,4),
+				new Object[] { "S "," F", 'I', Items.field_191525_da, 'S', Items.STICK, 'F', Items.FEATHER });
+		
+		
 		addWandRecipe();
 
 		//armor

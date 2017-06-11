@@ -13,10 +13,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import subaraki.BMA.entity.EntityAugolustra;
+import subaraki.BMA.entity.EntityDart;
 import subaraki.BMA.entity.EntityExpelliarmus;
 import subaraki.BMA.entity.EntityHammerSmash;
 import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.entity.RenderAugolustra;
+import subaraki.BMA.entity.RenderDart;
 import subaraki.BMA.entity.RenderExpelliarmus;
 import subaraki.BMA.entity.RenderHammerSmash;
 import subaraki.BMA.entity.RenderHellArrow;
@@ -75,6 +77,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityHammerSmash.class, RenderHammerSmash::new);
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityHellArrow.class, RenderHellArrow::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityDart.class, RenderDart::new);
 
 	}
 
@@ -86,7 +89,6 @@ public class ClientProxy extends ServerProxy {
 	public void registerColors(){
 		ItemColors ic = Minecraft.getMinecraft().getItemColors();
 
-		//for capes
 		ic.registerItemColorHandler(
 
 				new IItemColor() {
@@ -108,6 +110,17 @@ public class ClientProxy extends ServerProxy {
 					}
 				}, 
 				BmaItems.craftLeather
+				);
+		
+		ic.registerItemColorHandler(
+
+				new IItemColor() {
+					@Override
+					public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+						return 0x654f2d;
+					}
+				}, 
+				BmaItems.dart
 				);
 	}
 
