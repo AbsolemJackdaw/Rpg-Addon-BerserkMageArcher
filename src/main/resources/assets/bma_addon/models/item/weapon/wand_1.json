@@ -1,0 +1,82 @@
+{
+     "parent":"bma_addon:item/weapon/wand_base",
+    
+    "textures": {
+        "0": "bma_addon:models/item/wand_1_colors",
+        "1": "bma_addon:models/item/wand_wing"
+    },
+    "elements": [
+        {
+            "name": "Wand",
+            "from": [ 7.5, 0.0, 7.5 ], 
+            "to": [ 8.5, 10.0, 8.5 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 3.0, 0.0, 5.0, 16.0 ] },
+                "east": { "texture": "#0", "uv": [ 5.0, 0.0, 7.0, 16.0 ] },
+                "south": { "texture": "#0", "uv": [ 2.0, 0.0, 4.0, 16.0 ] },
+                "west": { "texture": "#0", "uv": [ 4.0, 0.0, 6.0, 16.0 ] },
+                "up": { "texture": "#0", "uv": [ 3.0, 2.0, 5.0, 4.0 ] },
+                "down": { "texture": "#0", "uv": [ 4.0, 0.0, 6.0, 2.0 ] }
+            }
+        },
+        {
+            "name": "WandMiddle",
+            "from": [ 7.7, 10.0, 7.7 ], 
+            "to": [ 8.3, 14.0, 8.3 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 3.0, 8.0, 5.0, 16.0 ] },
+                "east": { "texture": "#0", "uv": [ 3.0, 8.0, 5.0, 16.0 ] },
+                "south": { "texture": "#0", "uv": [ 3.0, 8.0, 5.0, 16.0 ] },
+                "west": { "texture": "#0", "uv": [ 2.0, 1.0, 4.0, 9.0 ] },
+                "up": { "texture": "#0", "uv": [ 2.8, 5.0, 3.4, 6.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 0.6, 0.6 ] }
+            }
+        },
+        {
+            "name": "WandTop",
+            "from": [ 7.8, 14.0, 7.8 ], 
+            "to": [ 8.2, 18.0, 8.2 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 8.0 ] },
+                "east": { "texture": "#0", "uv": [ 5.0, 8.0, 7.0, 16.0 ] },
+                "south": { "texture": "#0", "uv": [ 3.0, 8.0, 5.0, 16.0 ] },
+                "west": { "texture": "#0", "uv": [ 3.0, 8.0, 5.0, 16.0 ] },
+                "up": { "texture": "#0", "uv": [ 3.0, 8.0, 3.4, 8.4 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 0.4, 0.4 ] }
+            }
+        },
+        {
+            "name": "WingLeft",
+            "from": [ 3.5, 4.0, 8.0 ], 
+            "to": [ 7.5, 8.0, 8.01 ], 
+            "rotation": { "origin": [ 8.0, 4.0, 8.0 ], "axis": "z", "angle": 22.5 },
+            "faces": {
+                "north": { "texture": "#1", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
+                "south": { "texture": "#1", "uv": [ 16.0, 0.0, 0.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "WingRight",
+            "from": [ 8.5, 4.0, 8.0 ], 
+            "to": [ 12.5, 8.0, 8.01 ], 
+            "rotation": { "origin": [ 8.0, 4.0, 8.0 ], "axis": "z", "angle": -22.5 },
+            "faces": {
+                "north": { "texture": "#1", "uv": [ 16.0, 0.0, 0.0, 16.0 ] },
+                "south": { "texture": "#1", "uv": [ 0.0, 0.0, 16.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "Cube",
+            "from": [ 7.0, 3.7, 7.0 ], 
+            "to": [ 9.0, 4.7, 9.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 8.0, 5.0, 12.0, 7.0 ] },
+                "east": { "texture": "#0", "uv": [ 8.0, 7.0, 12.0, 9.0 ] },
+                "south": { "texture": "#0", "uv": [ 8.0, 8.0, 12.0, 10.0 ] },
+                "west": { "texture": "#0", "uv": [ 8.0, 10.0, 12.0, 12.0 ] },
+                "up": { "texture": "#0", "uv": [ 8.0, 5.0, 13.0, 10.0 ] },
+                "down": { "texture": "#0", "uv": [ 8.0, 8.0, 12.0, 12.0 ] }
+            }
+        }
+    ]
+}

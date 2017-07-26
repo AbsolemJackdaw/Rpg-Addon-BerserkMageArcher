@@ -1,0 +1,6 @@
+{
+  "parent": "subcommonlib:display/plate/plate",
+    "textures": {
+        "0": "blocks/iron_block"
+    }
+}
