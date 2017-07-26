@@ -1,6 +1,0 @@
-{
-    "parent": "subcommonlib:display/plate/plate",
-    "textures": {
-        "0": "bma_addon:models/item/archer_shield"
-    }
-}
