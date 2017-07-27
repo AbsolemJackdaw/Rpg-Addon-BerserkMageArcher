@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "subaraki",
+	"pattern": [
+        "HHH",
+        "HFH",
+		"HHH"
+    ],
+    "key": {
+        "F": { "item": "minecraft:iron_ingot"},
+		"H": { "item": "bma_addon:headless_arrow"}
+    },
+    "result": {
+        "item": "bma_addon:dart"
+	}
+}

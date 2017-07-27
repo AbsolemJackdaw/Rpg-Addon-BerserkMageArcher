@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "subaraki",
+    "ingredients": [
+         { "item": "minecraft:leather"},
+		 { "item": "minecraft:iron_ingot"},
+		 { "item": "minecraft:wool", "data": 0}
+    ],
+    "result": {
+        "item": "bma_addon:craftLeather",
+		"data": 0
+	}
+}

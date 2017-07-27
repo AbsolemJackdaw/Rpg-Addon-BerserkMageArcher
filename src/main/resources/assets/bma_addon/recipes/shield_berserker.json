@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "subaraki",
+	"pattern": [
+        "pp",
+        "pp",
+		"pp"
+    ],
+    "key": {
+        "p": { "item": "bma_addon:berserker_plate"}
+	},
+    "result": {
+        "item": "bma_addon:archer_plate"
+	}
+}

@@ -1,0 +1,16 @@
+{
+    "type": "bma_addon:book",
+    "group": "subaraki",
+	"pattern": [
+        "lp",
+        " p",
+		" p"
+    ],
+    "key": {
+        "l": { "item": "bma_addon:craftLeather", "data": 1},
+		"p": { "item": "minecraft:paper"}
+    },
+    "result": {
+        "item": "minecraft:written_book"
+	}
+}

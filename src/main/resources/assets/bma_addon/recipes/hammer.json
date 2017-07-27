@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "subaraki",
+	"pattern": [
+        "SWS",
+        " I ",
+        " I "
+    ],
+    "key": {
+        "W": { "item": "minecraft:wool", "data": 1},
+		"I": { "item": "minecraft:iron_ingot"},
+		"S": { "item": "minecraft:iron_block"}
+
+    },
+    "result": {
+        "item": "bma_addon:hammer"
+	}
+}

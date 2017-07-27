@@ -112,9 +112,9 @@ public class ClientEventsHandler {
 			GL11.glRotatef(rotation, 0F, 1F, 0F);
 			
 			GL11.glTranslatef(
-					-0.5f - (float)vec.xCoord*1.5f,
+					-0.5f - (float)vec.x*1.5f,
 					-1.4f,
-					-0.5f - (float)vec.zCoord*1.5f
+					-0.5f - (float)vec.z*1.5f
 					);
 
 			GL11.glScalef(1F, 1F, 1F);

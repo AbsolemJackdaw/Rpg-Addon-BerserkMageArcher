@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "subaraki",
+	"pattern": [
+        "EBW",
+        "B S",
+        "WS "
+    ],
+    "key": {
+        "E": { "item": "minecraft:emerald"},
+		"S": { "ore": "string", "type": "forge:ore_dict"},
+		"B": { "item": "minecraft:log", "data": 2},
+		"W": { "item": "minecraft:wool", "data": 14}
+
+
+    },
+    "result": {
+        "item": "bma_addon:archer_bow"
+	}
+}

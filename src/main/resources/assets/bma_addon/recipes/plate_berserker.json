@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "subaraki",
+	"pattern": [
+        "II",
+        "PP",
+        "II"
+    ],
+    "key": {
+        "P": { "item": "minecraft:planks", "data": 32767},
+		"I": { "item": "minecraft:iron_ingot"}
+    },
+    "result": {
+        "item": "bma_addon:berserker_plate"
+	}
+}

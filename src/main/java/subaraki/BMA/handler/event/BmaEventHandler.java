@@ -88,8 +88,8 @@ public class BmaEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onCapabilityAttach(AttachCapabilitiesEvent.Entity event){
-		final Entity entity = event.getEntity();
+	public void onCapabilityAttach(AttachCapabilitiesEvent event){
+		final Object entity = event.getObject();
 
 		if (entity instanceof EntityPlayer)
 			event.addCapability(CapabilityMageProvider.KEY, new CapabilityMageProvider((EntityPlayer)entity)); 

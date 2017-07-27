@@ -2,8 +2,10 @@ package subaraki.BMA.enchantment;
 
 import com.google.common.base.Predicates;
 
+import lib.item.ItemRegistry;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import subaraki.BMA.item.BmaItems;
 
@@ -17,6 +19,6 @@ public class EnchantmentHandler {
 	}
 	
 	public static void addEnchantings(){
-		GameRegistry.register(wand_enchantment);
+		ForgeRegistries.ENCHANTMENTS.register(wand_enchantment);
 	}
 }

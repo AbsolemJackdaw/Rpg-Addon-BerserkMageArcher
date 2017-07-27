@@ -37,7 +37,7 @@ public class EntityHellArrow extends EntityThrowable{
 
 	public EntityHellArrow(World worldIn, EntityLivingBase elb, float force){
 		super(worldIn, elb);
-		this.setThrowableHeading(elb.getLookVec().xCoord, elb.getLookVec().yCoord, elb.getLookVec().zCoord, force*3.0f, 0f);
+		this.setThrowableHeading(elb.getLookVec().x, elb.getLookVec().y, elb.getLookVec().z, force*3.0f, 0f);
 		arrows = rand.nextInt(3)+1;
 		this.force = force;
 		if(elb instanceof EntityPlayer)

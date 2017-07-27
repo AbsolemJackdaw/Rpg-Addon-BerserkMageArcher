@@ -1,0 +1,6 @@
+{
+  "recipes": {
+    "wand": "subaraki.BMA.handler.recipe.RecipeWand",
+    "book": "subaraki.BMA.handler.recipe.RecipeMageBook"
+  }
+}

@@ -17,7 +17,7 @@ public class EntityAugolustra extends EntityThrowable{
 	}
 	public EntityAugolustra(World worldIn, EntityLivingBase livingBaseIn){
 		super(worldIn, livingBaseIn);
-		this.setThrowableHeading(livingBaseIn.getLookVec().xCoord, livingBaseIn.getLookVec().yCoord, livingBaseIn.getLookVec().zCoord, 1.5f, 0.0f);
+		this.setThrowableHeading(livingBaseIn.getLookVec().x, livingBaseIn.getLookVec().y, livingBaseIn.getLookVec().z, 1.5f, 0.0f);
 	}
 
 	@Override

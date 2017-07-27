@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "subaraki",
+	"pattern": [
+        "  b",
+        " p ",
+        "p  "
+    ],
+    "key": {
+        "b": { "item": "minecraft:bow"},
+		"p": { "item": "minecraft:planks", "data": 32767}
+    },
+    "result": {
+        "item": "bma_addon:crossbow"
+	}
+}

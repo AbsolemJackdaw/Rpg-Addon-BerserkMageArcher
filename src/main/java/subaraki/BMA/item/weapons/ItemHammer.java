@@ -32,7 +32,7 @@ public class ItemHammer extends ItemSword{
 		Vec3d vec = player.getLook(1);
 
 		EntityHammerSmash ehs = new EntityHammerSmash(world);
-		ehs.setLocationAndAngles(player.posX + vec.xCoord*1.5f, player.posY, player.posZ + vec.zCoord*1.5f, player.rotationYaw, player.rotationPitch);
+		ehs.setLocationAndAngles(player.posX + vec.x*1.5f, player.posY, player.posZ + vec.z*1.5f, player.rotationYaw, player.rotationPitch);
 		ehs.setItemStackToSlot(null, itemStack.copy());
 		UUID uuid = player.getUniqueID();
 		ehs.setOwnerId(uuid);

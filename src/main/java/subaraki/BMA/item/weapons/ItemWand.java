@@ -5,6 +5,7 @@ import java.util.Random;
 
 import lib.playerclass.capability.PlayerClass;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,10 +49,10 @@ public class ItemWand extends Item {
 
 
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
 		for (int i = 0; i < 16; ++i)
 		{
-			subItems.add(new ItemStack(itemIn, 1, i));
+			subItems.add(new ItemStack(this, 1, i));
 		}
 	}
 
@@ -88,10 +89,10 @@ public class ItemWand extends Item {
 				if(!player.world.isRemote)
 				{
 					int cap = 20+player.world.rand.nextInt(21);
-						
+
 					if(!data.isProtectedByMagic() || cap > data.getShieldCapacity()) //allow for a refresh without the shield having to be worn out
 					{
-						
+
 						data.setShieldCapacity(cap);
 						data.setProtectedByMagic(true);
 
@@ -222,9 +223,9 @@ public class ItemWand extends Item {
 		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
 	}
 
+	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		if(stack != ItemStack.EMPTY)
 			if(stack.getTagCompound() != null){
 				if(stack.getTagCompound().hasKey("wood") && !tooltip.contains("wood:"))

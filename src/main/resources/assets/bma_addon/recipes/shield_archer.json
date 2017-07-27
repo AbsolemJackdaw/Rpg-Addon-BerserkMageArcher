@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "subaraki",
+	"pattern": [
+        " p ",
+        "pip"
+    ],
+    "key": {
+        "p": { "item": "bma_addon:archer_plate"},
+		"i": { "item": "minecraft:iron_ingot"}
+    },
+    "result": {
+        "item": "bma_addon:archer_plate"
+	}
+}

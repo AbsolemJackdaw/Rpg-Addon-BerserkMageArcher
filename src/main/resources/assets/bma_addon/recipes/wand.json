@@ -1,0 +1,16 @@
+{
+    "type": "bma_addon:wand",
+    "group": "subaraki",
+	"pattern": [
+        "  I",
+        " S ",
+		"I  "
+    ],
+    "key": {
+        "S": { "item": "minecraft:stick"},
+		"I": { "ore": "wandCore", "type": "forge:ore_dict"}
+    },
+    "result": {
+        "item": "bma_addon:wand_stick"
+	}
+}

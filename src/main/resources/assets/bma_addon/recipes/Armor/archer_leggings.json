@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": {
+	  "item": "bma_addon:craftLeather",
+	  "data": 0
+	}
+  },
+  "result": {
+    "item": "bma_addon:archer_legs"
+  }
+}

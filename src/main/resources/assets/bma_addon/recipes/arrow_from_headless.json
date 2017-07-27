@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "subaraki",
+	"pattern": [
+        "HHH",
+        "HFH",
+		"HHH"
+    ],
+    "key": {
+        "F": { "item": "minecraft:flint"},
+		"H": { "item": "bma_addon:headless_arrow"}
+    },
+    "result": {
+        "item": "minecraft:arrow"
+	}
+}

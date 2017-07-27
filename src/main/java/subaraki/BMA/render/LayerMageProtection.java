@@ -73,9 +73,9 @@ public class LayerMageProtection implements LayerRenderer<AbstractClientPlayer>{
 	        GL11.glRotatef(-rotation*2, 0F, 1F, 0F);
 			
 	        GL11.glTranslatef(
-					-0.25f - (float)vec.xCoord,
+					-0.25f - (float)vec.x,
 					-0.25f + 0.5f,
-					-0.25f - (float)vec.zCoord
+					-0.25f - (float)vec.z
 					);
 			
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
