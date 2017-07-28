@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "bma_addon",
+  "name": "BMA",
+  "description": "Equip the armour of your favourite class and crawl in the skin of a Berserker, a Mage or an Archer !",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "url": "https://minecraft.curseforge.com/projects/class-armor-berserker-mage-and-archer",
+  "updateUrl": "https://minecraft.curseforge.com/projects/class-armor-berserker-mage-and-archer/files",
+  "authorList": ["Subaraki"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
