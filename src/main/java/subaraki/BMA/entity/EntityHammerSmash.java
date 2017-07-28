@@ -25,6 +25,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import scala.actors.threadpool.Arrays;
+import subaraki.BMA.config.ConfigurationHandler;
 
 public class EntityHammerSmash extends EntityLivingBase{
 
@@ -148,7 +149,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 				el.motionY =  1.5F;
 				el.motionZ = zdir* (2F);
 
-				el.attackEntityFrom(DamageSource.causeIndirectDamage(this, el),20);
+				el.attackEntityFrom(DamageSource.causeIndirectDamage(this, el), (int) (ConfigurationHandler.instance.hammer_damage*2.5f));
 			}
 			if(getOwner() == null )
 				if(inventory[0] != ItemStack.EMPTY)

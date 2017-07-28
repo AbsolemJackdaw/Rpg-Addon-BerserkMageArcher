@@ -6,6 +6,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import subaraki.BMA.config.ConfigurationHandler;
 
 public class EntityAugolustra extends EntityThrowable{
 
@@ -24,7 +25,7 @@ public class EntityAugolustra extends EntityThrowable{
 	protected void onImpact(RayTraceResult result) {
 		if (!this.world.isRemote){
 			if (result.entityHit != null)
-				result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 5);
+				result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), ConfigurationHandler.instance.augolustra_damage);
 
 			this.setDead();
 		}

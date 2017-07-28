@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import subaraki.BMA.capability.MageDataCapability;
+import subaraki.BMA.config.ConfigurationHandler;
 import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.handler.event.BmaEventHandler;
 import subaraki.BMA.handler.event.SpellHandler;
@@ -42,6 +43,8 @@ public class AddonBma {
 		modMeta.credits = "ZetaHunter and Richard Digits (retired team members)";
 		modMeta.description = "Class Armor for Mage, Berserker and Archer";
 		modMeta.url = "https://github.com/ArtixAllMighty/Rpg-Inventory-2016/wiki";
+
+		ConfigurationHandler.instance.loadConfig(event.getSuggestedConfigurationFile());
 
 		BmaItems.loadItems();
 		

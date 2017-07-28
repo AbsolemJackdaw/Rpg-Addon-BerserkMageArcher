@@ -25,6 +25,8 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import subaraki.BMA.config.AMCC;
+import subaraki.BMA.config.ConfigurationHandler;
 import subaraki.BMA.item.armor.ItemArcherArmor;
 import subaraki.BMA.item.armor.ItemBerserkerArmor;
 import subaraki.BMA.item.armor.ItemMageArmor;
@@ -57,11 +59,15 @@ public class BmaItems {
 
 	public static ItemCustomShield shield_berserker, shield_archer;
 
-	public static final ToolMaterial BERSERKER = EnumHelper.addToolMaterial("rage_hammer", 0, 100, 5, 8, 0);
+	public static final ToolMaterial BERSERKER = EnumHelper.addToolMaterial("rage_hammer", 0, ConfigurationHandler.instance.hammer_uses, 5, 8, 0);
 
-	public static final ArmorMaterial ARMOR_BERSERKER = EnumHelper.addArmorMaterial("berserker", AddonBma.MODID+":berserker", 250, new int[] { 2, 4, 3, 2 }, 10, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0f);
-	public static final ArmorMaterial ARMOR_MAGE = EnumHelper.addArmorMaterial("mage", AddonBma.MODID+":mage", 250, new int[] { 2, 3, 2, 1 }, 25, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
-	public static final ArmorMaterial ARMOR_ARCHER = EnumHelper.addArmorMaterial("archer", AddonBma.MODID+":archer", 250, new int[] { 3, 2, 2, 1 }, 20, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
+	private static AMCC mage = new AMCC(ConfigurationHandler.instance.mage_armor);
+	private static AMCC berserker = new AMCC(ConfigurationHandler.instance.berserker_armor);
+	private static AMCC archer = new AMCC(ConfigurationHandler.instance.archer_armor);
+
+	public static final ArmorMaterial ARMOR_BERSERKER = EnumHelper.addArmorMaterial("berserker", AddonBma.MODID+":berserker",  berserker.getDurability(), berserker.getReduction(), berserker.getEnchantibility(), SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, berserker.getToughness());
+	public static final ArmorMaterial ARMOR_MAGE = EnumHelper.addArmorMaterial("mage", AddonBma.MODID+":mage", mage.getDurability(), mage.getReduction(), mage.getEnchantibility(), SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, mage.getToughness());
+	public static final ArmorMaterial ARMOR_ARCHER = EnumHelper.addArmorMaterial("archer", AddonBma.MODID+":archer", archer.getDurability(), archer.getReduction(), archer.getEnchantibility(), SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, archer.getToughness());
 
 	public static final String berserkerClass = "Berserker";
 	public static final String mageClass = "Mage";

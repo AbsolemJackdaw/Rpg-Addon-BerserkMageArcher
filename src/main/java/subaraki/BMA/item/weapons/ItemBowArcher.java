@@ -23,6 +23,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import subaraki.BMA.config.ConfigurationHandler;
 import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
@@ -232,7 +233,7 @@ public class ItemBowArcher extends Item
 
 		if (power> 1.0F && isFlipped)
 			entityarrow.setIsCritical(true);
-		entityarrow.setDamage(entityarrow.getDamage() + 1.5D);
+		entityarrow.setDamage(entityarrow.getDamage() + ConfigurationHandler.instance.bow_arrow_damage);
 		entityarrow.setKnockbackStrength(1);
 		stack.damageItem(1, entityplayer);
 		entityarrow.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
