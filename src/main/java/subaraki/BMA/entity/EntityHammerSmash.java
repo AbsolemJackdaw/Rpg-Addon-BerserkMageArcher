@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.EnumParticleTypes;
@@ -116,7 +117,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 			world.playSound(posX, posY, posZ, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.NEUTRAL, 0.5F, 0.005F, true);
 
 		if(ticksExisted > 9){
-			
+
 			if(world.isRemote){
 				for(float fx = -6; fx < 6; fx+=0.5f){
 					for(float fz = -6; fz < 6; fz+=0.5f){
@@ -128,20 +129,30 @@ public class EntityHammerSmash extends EntityLivingBase{
 					}
 				}
 			}
-			
+
 			AxisAlignedBB pool = getEntityBoundingBox().expand(6, 2, 6);
 			List<EntityLivingBase> entl = world.getEntitiesWithinAABB(EntityLivingBase.class, pool);
 
-			for(EntityLivingBase el : entl){
+			for(EntityLivingBase el : entl)
+			{
+				MinecraftServer server = getServer();
 				
 				if(el instanceof EntityPlayer)
-					if(((EntityPlayer)el).getUniqueID().equals(getOwnerId()))
+					if(((EntityPlayer)el).getUniqueID().equals(getOwnerId()) ||server != null && server.isPVPEnabled()|| ((EntityPlayer) el).canAttackPlayer(this.getOwner()))
 						continue;
+
 				if(el instanceof EntityHammerSmash)
 					continue;
-				if(el instanceof EntityTameable && ((EntityTameable)el).getOwnerId() != null && ((EntityTameable)el).getOwnerId().equals(getOwnerId()))
-					continue;
-				
+
+				if(el instanceof EntityTameable)
+				{
+					EntityTameable pet = (EntityTameable)el;
+
+					if(pet.getOwnerId() != null)
+						if(pet.getOwnerId().equals(this.getOwnerId()) || pet.getOwner() instanceof EntityPlayer && ((EntityPlayer) pet.getOwner()).canAttackPlayer(this.getOwner()) || server != null && server.isPVPEnabled())
+							continue;
+				}
+
 				double xdir = el.posX - posX;
 				double zdir = el.posZ - posZ;
 
