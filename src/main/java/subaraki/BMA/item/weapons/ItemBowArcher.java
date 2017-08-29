@@ -25,6 +25,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import subaraki.BMA.config.ConfigurationHandler;
 import subaraki.BMA.entity.EntityHellArrow;
+import subaraki.BMA.handler.network.PacketHandler;
+import subaraki.BMA.handler.network.SSyncBowShot;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
 
@@ -40,7 +42,9 @@ public class ItemBowArcher extends Item
 			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
 			{
-				float value = entityIn == null ? 0.0F : (entityIn.getActiveItemStack().getItem() != BmaItems.bow ? 0.0F : (float)(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F);
+				float value = entityIn == null ? 0.0F :
+					(entityIn.getActiveItemStack().getItem() != BmaItems.bow ? 0.0F :
+						(stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / 20.0F);
 				return value;
 			}
 		});
@@ -69,8 +73,13 @@ public class ItemBowArcher extends Item
 	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft)
 	{
+
 		if (entityLiving instanceof EntityPlayer)
 		{
+			//hacky way to fix server/client pullback(timeLeft) desync issue.
+			//this should prevent the server being out of sync with the client cues
+			//send time left data over a packet to the server, and let the packet handle the actual arrow shooting
+			
 			EntityPlayer player = (EntityPlayer)entityLiving;
 
 			ItemStack arrowStack = this.findAmmo((EntityPlayer) entityLiving);
@@ -80,60 +89,15 @@ public class ItemBowArcher extends Item
 			if(arrowStack.isEmpty())
 				return;
 
-			int i = this.getMaxItemUseDuration(stack) - timeLeft;
-			i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, (EntityPlayer)entityLiving, i, true);
-			if (i < 0) return;
+			int pullbackPower = this.getMaxItemUseDuration(stack) - timeLeft;
+			pullbackPower = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, (EntityPlayer)entityLiving, pullbackPower, true);
+			if (pullbackPower < 0) return;
 
-			float arrowPower = getArrowVelocity(i)*2f;
-
-			ItemBowArcher bow = (ItemBowArcher) stack.getItem();
-
-			if ((double)arrowPower >= 0.1D)
-			{
-				if (!worldIn.isRemote)
-				{
-					float time = (stack.getMaxItemUseDuration() - entityLiving.getItemInUseCount()) / 20.0F;
-
-					if(time >= 1.5f && bow.isFlipped())
-					{
-						if(PlayerClass.get(player).isShielded())
-						{
-							//if arrows = 8, then it would shoot :
-							//8/2 = 4 
-							//-4, -2 , 0 , 2 , 4 = 5 arrows
-							//so count = arrows / 2 + 1
-							int arrows = (int) (arrowPower / 2f) ;
-							if (arrows > arrowStack.getCount())
-								arrows = arrowStack.getCount()*2-2;
-
-							for(int yaw = (-arrows/2); yaw <= (arrows/2); yaw+=2)
-								spawnArrow(player, worldIn, stack, arrowPower > 1F ? 1f : arrowPower, yaw);
-							arrowStack.shrink(arrows/2+1);
-						}
-
-						else
-						{
-							int arrows = arrowStack.getCount() ;
-							if (arrows >= 3)
-								arrows = 4;
-
-							for(int yaw = (-arrows/2); yaw <= (arrows/2); yaw+=2)
-								spawnArrow(player, worldIn, stack, arrowPower > 1F ? 1f : arrowPower, yaw);
-							arrowStack.shrink(arrows/2+1);
-						}
-					}
-
-					else
-					{
-						spawnArrow(player, worldIn, stack, arrowPower > 5F ? 5f : arrowPower, 0);
-						arrowStack.shrink(1);
-					}
-				}
-
-				worldIn.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + arrowPower * 0.5F);
-
-				player.addStat(StatList.getObjectUseStats(this));
-			}
+			System.out.println("A. Client ? " + worldIn.isRemote + " " +pullbackPower);
+			
+			if(!worldIn.isRemote)
+				return;
+			PacketHandler.NETWORK.sendToServer(new SSyncBowShot(pullbackPower, stack, arrowStack));
 		}
 	}
 
@@ -167,13 +131,14 @@ public class ItemBowArcher extends Item
 
 		if(!PlayerClass.get(playerIn).isPlayerClass(BmaItems.archerClass) || findAmmo(playerIn).isEmpty())
 			return  new ActionResult(EnumActionResult.FAIL, stack);
-		
+
 		playerIn.setActiveHand(hand);
 		return new ActionResult(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+
 		if(entityLiving.isSwingInProgress)
 		{
 			if(stack.getItem() == BmaItems.bow && !entityLiving.world.isRemote)
@@ -223,22 +188,6 @@ public class ItemBowArcher extends Item
 		return 0;
 	}
 
-	private void spawnArrow(EntityPlayer entityplayer, World worldIn, ItemStack stack, float power, float yaw){
-		if(worldIn.isRemote)
-			return;
-		
-		ItemArrow itemarrow = (ItemArrow) Items.ARROW;
-		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(Items.ARROW), entityplayer);
-		entityarrow.setAim(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * (isFlipped ? 3.0F : 1.5f), power > 1F ? 0.0F : 0.3f);
-
-		if (power> 1.0F && isFlipped)
-			entityarrow.setIsCritical(true);
-		entityarrow.setDamage(entityarrow.getDamage() + ConfigurationHandler.instance.bow_arrow_damage);
-		entityarrow.setKnockbackStrength(1);
-		stack.damageItem(1, entityplayer);
-		entityarrow.pickupStatus = EntityArrow.PickupStatus.ALLOWED;
-		worldIn.spawnEntity(entityarrow);
-	}
 
 	private void spawnHellArrow(World world, EntityPlayer player, float force){
 		if(!world.isRemote){

@@ -7,6 +7,7 @@ import subaraki.BMA.handler.network.CSyncMageIndexPacket.PacketSyncMageIndexHand
 import subaraki.BMA.handler.network.CSyncShieldPacket.CSyncShieldPacketHandler;
 import subaraki.BMA.handler.network.CSyncSpellListPacket.PacketSyncSpellListHandler;
 import subaraki.BMA.handler.network.SPacketExpelliarmus.PacketExpelliarmusHandler;
+import subaraki.BMA.handler.network.SSyncBowShot.SSyncBowShotHandler;
 
 public class PacketHandler {
 
@@ -18,6 +19,7 @@ public class PacketHandler {
 		NETWORK.registerMessage(PacketExpelliarmusHandler.class, SPacketExpelliarmus.class, 1, Side.SERVER);
 		NETWORK.registerMessage(PacketSyncSpellListHandler.class, CSyncSpellListPacket.class, 2, Side.CLIENT);
 		NETWORK.registerMessage(CSyncShieldPacketHandler.class, CSyncShieldPacket.class, 3, Side.CLIENT);
+		NETWORK.registerMessage(SSyncBowShotHandler.class, SSyncBowShot.class, 4, Side.SERVER);
 
 	}
 }
