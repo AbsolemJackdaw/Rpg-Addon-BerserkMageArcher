@@ -4,6 +4,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import subaraki.BMA.item.BmaItems;
 
 public class EnchantmentWand extends Enchantment{
 
@@ -19,7 +20,17 @@ public class EnchantmentWand extends Enchantment{
 	}
 	
 	@Override
+	public int getMaxLevel() {
+		return 1;
+	}
+	
+	@Override
+	public int getMinLevel() {
+		return 1;
+	}
+	
+	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack) {
-		return true;
+		return stack.getItem() == BmaItems.wand_stick ? true : false;
 	}
 }

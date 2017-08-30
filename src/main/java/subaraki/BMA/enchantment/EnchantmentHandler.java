@@ -21,4 +21,6 @@ public class EnchantmentHandler {
 	public static void addEnchantings(){
 		ForgeRegistries.ENCHANTMENTS.register(wand_enchantment);
 	}
+	
+	
 }
