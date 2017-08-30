@@ -107,6 +107,8 @@ public class RecipeMageBook implements IRecipeFactory {
 				bookSpell("page8intro", "page8text", "page8text2"),
 				bookPage("page9title", "page9intro", "page9text"),
 				bookSpell("page10intro", "page10text", "page10text2"),
+				bookPage("page12title", "page12intro", "page12text"),
+				bookSpell("page13title", "page13intro", "page13text"),
 				page11
 		};
 	}

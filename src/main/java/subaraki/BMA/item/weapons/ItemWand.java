@@ -23,10 +23,12 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;
+import subaraki.BMA.entity.EntityFlyingCarpet;
 import subaraki.BMA.handler.network.CSyncShieldPacket;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.item.BmaItems;
@@ -50,10 +52,10 @@ public class ItemWand extends Item {
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		
+
 		if(!this.isInCreativeTab(tab))
 			return;
-		
+
 		for (int i = 0; i < 16; ++i)
 		{
 			subItems.add(new ItemStack(this, 1, i));
@@ -224,10 +226,58 @@ public class ItemWand extends Item {
 			}
 			return EnumActionResult.SUCCESS;
 		}
+
+		else if (AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Permoveo))
+		{
+			System.out.println(world.getBlockState(pos).getBlock());
+
+			if(world.getBlockState(pos).getBlock() == Blocks.CARPET)
+			{
+				EnumFacing carpetSide = null;
+				for(EnumFacing face : EnumFacing.VALUES)
+				{
+					if(face == EnumFacing.UP || face == EnumFacing.DOWN)
+						continue;
+					if(world.getBlockState(pos.offset(face,1)).getBlock() == Blocks.CARPET)
+					{
+						carpetSide = face;
+						break;
+					}
+				}
+
+				System.out.println(carpetSide);
+
+				if(carpetSide != null)
+				{
+
+					System.out.println(world.getBlockState(pos.offset(carpetSide,1)).getBlock());
+
+					int[] meta = new int[]{world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos)),
+							world.getBlockState(pos.offset(carpetSide,1)).getBlock().getMetaFromState(world.getBlockState(pos.offset(carpetSide,1)))};
+
+					world.setBlockToAir(pos);
+					world.setBlockToAir(pos.offset(carpetSide,1));
+
+					Vec3i vec = carpetSide.getDirectionVec();
+					System.out.println(vec);
+					
+					float f = 0.5f;
+					if(vec.getX() > 0 ||vec.getX() < 0)
+						f = -0.5f;
+					
+					EntityFlyingCarpet carpet = new EntityFlyingCarpet(world, pos.getX()-((float)vec.getX()/2f)+f, pos.getY(), pos.getZ()+((float)vec.getZ()/2f)+0.5f);
+					carpet.setMeta(meta[0], meta[1]);
+					carpet.rotationYaw = vec.getZ() > 0 ? 0 : vec.getZ() < 0 ? 180 : vec.getX() > 0 ? 270 : 90;
+					
+					if(!world.isRemote)
+						world.spawnEntity(carpet);
+				}
+			}
+		}
 		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
 	}
 
-	
+
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		if(stack != ItemStack.EMPTY)

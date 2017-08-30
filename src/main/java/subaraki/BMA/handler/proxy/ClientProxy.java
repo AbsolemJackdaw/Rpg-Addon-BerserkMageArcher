@@ -15,11 +15,13 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityDart;
 import subaraki.BMA.entity.EntityExpelliarmus;
+import subaraki.BMA.entity.EntityFlyingCarpet;
 import subaraki.BMA.entity.EntityHammerSmash;
 import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.entity.RenderAugolustra;
 import subaraki.BMA.entity.RenderDart;
 import subaraki.BMA.entity.RenderExpelliarmus;
+import subaraki.BMA.entity.RenderFlyingCarpet;
 import subaraki.BMA.entity.RenderHammerSmash;
 import subaraki.BMA.entity.RenderHellArrow;
 import subaraki.BMA.handler.event.ClientEventsHandler;
@@ -78,6 +80,8 @@ public class ClientProxy extends ServerProxy {
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityHellArrow.class, RenderHellArrow::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityDart.class, RenderDart::new);
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityFlyingCarpet.class, RenderFlyingCarpet::new);
 
 	}
 

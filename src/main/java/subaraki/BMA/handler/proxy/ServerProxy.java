@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityDart;
 import subaraki.BMA.entity.EntityExpelliarmus;
+import subaraki.BMA.entity.EntityFlyingCarpet;
 import subaraki.BMA.entity.EntityHammerSmash;
 import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.mod.AddonBma;
@@ -33,6 +34,7 @@ public class ServerProxy {
 		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","hammersmash"),EntityHammerSmash.class, "hammersmash", 2, AddonBma.MODID, 64, 15, false);
 		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","hellarrow"),EntityHellArrow.class, "hellarrow", 3, AddonBma.MODID, 256, 20, true);
 		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","dart_entity"),EntityDart.class, "dart_entity", 4, AddonBma.MODID, 64, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","flying_carpet"),EntityFlyingCarpet.class, "carpet_entity", 5, AddonBma.MODID, 256, 20, true);
 	}
 
 	public void addRenderLayers() {

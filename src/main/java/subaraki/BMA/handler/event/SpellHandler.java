@@ -22,6 +22,7 @@ public class SpellHandler {
 	public static final String Episkey = "episkey";
 	public static final String ContegoAspida = "contego aspida";
 	public static final String Expelliarmus = "expelliarmus";
+	public static final String Permoveo = "permoveo vestis";
 
 	public SpellHandler() {
 		MinecraftForge.EVENT_BUS.register(this);
@@ -30,6 +31,7 @@ public class SpellHandler {
 		spells.add(Episkey);//heal
 		spells.add(ContegoAspida);//shield spell
 		spells.add(Expelliarmus);//fires a throwable entity, and when it hits a player, tosses weapons out of their hand.
+		spells.add(Permoveo); // turns carpet into a flying carpet
 	}
 
 	@SubscribeEvent
