@@ -1,10 +1,11 @@
-package subaraki.BMA.entity;
+package subaraki.BMA.entity.renders;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import subaraki.BMA.entity.EntityDart;
 import subaraki.BMA.mod.AddonBma;
 
 public class RenderDart extends RenderArrow<EntityDart> implements IRenderFactory{

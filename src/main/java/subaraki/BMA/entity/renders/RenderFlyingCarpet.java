@@ -1,4 +1,4 @@
-package subaraki.BMA.entity;
+package subaraki.BMA.entity.renders;
 
 import static net.minecraft.client.renderer.GlStateManager.*;
 
@@ -13,6 +13,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import subaraki.BMA.entity.EntityFlyingCarpet;
 
 public class RenderFlyingCarpet extends Render<EntityFlyingCarpet> implements IRenderFactory{
 

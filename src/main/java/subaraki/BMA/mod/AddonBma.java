@@ -11,13 +11,15 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import subaraki.BMA.capability.FreezeDataCapability;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.config.ConfigurationHandler;
 import subaraki.BMA.enchantment.EnchantmentHandler;
 import subaraki.BMA.handler.event.BmaEventHandler;
-import subaraki.BMA.handler.event.SpellHandler;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.proxy.ServerProxy;
+import subaraki.BMA.handler.spells.Spell;
+import subaraki.BMA.handler.spells.SpellHandler;
 import subaraki.BMA.item.BmaItems;
 
 @Mod(modid = AddonBma.MODID, name = AddonBma.NAME, version = AddonBma.VERSION, dependencies = "required-after:subcommonlib@[1.2,)")
@@ -30,7 +32,8 @@ public class AddonBma {
 	@SidedProxy(clientSide = "subaraki.BMA.handler.proxy.ClientProxy", serverSide = "subaraki.BMA.handler.proxy.ServerProxy")
 	public static ServerProxy proxy;
 
-	public static SpellHandler spells;
+	public static SpellHandler spellHandler;
+	public static Spell spell;
 
 	public static Logger log = LogManager.getLogger(MODID);
 	
@@ -58,9 +61,12 @@ public class AddonBma {
 		
 		
 		new MageDataCapability().register();
+		new FreezeDataCapability().register();
 		
-		spells = new SpellHandler();
-
+		//new WorldDataHandler.WorldDataHandlerSaveEvent();
+		
+		spellHandler = new SpellHandler();
+		spell = new Spell();
 	}
 	
 	@EventHandler

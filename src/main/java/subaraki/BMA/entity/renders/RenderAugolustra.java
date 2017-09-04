@@ -1,9 +1,10 @@
-package subaraki.BMA.entity;
+package subaraki.BMA.entity.renders;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import subaraki.BMA.entity.EntityAugolustra;
 
 public class RenderAugolustra extends Render<EntityAugolustra> implements IRenderFactory{
 

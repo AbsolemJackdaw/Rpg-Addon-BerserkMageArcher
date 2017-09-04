@@ -1,4 +1,4 @@
-package subaraki.BMA.entity;
+package subaraki.BMA.entity.renders;
 
 import static net.minecraft.client.renderer.GlStateManager.popMatrix;
 import static net.minecraft.client.renderer.GlStateManager.pushMatrix;
@@ -14,6 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import subaraki.BMA.entity.EntityHellArrow;
 
 public class RenderHellArrow extends Render<EntityHellArrow> implements IRenderFactory{
 

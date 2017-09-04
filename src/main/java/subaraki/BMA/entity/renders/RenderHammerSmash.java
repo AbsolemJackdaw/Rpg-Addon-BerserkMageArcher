@@ -1,4 +1,4 @@
-package subaraki.BMA.entity;
+package subaraki.BMA.entity.renders;
 
 import static net.minecraft.client.renderer.GlStateManager.popMatrix;
 import static net.minecraft.client.renderer.GlStateManager.pushMatrix;
@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import subaraki.BMA.entity.EntityHammerSmash;
 import subaraki.BMA.item.BmaItems;
 
 public class RenderHammerSmash extends Render<EntityHammerSmash>{

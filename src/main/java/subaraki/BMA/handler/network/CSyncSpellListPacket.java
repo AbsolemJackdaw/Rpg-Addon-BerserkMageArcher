@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import subaraki.BMA.handler.spells.SpellHandler.EnumSpell;
 import subaraki.BMA.mod.AddonBma;
 
 public class CSyncSpellListPacket implements IMessage {
@@ -37,7 +38,7 @@ public class CSyncSpellListPacket implements IMessage {
 		@Override
 		public IMessage onMessage(CSyncSpellListPacket message, MessageContext ctx) {
 			Minecraft.getMinecraft().addScheduledTask( ()->{
-				AddonBma.spells.addSpokenSpell(message.playerName, message.spell);
+				AddonBma.spellHandler.addSpokenSpell(message.playerName, EnumSpell.fromString(message.spell));
 			});
 			return null;
 		}

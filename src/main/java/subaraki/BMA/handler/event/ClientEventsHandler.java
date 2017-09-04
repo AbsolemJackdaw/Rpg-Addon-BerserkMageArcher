@@ -2,21 +2,29 @@ package subaraki.BMA.handler.event;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.realmsclient.util.Option.None;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent;
+import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import subaraki.BMA.capability.FreezeData;
 import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.handler.proxy.ClientProxy;
+import subaraki.BMA.handler.spells.SpellHandler.EnumSpell;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
 
@@ -29,32 +37,59 @@ public class ClientEventsHandler {
 	@SubscribeEvent
 	public void overlay(RenderGameOverlayEvent event){
 
-		if(!event.getType().equals(ElementType.HOTBAR))
-			return;
+		if(event.getType().equals(ElementType.ALL))
+		{
+			int x = event.getResolution().getScaledWidth();
+			int y = event.getResolution().getScaledHeight();
 
-		GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
-		EntityPlayer player = Minecraft.getMinecraft().player;
+			GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
 
-		int x = event.getResolution().getScaledWidth();
-		int y = event.getResolution().getScaledHeight();
+			if(AddonBma.proxy.getClientMinecraft().world != null)
+			{
+				if(AddonBma.proxy.getClientPlayer() != null)
+				{
+					EntityPlayer player = AddonBma.proxy.getClientPlayer();
+					FreezeData data = FreezeData.get(player);
+					if(data.shouldApplyFreeze())
+					{
+						GlStateManager.enableBlend();
+						AddonBma.proxy.getClientMinecraft().getTextureManager().bindTexture(new ResourceLocation("minecraft:textures/blocks/frosted_ice_0.png"));
+					
+						float alpha = (float)data.getTimer() / (float)data.maxTimer();
+						
+						GlStateManager.color(1f,1f,1f, alpha/2f);
+						gui.drawTexturedModalRect(0, 0, 16, 16, x, y);
+						GlStateManager.disableBlend();
+					}
+				}
+			}
+		}
+		if(event.getType().equals(ElementType.HOTBAR))
+		{
 
-		int x1 = x/2 - 90 + 9 * 20 + 5;
-		int y1 = y - 20;
+			GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
+			EntityPlayer player = Minecraft.getMinecraft().player;
 
-		String spokenSpell = " ¸¸.•*|*•.¸¸ ";
+			int x = event.getResolution().getScaledWidth();
+			int y = event.getResolution().getScaledHeight();
 
-		if(player.getHeldItem(EnumHand.MAIN_HAND)== null || ! player.getHeldItem(EnumHand.MAIN_HAND).getItem().equals(BmaItems.wand))
-			return;
+			int x1 = x/2 - 90 + 9 * 20 + 5;
+			int y1 = y - 20;
 
-		String spell = AddonBma.spells.getSpokenSpell(player);
+			String spokenSpell = " ¸¸.•*|*•.¸¸ ";
 
-		if(spell != null && spell.length() > 4)
-			spokenSpell = spell;
+			if(player.getHeldItem(EnumHand.MAIN_HAND)== null || ! player.getHeldItem(EnumHand.MAIN_HAND).getItem().equals(BmaItems.wand))
+				return;
 
-		gui.drawString(gui.getFontRenderer(), TextFormatting.ITALIC+spokenSpell, x1,y1, 0xffffff);
+			EnumSpell spell = AddonBma.spellHandler.getSpokenSpell(player);
 
+			if(spell != null && spell != EnumSpell.NONE)
+				spokenSpell = spell.getName();
+
+			gui.drawString(gui.getFontRenderer(), TextFormatting.ITALIC+spokenSpell, x1,y1, 0xffffff);
+		}
 	}
-	
+
 	@SubscribeEvent
 	public void firstperson(RenderHandEvent event)
 	{
@@ -86,10 +121,10 @@ public class ClientEventsHandler {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(shield);
 
 		MageIndexData data = MageIndexData.get(player);
-		
+
 		if(data.getShieldCapacity() <= 0)
 			return;
-		
+
 		int health = data.getShieldCapacity();
 		float scaled = Math.max(1, (float)health * 0.15f); //40 * 0.15 = 6 //math max to prevent 0.9 end under values to be lost 
 		float max = 360 / (int)scaled; //360 / 6 = 60 
@@ -110,7 +145,7 @@ public class ClientEventsHandler {
 			GL11.glRotatef(player.rotationPitch, 1F, 0F, 0F);
 
 			GL11.glRotatef(rotation, 0F, 1F, 0F);
-			
+
 			GL11.glTranslatef(
 					-0.5f - (float)vec.x*1.5f,
 					-1.4f,
@@ -130,6 +165,29 @@ public class ClientEventsHandler {
 
 			GL11.glPopMatrix();
 			GL11.glPopAttrib();	
+		}
+	}
+
+	@SubscribeEvent(priority =  EventPriority.HIGH)
+	public void keyboardevent(KeyboardInputEvent event){
+
+	}
+
+	@SubscribeEvent(priority =  EventPriority.HIGH)
+	public void mouseinputevent(MouseEvent event){
+
+		if(AddonBma.proxy.getClientMinecraft().world != null)
+		{
+			if(AddonBma.proxy.getClientPlayer() != null)
+			{
+				EntityPlayer player = AddonBma.proxy.getClientPlayer();
+				FreezeData data = FreezeData.get(player);
+				if(data.shouldApplyFreeze())
+				{
+					System.out.println(event.getButton());
+					event.setCanceled(true);
+				}
+			}
 		}
 	}
 }

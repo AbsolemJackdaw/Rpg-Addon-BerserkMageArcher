@@ -6,6 +6,8 @@ import lib.playerclass.capability.PlayerClass;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Enchantments;
@@ -22,9 +24,15 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import subaraki.BMA.capability.CapabilityFreezeProvider;
 import subaraki.BMA.capability.CapabilityMageProvider;
+import subaraki.BMA.capability.FreezeData;
+import subaraki.BMA.capability.FreezeDataCapability;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.enchantment.EnchantmentHandler;
@@ -58,11 +66,21 @@ public class BmaEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerUpdateTick(LivingUpdateEvent event){
+	public void onLivingUpdateEvent(LivingUpdateEvent event){
 		if(!event.getEntityLiving().world.isRemote)
 		{
 			calculateBerserkerBonus(event);
 		}
+	}
+
+	@SubscribeEvent
+	public void onWorldTick(TickEvent.ClientTickEvent event){
+		countFreezeTimerClient(event);
+	}
+
+	@SubscribeEvent
+	public void onWorldTick(TickEvent.WorldTickEvent event){
+		countFreezeTimerServer(event);
 	}
 
 	@SubscribeEvent
@@ -93,6 +111,9 @@ public class BmaEventHandler {
 
 		if (entity instanceof EntityPlayer)
 			event.addCapability(CapabilityMageProvider.KEY, new CapabilityMageProvider((EntityPlayer)entity)); 
+
+		if (entity instanceof EntityLivingBase)
+			event.addCapability(CapabilityFreezeProvider.KEY, new CapabilityFreezeProvider((EntityLivingBase)entity));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,6 +137,12 @@ public class BmaEventHandler {
 				if(enchantment.getRegistryName().equals(EnchantmentHandler.wand_enchantment.getRegistryName())){
 					int metadata = player.getCapability(MageDataCapability.CAPABILITY, null).getMageIndex();
 					int core = player.getCapability(MageDataCapability.CAPABILITY, null).getCoreIndex();
+
+					if(metadata < 0 || metadata > WandInfo.wood.length)
+					{
+						AddonBma.log.fatal("metadata was incorrect" + " " + metadata + " Could not create wand.");
+						return;
+					}
 
 					if(!heldStackMain.getTagCompound().hasKey("core")){
 						player.world.playSound(player, new BlockPos(player), SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 1.0f, 1f);
@@ -143,7 +170,7 @@ public class BmaEventHandler {
 	private void setMageIndex(EntityPlayer player){
 
 		MageIndexData data = MageIndexData.get(player);
-		
+
 		String playerName = player.getDisplayNameString();
 		String name = playerName.substring(0, 4); //only get the four first letters
 		//a reference alphabet for index retrieving
@@ -233,5 +260,43 @@ public class BmaEventHandler {
 			return;
 		tmp.remove(ench);
 		EnchantmentHelper.setEnchantments(tmp, stack);
+	}
+
+	/**applies the freezing wand effect to whoever gets hit*/
+	private void countFreezeTimerServer(WorldTickEvent event) {
+
+		for(Entity e : event.world.loadedEntityList)
+		{
+			tickEntity(e);
+		}
+	}
+
+	/**applies the freezing wand effect to whoever gets hit*/
+	private void countFreezeTimerClient(ClientTickEvent event) {
+
+		if(AddonBma.proxy.getClientMinecraft().isGamePaused())
+			return;
+
+		if(AddonBma.proxy.getClientMinecraft().world != null) //client is started before a game.
+			for(Entity e : AddonBma.proxy.getClientMinecraft().world.loadedEntityList)
+			{
+				tickEntity(e);
+			}
+	}
+
+	private void tickEntity(Entity e)
+	{
+		if(e instanceof EntityLivingBase)
+		{
+			EntityLivingBase el = (EntityLivingBase)e;
+			if(el.hasCapability(FreezeDataCapability.CAPABILITY, null))
+			{
+				FreezeData data = FreezeData.get(el);
+				if(data.getTimer() > 0)
+				{
+					data.countDownTimer();
+				}
+			}
+		}	
 	}
 }

@@ -30,7 +30,10 @@ public class EntityAugolustra extends EntityThrowable{
 			if (result.entityHit != null)
 			{
 				if(result.entityHit instanceof EntityPlayer && getServer() != null && !getServer().isPVPEnabled())
+				{
 					this.setDead();
+					return;
+				}
 
 				result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), ConfigurationHandler.instance.augolustra_damage);
 				this.setDead();

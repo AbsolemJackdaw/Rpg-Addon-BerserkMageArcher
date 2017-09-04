@@ -8,27 +8,35 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import subaraki.BMA.entity.EntityAugolustra;
+import subaraki.BMA.entity.EntityBombarda;
 import subaraki.BMA.entity.EntityDart;
 import subaraki.BMA.entity.EntityExpelliarmus;
 import subaraki.BMA.entity.EntityFlyingCarpet;
+import subaraki.BMA.entity.EntityFreezeSpell;
 import subaraki.BMA.entity.EntityHammerSmash;
 import subaraki.BMA.entity.EntityHellArrow;
-import subaraki.BMA.entity.RenderAugolustra;
-import subaraki.BMA.entity.RenderDart;
-import subaraki.BMA.entity.RenderExpelliarmus;
-import subaraki.BMA.entity.RenderFlyingCarpet;
-import subaraki.BMA.entity.RenderHammerSmash;
-import subaraki.BMA.entity.RenderHellArrow;
+import subaraki.BMA.entity.renders.RenderAugolustra;
+import subaraki.BMA.entity.renders.RenderBombarda;
+import subaraki.BMA.entity.renders.RenderDart;
+import subaraki.BMA.entity.renders.RenderExpelliarmus;
+import subaraki.BMA.entity.renders.RenderFlyingCarpet;
+import subaraki.BMA.entity.renders.RenderFreezeSpell;
+import subaraki.BMA.entity.renders.RenderHammerSmash;
+import subaraki.BMA.entity.renders.RenderHellArrow;
 import subaraki.BMA.handler.event.ClientEventsHandler;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.item.armor.model.ModelArcherArmor;
 import subaraki.BMA.item.armor.model.ModelBerserkerArmor;
 import subaraki.BMA.item.armor.model.ModelMageArmor;
+import subaraki.BMA.render.LayerColdEffect;
 import subaraki.BMA.render.LayerMageProtection;
 
 public class ClientProxy extends ServerProxy {
@@ -82,7 +90,9 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityDart.class, RenderDart::new);
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlyingCarpet.class, RenderFlyingCarpet::new);
-
+		RenderingRegistry.registerEntityRenderingHandler(EntityFreezeSpell.class, RenderFreezeSpell::new);
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityBombarda.class, RenderBombarda::new);
 	}
 
 	public void registerClientEvents(){
@@ -115,7 +125,7 @@ public class ClientProxy extends ServerProxy {
 				}, 
 				BmaItems.craftLeather
 				);
-		
+
 		ic.registerItemColorHandler(
 
 				new IItemColor() {
@@ -132,6 +142,12 @@ public class ClientProxy extends ServerProxy {
 	public EntityPlayer getClientPlayer() {
 		return Minecraft.getMinecraft().player;
 	}
+
+	@Override
+	public Minecraft getClientMinecraft(){
+		return Minecraft.getMinecraft();
+	}
+
 
 	public static int outsideSphereID;
 
@@ -177,6 +193,18 @@ public class ClientProxy extends ServerProxy {
 		for(String type : types){
 			RenderPlayer renderer = ((RenderPlayer)Minecraft.getMinecraft().getRenderManager().getSkinMap().get(type));
 			renderer.addLayer(new LayerMageProtection(renderer));
+
+			if(renderer instanceof RenderLivingBase)
+				((RenderLivingBase) renderer).addLayer(new LayerColdEffect((RenderLivingBase) renderer));
+
+		}
+
+		for(Render<? extends Entity> renderer : Minecraft.getMinecraft().getRenderManager().entityRenderMap.values())
+		{
+			if(renderer instanceof RenderLivingBase)
+			{
+				((RenderLivingBase) renderer).addLayer(new LayerColdEffect((RenderLivingBase) renderer));
+			}
 		}
 	}
 }

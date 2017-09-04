@@ -25,12 +25,15 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import subaraki.BMA.capability.FreezeData;
 import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityExpelliarmus;
 import subaraki.BMA.entity.EntityFlyingCarpet;
 import subaraki.BMA.handler.network.CSyncShieldPacket;
 import subaraki.BMA.handler.network.PacketHandler;
+import subaraki.BMA.handler.spells.SpellHandler;
+import subaraki.BMA.handler.spells.SpellHandler.EnumSpell;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
 
@@ -79,46 +82,26 @@ public class ItemWand extends Item {
 			if(!PlayerClass.get(player).isPlayerClass(BmaItems.mageClass))
 				return false;
 
-			if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Expelliarmus))
-			{
-				if(!player.world.isRemote)
-				{
-					player.world.spawnEntity(new EntityExpelliarmus(player.world, player));
-					player.getCooldownTracker().setCooldown(this, 20);
-				}
-				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.NEUTRAL, 0.2f, -10f, false);
-			}
+			if(AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.EXPELLIARMUS))
+				AddonBma.spell.execute(EnumSpell.EXPELLIARMUS, player, this);
 
-			else if (AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.ContegoAspida))
-			{
-				MageIndexData data = MageIndexData.get(player);
-				if(!player.world.isRemote)
-				{
-					int cap = 20+player.world.rand.nextInt(21);
+			else if (AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.CONTEGO))
+				AddonBma.spell.execute(EnumSpell.CONTEGO, player);
 
-					if(!data.isProtectedByMagic() || cap > data.getShieldCapacity()) //allow for a refresh without the shield having to be worn out
-					{
+			else if(AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.AUGOLUSTRA))
+				AddonBma.spell.execute(EnumSpell.AUGOLUSTRA, player, this);
 
-						data.setShieldCapacity(cap);
-						data.setProtectedByMagic(true);
-
-						if(player instanceof EntityPlayerMP)
-							PacketHandler.NETWORK.sendTo(new CSyncShieldPacket(true, cap), (EntityPlayerMP)player);
-					}
-				}
-			}
-
-			else if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Augolustra))
-			{
-				if(!player.world.isRemote)
-				{
-					player.world.spawnEntity(new EntityAugolustra(player.world, player));
-					player.getCooldownTracker().setCooldown(this, 15);
-				}
-				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.NEUTRAL, 0.5f, -5f, false);
-			}
-
-			else if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Episkey)){
+			else if(AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.FREEZE))
+				AddonBma.spell.execute(EnumSpell.FREEZE, player, this);
+			
+			else if(AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.BOMBARDA))
+				AddonBma.spell.execute(EnumSpell.BOMBARDA, player, this);
+			
+			else if(AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.EPISKEY)){
+				
+				//trigger the spell cycling
+				AddonBma.spell.execute(EnumSpell.EPISKEY, player);
+					
 				if(!WandInfo.isLoyalWand(player, stack) && player.world.rand.nextInt(5)==0){
 					player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.NEUTRAL, 0.5f, 0.5f, false);
 					return false;
@@ -152,7 +135,10 @@ public class ItemWand extends Item {
 			EntityLivingBase elb = (EntityLivingBase)entity;
 			World world = elb.world;
 
-			if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Episkey)){
+			if(AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.EPISKEY)){
+				//trigger the spell cycling
+				AddonBma.spell.execute(EnumSpell.EPISKEY, player);
+				
 				if(!WandInfo.isLoyalWand(player, stack) && world.rand.nextInt(5)==0){
 					world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.NEUTRAL, 0.5f, 0.5f, false);
 					return false;
@@ -180,100 +166,12 @@ public class ItemWand extends Item {
 		if(!PlayerClass.get(player).isPlayerClass(BmaItems.mageClass))
 			return EnumActionResult.FAIL;
 
-		if(AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.AesConverto)){
+		if(AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.AESCONVERTO))
+			AddonBma.spell.execute(EnumSpell.AESCONVERTO, player, pos, stack);
 
-			Block block = world.getBlockState(pos).getBlock();
-			boolean loyal = WandInfo.isLoyalWand(player, stack);
-			int rand = world.rand.nextInt(3);
+		else if (AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.PERMOVEO))
+			AddonBma.spell.execute(EnumSpell.PERMOVEO, player, pos);
 
-			if(!loyal && rand == 0){
-				if(block.equals(Blocks.COAL_ORE) || 
-						block.equals(Blocks.GOLD_ORE) || 
-						block.equals(Blocks.IRON_ORE) ||
-						block.equals(Blocks.DIAMOND_ORE)){
-					world.setBlockState(pos, Blocks.DIRT.getDefaultState(), 2);
-				}else
-					return EnumActionResult.FAIL;
-			}
-			else{
-				if(block.equals(Blocks.COAL_ORE))
-					world.setBlockState(pos, Blocks.COAL_BLOCK.getDefaultState(), 2);
-				else if(block.equals(Blocks.GOLD_ORE))
-					world.setBlockState(pos, Blocks.GOLD_BLOCK.getDefaultState(), 2);
-				else if(block.equals(Blocks.IRON_ORE))
-					world.setBlockState(pos, Blocks.IRON_BLOCK.getDefaultState(), 2);
-				else if(block.equals(Blocks.DIAMOND_ORE))
-					world.setBlockState(pos, Blocks.DIAMOND_BLOCK.getDefaultState(), 2);
-				else{
-					return EnumActionResult.FAIL;
-				}
-				player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.NEUTRAL, 0.8f, -5f, false);
-
-			}
-
-			if(world.isRemote){
-				Random random = world.rand;
-				double d0 = 0.0625D;
-
-				for (int i = 0; i < 20; ++i)
-				{
-					double d1 = (double)((float)pos.getX() - 0.5f + random.nextFloat()*2);
-					double d2 = (double)((float)pos.getY() + 1f + random.nextFloat());
-					double d3 = (double)((float)pos.getZ() - 0.5f + random.nextFloat()*2);
-
-					world.spawnParticle(EnumParticleTypes.SPELL, d1, d2, d3, 0.0D, 0.0D, 0.0D, new int[0]);
-				}
-			}
-			return EnumActionResult.SUCCESS;
-		}
-
-		else if (AddonBma.spells.hasSpokenSpell(player, AddonBma.spells.Permoveo))
-		{
-			System.out.println(world.getBlockState(pos).getBlock());
-
-			if(world.getBlockState(pos).getBlock() == Blocks.CARPET)
-			{
-				EnumFacing carpetSide = null;
-				for(EnumFacing face : EnumFacing.VALUES)
-				{
-					if(face == EnumFacing.UP || face == EnumFacing.DOWN)
-						continue;
-					if(world.getBlockState(pos.offset(face,1)).getBlock() == Blocks.CARPET)
-					{
-						carpetSide = face;
-						break;
-					}
-				}
-
-				System.out.println(carpetSide);
-
-				if(carpetSide != null)
-				{
-
-					System.out.println(world.getBlockState(pos.offset(carpetSide,1)).getBlock());
-
-					int[] meta = new int[]{world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos)),
-							world.getBlockState(pos.offset(carpetSide,1)).getBlock().getMetaFromState(world.getBlockState(pos.offset(carpetSide,1)))};
-
-					world.setBlockToAir(pos);
-					world.setBlockToAir(pos.offset(carpetSide,1));
-
-					Vec3i vec = carpetSide.getDirectionVec();
-					System.out.println(vec);
-					
-					float f = 0.5f;
-					if(vec.getX() > 0 ||vec.getX() < 0)
-						f = -0.5f;
-					
-					EntityFlyingCarpet carpet = new EntityFlyingCarpet(world, pos.getX()-((float)vec.getX()/2f)+f, pos.getY(), pos.getZ()+((float)vec.getZ()/2f)+0.5f);
-					carpet.setMeta(meta[0], meta[1]);
-					carpet.rotationYaw = vec.getZ() > 0 ? 0 : vec.getZ() < 0 ? 180 : vec.getX() > 0 ? 270 : 90;
-					
-					if(!world.isRemote)
-						world.spawnEntity(carpet);
-				}
-			}
-		}
 		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
 	}
 
