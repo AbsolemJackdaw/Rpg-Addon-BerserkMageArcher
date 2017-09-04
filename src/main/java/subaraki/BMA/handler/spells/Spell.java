@@ -33,14 +33,14 @@ public class Spell {
 
 	public Object execute(EnumSpell spell, EntityPlayer player, Object ...o)
 	{
-//		if(!spell.canCycle)
-//		{
-//			if(!player.world.isRemote)
-//			{
-//				AddonBma.spellHandler.addSpokenSpell(player.getGameProfile().getName(), EnumSpell.NONE);
-//				PacketHandler.NETWORK.sendToAll(new CSyncSpellListPacket(player.getGameProfile().getName(), EnumSpell.NONE.getLowerName()));//send message to add spell to list client side
-//			}
-//		}
+		if(!spell.canCycle)
+		{
+			if(!player.world.isRemote)
+			{
+				AddonBma.spellHandler.addSpokenSpell(player.getGameProfile().getName(), EnumSpell.NONE);
+				PacketHandler.NETWORK.sendToAll(new CSyncSpellListPacket(player.getGameProfile().getName(), EnumSpell.NONE.getLowerName()));//send message to add spell to list client side
+			}
+		}
 		
 		switch (spell) {
 		case AESCONVERTO:
