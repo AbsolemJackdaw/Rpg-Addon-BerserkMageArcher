@@ -25,6 +25,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import subaraki.BMA.block.BmaBlocks;
 import subaraki.BMA.capability.FreezeData;
 import subaraki.BMA.capability.MageIndexData;
 import subaraki.BMA.entity.EntityAugolustra;
@@ -87,6 +88,9 @@ public class ItemWand extends Item {
 
 			else if (AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.CONTEGO))
 				AddonBma.spell.execute(EnumSpell.CONTEGO, player);
+
+			else if (AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.SCINTILLA))
+				AddonBma.spell.execute(EnumSpell.SCINTILLA, player);
 
 			else if(AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.AUGOLUSTRA))
 				AddonBma.spell.execute(EnumSpell.AUGOLUSTRA, player, this);
@@ -172,6 +176,9 @@ public class ItemWand extends Item {
 		else if (AddonBma.spellHandler.hasSpokenSpell(player, EnumSpell.PERMOVEO))
 			AddonBma.spell.execute(EnumSpell.PERMOVEO, player, pos);
 
+		else
+			world.setBlockState(pos.up(), BmaBlocks.airLuminence.getDefaultState());
+		
 		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
 	}
 

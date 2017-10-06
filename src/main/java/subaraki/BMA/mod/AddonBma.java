@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import subaraki.BMA.block.BmaBlocks;
 import subaraki.BMA.capability.FreezeDataCapability;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.config.ConfigurationHandler;
@@ -50,6 +51,7 @@ public class AddonBma {
 		ConfigurationHandler.instance.loadConfig(event.getSuggestedConfigurationFile());
 
 		BmaItems.loadItems();
+		BmaBlocks.loadBlocks();
 		
 		proxy.registerRenders();
 		proxy.registerClientEvents();

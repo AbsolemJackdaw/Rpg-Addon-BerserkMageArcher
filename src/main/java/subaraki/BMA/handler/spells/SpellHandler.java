@@ -27,6 +27,7 @@ public class SpellHandler {
 		spells.add(EnumSpell.PERMOVEO.getLowerName()); // turns carpet into a flying carpet
 		spells.add(EnumSpell.FREEZE.getLowerName());// freezes entities into place
 		spells.add(EnumSpell.BOMBARDA.getLowerName());
+		spells.add(EnumSpell.SCINTILLA.getLowerName());
 	}
 
 	@SubscribeEvent
@@ -70,6 +71,7 @@ public class SpellHandler {
 	public static enum EnumSpell{
 		
 		NONE("libra", true),
+		SCINTILLA("scintilla", true),
 		AUGOLUSTRA("Augolustra", true),
 		EPISKEY("Episkey", false),
 		CONTEGO("Contego Aspida", false),

@@ -21,6 +21,7 @@ import subaraki.BMA.entity.EntityBombarda;
 import subaraki.BMA.entity.EntityExpelliarmus;
 import subaraki.BMA.entity.EntityFlyingCarpet;
 import subaraki.BMA.entity.EntityFreezeSpell;
+import subaraki.BMA.entity.EntityScintilla;
 import subaraki.BMA.handler.network.CSyncShieldPacket;
 import subaraki.BMA.handler.network.CSyncSpellListPacket;
 import subaraki.BMA.handler.network.PacketHandler;
@@ -41,7 +42,7 @@ public class Spell {
 				PacketHandler.NETWORK.sendToAll(new CSyncSpellListPacket(player.getGameProfile().getName(), EnumSpell.NONE.getLowerName()));//send message to add spell to list client side
 			}
 		}
-		
+
 		switch (spell) {
 		case AESCONVERTO:
 			return Aes(player,(BlockPos)o[0],(ItemStack)o[1]);
@@ -49,31 +50,35 @@ public class Spell {
 		case EXPELLIARMUS:
 			Expelliarmus(player, (ItemWand)o[0]);
 			return null;
-			
+
 		case CONTEGO:
 			Aspida(player);
 			return null;
-			
+
 		case AUGOLUSTRA:
 			Augolustra(player,(ItemWand)o[0]);
 			return null;	
-			
+
 		case EPISKEY:
 			//hardcoded into wand
 			return null;
-			
+
 		case FREEZE:
 			Freeze(player, (ItemWand)o[0]);
 			return null;
-			
+
 		case PERMOVEO:
 			Permoveo(player,(BlockPos)o[0]);
 			return null;
-			
+
 		case BOMBARDA:
 			Bombarda(player, (ItemWand)o[0]);
 			return null;
-			
+
+		case SCINTILLA:
+			Scintilla(player);
+			return null;
+
 		default:
 			return null;
 		}
@@ -81,7 +86,7 @@ public class Spell {
 
 	private EnumActionResult Aes(EntityPlayer player, BlockPos pos, ItemStack stack){
 		World world = player.world;
-		
+
 		Block block = world.getBlockState(pos).getBlock();
 		boolean loyal = WandInfo.isLoyalWand(player, stack);
 		int rand = world.rand.nextInt(3);
@@ -135,7 +140,15 @@ public class Spell {
 		}
 		player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.NEUTRAL, 0.2f, -10f, false);
 	}
-	
+
+	private void Scintilla(EntityPlayer player) {
+		if(!player.world.isRemote)
+			player.world.spawnEntity(new EntityScintilla(player.world, player));
+
+		player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_NOTE_FLUTE, SoundCategory.NEUTRAL, 0.2f, -5f + (float)player.world.rand.nextInt(10), false);
+
+	}
+
 	private void Aspida(EntityPlayer player){
 		MageIndexData data = MageIndexData.get(player);
 		if(!player.world.isRemote)
@@ -153,7 +166,7 @@ public class Spell {
 			}
 		}
 	}
-	
+
 	private void Augolustra(EntityPlayer player, ItemWand wand){
 		if(!player.world.isRemote)
 		{
@@ -163,7 +176,7 @@ public class Spell {
 		player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.NEUTRAL, 0.5f, -5f, false);
 
 	}
-	
+
 	private void Bombarda(EntityPlayer player, ItemWand wand){
 		if(!player.world.isRemote)
 		{
@@ -172,10 +185,10 @@ public class Spell {
 		}
 		player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.NEUTRAL, 0.5f, -5f, false);
 	}
-	
+
 	private void Permoveo(EntityPlayer player, BlockPos pos){
 		World world = player.world;
-		
+
 		if(world.getBlockState(pos).getBlock() == Blocks.CARPET)
 		{
 			EnumFacing carpetSide = null;
@@ -200,21 +213,21 @@ public class Spell {
 
 				Vec3i vec = carpetSide.getDirectionVec();
 				System.out.println(vec);
-				
+
 				float f = 0.5f;
 				if(vec.getX() > 0 ||vec.getX() < 0)
 					f = -0.5f;
-				
+
 				EntityFlyingCarpet carpet = new EntityFlyingCarpet(world, pos.getX()-((float)vec.getX()/2f)+f, pos.getY(), pos.getZ()+((float)vec.getZ()/2f)+0.5f);
 				carpet.setMeta(meta[0], meta[1]);
 				carpet.rotationYaw = vec.getZ() > 0 ? 0 : vec.getZ() < 0 ? 180 : vec.getX() > 0 ? 270 : 90;
-				
+
 				if(!world.isRemote)
 					world.spawnEntity(carpet);
 			}
 		}
 	}
-	
+
 	private void Freeze(EntityPlayer player, ItemWand wand){
 		if(!player.world.isRemote)
 		{

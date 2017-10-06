@@ -23,6 +23,7 @@ import subaraki.BMA.entity.EntityFlyingCarpet;
 import subaraki.BMA.entity.EntityFreezeSpell;
 import subaraki.BMA.entity.EntityHammerSmash;
 import subaraki.BMA.entity.EntityHellArrow;
+import subaraki.BMA.entity.EntityScintilla;
 import subaraki.BMA.entity.renders.RenderAugolustra;
 import subaraki.BMA.entity.renders.RenderBombarda;
 import subaraki.BMA.entity.renders.RenderDart;
@@ -31,6 +32,7 @@ import subaraki.BMA.entity.renders.RenderFlyingCarpet;
 import subaraki.BMA.entity.renders.RenderFreezeSpell;
 import subaraki.BMA.entity.renders.RenderHammerSmash;
 import subaraki.BMA.entity.renders.RenderHellArrow;
+import subaraki.BMA.entity.renders.RenderScintilla;
 import subaraki.BMA.handler.event.ClientEventsHandler;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.item.armor.model.ModelArcherArmor;
@@ -93,6 +95,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityFreezeSpell.class, RenderFreezeSpell::new);
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityBombarda.class, RenderBombarda::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityScintilla.class, RenderScintilla::new);
+
 	}
 
 	public void registerClientEvents(){
