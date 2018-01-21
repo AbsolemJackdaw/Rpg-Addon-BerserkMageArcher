@@ -130,7 +130,7 @@ public class SSyncBowShot implements IMessage {
 
 		ItemArrow itemarrow = (ItemArrow) Items.ARROW;
 		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(Items.ARROW), entityplayer);
-		entityarrow.setAim(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * (bow.isFlipped()? 3.0F : 1.5f), power > 1F ? 0.0F : 0.3f);
+		entityarrow.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * (bow.isFlipped()? 3.0F : 1.5f), power > 1F ? 0.0F : 0.3f);
 
 		if (power> 1.0F && bow.isFlipped())
 			entityarrow.setIsCritical(true);

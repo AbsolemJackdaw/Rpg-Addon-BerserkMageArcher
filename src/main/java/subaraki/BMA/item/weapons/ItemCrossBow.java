@@ -125,7 +125,7 @@ public class ItemCrossBow extends Item {
 			isArcher = true;
 
 		EntityDart entityDart = new EntityDart(world, entityplayer);
-		entityDart.setAim(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * 3.0f, isArcher ? 0.01f : 1.0f);
+		entityDart.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * 3.0f, isArcher ? 0.01f : 1.0f);
 
 		if (world.rand.nextInt(3) == 0)
 			entityDart.setIsCritical(false);

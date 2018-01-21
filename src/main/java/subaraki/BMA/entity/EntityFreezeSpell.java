@@ -25,7 +25,7 @@ public class EntityFreezeSpell extends EntityThrowable{
 	}
 	public EntityFreezeSpell(World worldIn, EntityLivingBase livingBaseIn){
 		super(worldIn, livingBaseIn);
-		this.setThrowableHeading(livingBaseIn.getLookVec().x, livingBaseIn.getLookVec().y, livingBaseIn.getLookVec().z, 1.5f, 0.0f);
+		this.shoot(livingBaseIn.getLookVec().x, livingBaseIn.getLookVec().y, livingBaseIn.getLookVec().z, 1.5f, 0.0f);
 	}
 
 	@Override

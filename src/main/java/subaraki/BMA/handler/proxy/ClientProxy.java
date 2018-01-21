@@ -111,7 +111,7 @@ public class ClientProxy extends ServerProxy {
 
 				new IItemColor() {
 					@Override
-					public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+					public int colorMultiplier(ItemStack stack, int tintIndex) {
 						if(stack != ItemStack.EMPTY){
 							switch(stack.getMetadata())
 							{
@@ -134,7 +134,7 @@ public class ClientProxy extends ServerProxy {
 
 				new IItemColor() {
 					@Override
-					public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+					public int colorMultiplier(ItemStack stack, int tintIndex) {
 						return 0x654f2d;
 					}
 				}, 
