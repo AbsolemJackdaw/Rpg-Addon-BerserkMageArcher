@@ -2,8 +2,6 @@ package subaraki.BMA.handler.event;
 
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.realmsclient.util.Option.None;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.renderer.GlStateManager;
