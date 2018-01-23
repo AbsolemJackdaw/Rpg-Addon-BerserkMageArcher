@@ -1,5 +1,7 @@
 package subaraki.BMA.entity;
 
+import java.util.Arrays;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +19,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 public class EntityFlyingCarpet extends EntityLiving {
 
