@@ -1,5 +1,6 @@
 package subaraki.BMA.entity;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 import subaraki.BMA.config.ConfigurationHandler;
 
 public class EntityHammerSmash extends EntityLivingBase{
