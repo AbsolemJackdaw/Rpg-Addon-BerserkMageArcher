@@ -33,18 +33,6 @@ public class ServerProxy {
 	
 	public int getSphereID(boolean isFirstPerson){return 0;}
 	
-	public void registerEntities(){
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","augolustra"),EntityAugolustra.class, "augolustra", 0, AddonBma.MODID, 64, 15, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","expelliarmus"),EntityExpelliarmus.class, "expelliarmus", 1, AddonBma.MODID, 64, 15, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","hammersmash"),EntityHammerSmash.class, "hammersmash", 2, AddonBma.MODID, 64, 15, false);
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","hellarrow"),EntityHellArrow.class, "hellarrow", 3, AddonBma.MODID, 256, 20, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","dart_entity"),EntityDart.class, "dart_entity", 4, AddonBma.MODID, 64, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","flying_carpet"),EntityFlyingCarpet.class, "carpet_entity", 5, AddonBma.MODID, 256, 20, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","freeze_spell"),EntityFreezeSpell.class, "freeze_entity", 6, AddonBma.MODID, 64, 15, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","bomb_spell"),EntityBombarda.class, "bombarda_entity", 7, AddonBma.MODID, 64, 20, true);
-		EntityRegistry.registerModEntity(new ResourceLocation("bma_addon","scintilla_spell"),EntityScintilla.class, "scintilla_entity", 8, AddonBma.MODID, 64, 20, true);
-	}
-
 	public void addRenderLayers() {
 	}
 }

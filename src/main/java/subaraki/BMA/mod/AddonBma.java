@@ -16,6 +16,8 @@ import subaraki.BMA.capability.FreezeDataCapability;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.config.ConfigurationHandler;
 import subaraki.BMA.enchantment.EnchantmentHandler;
+import subaraki.BMA.entity.EntityHammerSmash;
+import subaraki.BMA.handler.entity.EntityHandler;
 import subaraki.BMA.handler.event.BmaEventHandler;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.proxy.ServerProxy;
@@ -50,12 +52,13 @@ public class AddonBma {
 
 		ConfigurationHandler.instance.loadConfig(event.getSuggestedConfigurationFile());
 
+		new EntityHandler();
+		
 		BmaItems.loadItems();
 		BmaBlocks.loadBlocks();
 		
 		proxy.registerRenders();
 		proxy.registerClientEvents();
-		proxy.registerEntities();
 		
 		new PacketHandler();
 		new EnchantmentHandler();
@@ -64,8 +67,6 @@ public class AddonBma {
 		
 		new MageDataCapability().register();
 		new FreezeDataCapability().register();
-		
-		//new WorldDataHandler.WorldDataHandlerSaveEvent();
 		
 		spellHandler = new SpellHandler();
 		spell = new Spell();
