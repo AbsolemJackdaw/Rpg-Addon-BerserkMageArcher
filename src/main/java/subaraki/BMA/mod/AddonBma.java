@@ -16,7 +16,6 @@ import subaraki.BMA.capability.FreezeDataCapability;
 import subaraki.BMA.capability.MageDataCapability;
 import subaraki.BMA.config.ConfigurationHandler;
 import subaraki.BMA.enchantment.EnchantmentHandler;
-import subaraki.BMA.entity.EntityHammerSmash;
 import subaraki.BMA.handler.entity.EntityHandler;
 import subaraki.BMA.handler.event.BmaEventHandler;
 import subaraki.BMA.handler.network.PacketHandler;

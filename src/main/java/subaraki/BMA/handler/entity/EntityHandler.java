@@ -3,7 +3,6 @@ package subaraki.BMA.handler.entity;
 import java.util.ArrayList;
 
 import lib.entity.EntityRegistry;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

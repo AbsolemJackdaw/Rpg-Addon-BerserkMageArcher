@@ -4,7 +4,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import subaraki.BMA.entity.EntityAugolustra;
 import subaraki.BMA.entity.EntityScintilla;
 
 public class RenderScintilla extends Render<EntityScintilla> implements IRenderFactory{

@@ -1,7 +1,5 @@
 package subaraki.BMA.config;
 
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-
 //armor material configuration converter
 public class AMCC {
 

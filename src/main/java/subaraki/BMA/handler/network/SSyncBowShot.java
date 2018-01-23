@@ -1,7 +1,6 @@
 package subaraki.BMA.handler.network;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufHolder;
 import lib.playerclass.capability.PlayerClass;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;

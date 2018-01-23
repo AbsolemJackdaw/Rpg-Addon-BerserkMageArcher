@@ -2,13 +2,11 @@ package subaraki.BMA.entity;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import subaraki.BMA.block.BmaBlocks;
-import subaraki.BMA.mod.AddonBma;
 
 public class EntityScintilla extends EntityThrowable{
 

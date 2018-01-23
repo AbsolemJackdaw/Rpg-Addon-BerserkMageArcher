@@ -1,17 +1,12 @@
 package subaraki.BMA.capability;
 
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MouseHelper;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import subaraki.BMA.handler.network.CSyncFreeze;
 import subaraki.BMA.handler.network.PacketHandler;
-import subaraki.BMA.mod.AddonBma;
 
 public class FreezeData {
 

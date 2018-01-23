@@ -3,7 +3,6 @@ package subaraki.BMA.config;
 import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.FMLLog;
 
 public class ConfigurationHandler
 {
