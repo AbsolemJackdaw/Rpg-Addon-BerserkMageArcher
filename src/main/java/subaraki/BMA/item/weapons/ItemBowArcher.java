@@ -5,33 +5,29 @@ import javax.annotation.Nullable;
 import lib.playerclass.capability.PlayerClass;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.network.SSyncBowShot;
-import subaraki.BMA.handler.network.CSyncFlip;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
 
 public class ItemBowArcher extends Item
 {
-	private boolean isFlipped;
-
 	public ItemBowArcher()
 	{
 		this.maxStackSize = 1;
@@ -60,9 +56,9 @@ public class ItemBowArcher extends Item
 			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
 			{
-				boolean flag = stack.getItem() == BmaItems.bow && ((ItemBowArcher)stack.getItem()).isFlipped();
+				boolean flag = stack.getItem() == BmaItems.bow && isFlipped(stack);
 				float value = flag ? 1.0F : 0.0F;
-				return 0;
+				return value;
 			}
 		});
 	}
@@ -108,7 +104,7 @@ public class ItemBowArcher extends Item
 			if(!PlayerClass.get((EntityPlayer)elb).isPlayerClass(BmaItems.archerClass))
 				return;
 
-		if(getArrowVelocity((int)((stack.getMaxItemUseDuration() - elb.getItemInUseCount())))*2f >= 4f && !isFlipped)
+		if(getArrowVelocity((int)((stack.getMaxItemUseDuration() - elb.getItemInUseCount())))*2f >= 4f && !isFlipped(stack))
 			if(elb.world.isRemote){
 				World world = elb.world;
 
@@ -143,14 +139,8 @@ public class ItemBowArcher extends Item
 		{
 			if(stack.getItem() == BmaItems.bow && !entityLiving.world.isRemote && entityLiving.swingingHand == EnumHand.MAIN_HAND)
 			{
-				ItemBowArcher bow = (ItemBowArcher)stack.getItem();
-				bow.setFlipped(!bow.isFlipped());
-
-				if(entityLiving instanceof EntityPlayerMP)
-				{
-					EntityPlayerMP playerMP = (EntityPlayerMP)entityLiving;
-					PacketHandler.NETWORK.sendTo(new CSyncFlip(!bow.isFlipped), playerMP);
-				}
+				
+				setFlipped(stack, !isFlipped(stack));
 			}
 		}
 		return super.onEntitySwing(entityLiving, stack);
@@ -207,12 +197,18 @@ public class ItemBowArcher extends Item
 		return repair.getItem().equals(Items.EMERALD) ? true : super.getIsRepairable(toRepair, repair);
 	}
 
-	public void setFlipped(boolean isFlipped) {
-		this.isFlipped = isFlipped;
+	public void setFlipped(ItemStack stack, boolean isFlipped) {
+		if(!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		
+		stack.getTagCompound().setBoolean("flipped", isFlipped);
 	}
 
-	public boolean isFlipped() {
-		return isFlipped;
+	public boolean isFlipped(ItemStack stack) {
+		if(stack.hasTagCompound())
+			if(stack.getTagCompound().hasKey("flipped"))
+				return stack.getTagCompound().getBoolean("flipped");
+		return false;
 	}
 
 	private ItemStack findAmmo(EntityPlayer player)

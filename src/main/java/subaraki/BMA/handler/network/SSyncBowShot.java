@@ -77,7 +77,7 @@ public class SSyncBowShot implements IMessage {
 
 					System.out.println("C. "+ time);
 					
-					if(time >= 1.5f && bow.isFlipped())
+					if(time >= 1.5f && bow.isFlipped(stack))
 					{
 						if(PlayerClass.get(player).isShielded())
 						{
@@ -164,9 +164,9 @@ public class SSyncBowShot implements IMessage {
 		ItemArrow itemarrow = (ItemArrow) Items.ARROW;
 		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(Items.ARROW), entityplayer);
 		entityarrow.pickupStatus = PickupStatus.CREATIVE_ONLY;
-		entityarrow.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * (bow.isFlipped()? 3.0F : 1.5f), power > 1F ? 0.0F : 0.3f);
+		entityarrow.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * (bow.isFlipped(stack)? 3.0F : 1.5f), power > 1F ? 0.0F : 0.3f);
 
-		if (power> 1.0F && bow.isFlipped())
+		if (power> 1.0F && bow.isFlipped(stack))
 			entityarrow.setIsCritical(true);
 		entityarrow.setDamage(entityarrow.getDamage() + ConfigurationHandler.instance.bow_arrow_damage);
 		entityarrow.setKnockbackStrength(1);
