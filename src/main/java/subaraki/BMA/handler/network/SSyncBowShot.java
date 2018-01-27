@@ -4,11 +4,13 @@ import io.netty.buffer.ByteBuf;
 import lib.playerclass.capability.PlayerClass;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityArrow.PickupStatus;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -60,7 +62,7 @@ public class SSyncBowShot implements IMessage {
 
 				int timer = message.timer;
 				ItemStack stack = message.item;
-				ItemStack arrowStack = message.arrowStack;
+				ItemStack arrowStack = this.findAmmo(player);
 				
 				float arrowPower = (float)getArrowVelocity(timer)*2f;
 
@@ -96,7 +98,7 @@ public class SSyncBowShot implements IMessage {
 						{
 							int arrows = arrowStack.getCount() ;
 							if (arrows >= 3)
-								arrows = 4;
+								arrows = 8;
 
 							for(int yaw = (-arrows/2); yaw <= (arrows/2); yaw+=2)
 								spawnArrow(player, world, stack, arrowPower > 1F ? 1f : arrowPower, yaw);
@@ -119,6 +121,38 @@ public class SSyncBowShot implements IMessage {
 
 			return null;
 		}
+		
+		//copied from the item bow archer class
+		private ItemStack findAmmo(EntityPlayer player)
+		{
+			if (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND)))
+			{
+				return player.getHeldItem(EnumHand.OFF_HAND);
+			}
+			else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND)))
+			{
+				return player.getHeldItem(EnumHand.MAIN_HAND);
+			}
+			else
+			{
+				for (int i = 0; i < player.inventory.getSizeInventory(); ++i)
+				{
+					ItemStack itemstack = player.inventory.getStackInSlot(i);
+
+					if (this.isArrow(itemstack))
+					{
+						return itemstack;
+					}
+				}
+
+				return ItemStack.EMPTY;
+			}
+		}
+
+		protected boolean isArrow(ItemStack stack)
+		{
+			return stack.getItem() instanceof ItemArrow;
+		}
 	}
 
 	private static void spawnArrow(EntityPlayer entityplayer, World worldIn, ItemStack stack, float power, float yaw){
@@ -129,6 +163,7 @@ public class SSyncBowShot implements IMessage {
 
 		ItemArrow itemarrow = (ItemArrow) Items.ARROW;
 		EntityArrow entityarrow = itemarrow.createArrow(worldIn, new ItemStack(Items.ARROW), entityplayer);
+		entityarrow.pickupStatus = PickupStatus.CREATIVE_ONLY;
 		entityarrow.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw+yaw, 0.0F, power * (bow.isFlipped()? 3.0F : 1.5f), power > 1F ? 0.0F : 0.3f);
 
 		if (power> 1.0F && bow.isFlipped())
@@ -151,4 +186,3 @@ public class SSyncBowShot implements IMessage {
 		return f;
 	}
 }
-

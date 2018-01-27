@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import lib.playerclass.capability.PlayerClass;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
@@ -17,11 +18,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import subaraki.BMA.entity.EntityHellArrow;
 import subaraki.BMA.handler.network.PacketHandler;
 import subaraki.BMA.handler.network.SSyncBowShot;
+import subaraki.BMA.handler.network.CSyncFlip;
 import subaraki.BMA.item.BmaItems;
 import subaraki.BMA.mod.AddonBma;
 
@@ -57,7 +60,9 @@ public class ItemBowArcher extends Item
 			@SideOnly(Side.CLIENT)
 			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
 			{
-				return stack.getItem() == BmaItems.bow && ((ItemBowArcher)stack.getItem()).isFlipped() ? 1F : 0F;
+				boolean flag = stack.getItem() == BmaItems.bow && ((ItemBowArcher)stack.getItem()).isFlipped();
+				float value = flag ? 1.0F : 0.0F;
+				return 0;
 			}
 		});
 	}
@@ -74,7 +79,7 @@ public class ItemBowArcher extends Item
 			//hacky way to fix server/client pullback(timeLeft) desync issue.
 			//this should prevent the server being out of sync with the client cues
 			//send time left data over a packet to the server, and let the packet handle the actual arrow shooting
-			
+
 			EntityPlayer player = (EntityPlayer)entityLiving;
 
 			ItemStack arrowStack = this.findAmmo((EntityPlayer) entityLiving);
@@ -88,8 +93,8 @@ public class ItemBowArcher extends Item
 			pullbackPower = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, (EntityPlayer)entityLiving, pullbackPower, true);
 			if (pullbackPower < 0) return;
 
-			System.out.println("A. Client ? " + worldIn.isRemote + " " +pullbackPower);
-			
+			//System.out.println("A. Client ? " + worldIn.isRemote + " " +pullbackPower);
+
 			if(!worldIn.isRemote)
 				return;
 			PacketHandler.NETWORK.sendToServer(new SSyncBowShot(pullbackPower, stack, arrowStack));
@@ -136,10 +141,16 @@ public class ItemBowArcher extends Item
 
 		if(entityLiving.isSwingInProgress)
 		{
-			if(stack.getItem() == BmaItems.bow && !entityLiving.world.isRemote)
+			if(stack.getItem() == BmaItems.bow && !entityLiving.world.isRemote && entityLiving.swingingHand == EnumHand.MAIN_HAND)
 			{
 				ItemBowArcher bow = (ItemBowArcher)stack.getItem();
 				bow.setFlipped(!bow.isFlipped());
+
+				if(entityLiving instanceof EntityPlayerMP)
+				{
+					EntityPlayerMP playerMP = (EntityPlayerMP)entityLiving;
+					PacketHandler.NETWORK.sendTo(new CSyncFlip(!bow.isFlipped), playerMP);
+				}
 			}
 		}
 		return super.onEntitySwing(entityLiving, stack);

@@ -31,7 +31,7 @@ public class RenderHammerSmash extends Render<EntityHammerSmash>{
 	public void doRender(EntityHammerSmash entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		ItemStack hammer = entity.getItemStackFromSlot(null);
-		if(hammer == ItemStack.EMPTY)
+		if(hammer.isEmpty())
 			hammer = new ItemStack(BmaItems.hammer);
 
 		RenderItem render = Minecraft.getMinecraft().getRenderItem();
@@ -43,6 +43,7 @@ public class RenderHammerSmash extends Render<EntityHammerSmash>{
 
 		rotate(180,0,1,0);
 		rotate(-entity.rotationYaw, 0, 1, 0);
+		entity.getEntityBoundingBox().expand(6, 2, 6);
 
 		if(entity.getRotationAngle() > 0){
 			translate(0, -entity.getRotationAngle()/300f, 0);

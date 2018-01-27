@@ -23,6 +23,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -30,7 +31,7 @@ import subaraki.BMA.config.ConfigurationHandler;
 
 public class EntityHammerSmash extends EntityLivingBase{
 
-	private ItemStack[] inventory = new ItemStack[1];
+	private NonNullList<ItemStack> inventory = NonNullList.withSize(1, ItemStack.EMPTY);
 	private float rotationAngle;
 
 	protected static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityTameable.class, DataSerializers.OPTIONAL_UNIQUE_ID);
@@ -47,19 +48,19 @@ public class EntityHammerSmash extends EntityLivingBase{
 
 	@Override
 	public Iterable<ItemStack> getArmorInventoryList() {
-		return Arrays.asList(this.inventory);
+		return inventory;
 	}
 
 	@Override
 	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
-		return inventory[0];
+		return inventory.get(0);
 	}
 
 	@Override
 	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
 		if(stack == ItemStack.EMPTY)
 			return;
-		inventory[0] = stack.copy();
+		inventory.set(0, stack.copy());
 	}
 
 	@Override
@@ -79,8 +80,8 @@ public class EntityHammerSmash extends EntityLivingBase{
 			this.setOwnerId(UUID.fromString(uuid));
 
 		NBTTagCompound stacktag = new NBTTagCompound();
-		if(inventory[0] != ItemStack.EMPTY){
-			inventory[0].writeToNBT(stacktag);
+		if(inventory.get(0) != ItemStack.EMPTY){
+			inventory.get(0).writeToNBT(stacktag);
 			compound.setTag("stack", stacktag);
 		}
 	}
@@ -96,7 +97,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 
 		if(compound.hasKey("stack")){
 			NBTTagCompound stackTag = compound.getCompoundTag("stack");
-			inventory[0] = new ItemStack(stackTag);
+			inventory.set(0, new ItemStack(stackTag));
 		}
 	}
 
@@ -130,7 +131,7 @@ public class EntityHammerSmash extends EntityLivingBase{
 				}
 			}
 
-			AxisAlignedBB pool = getEntityBoundingBox().expand(6, 2, 6);
+			AxisAlignedBB pool = getEntityBoundingBox().grow(6, 2, 6);
 			List<EntityLivingBase> entl = world.getEntitiesWithinAABB(EntityLivingBase.class, pool);
 
 			for(EntityLivingBase el : entl)
@@ -163,12 +164,12 @@ public class EntityHammerSmash extends EntityLivingBase{
 				el.attackEntityFrom(DamageSource.causeIndirectDamage(this, el), (int) (ConfigurationHandler.instance.hammer_damage*2.5f));
 			}
 			if(getOwner() == null )
-				if(inventory[0] != ItemStack.EMPTY)
+				if(inventory.get(0) != ItemStack.EMPTY)
 					if(!world.isRemote)
-						world.spawnEntity(new EntityItem(world, posX, posY, posZ, inventory[0].copy()));
+						world.spawnEntity(new EntityItem(world, posX, posY, posZ, inventory.get(0).copy()));
 
-			if(getOwner()!= null && inventory[0] != ItemStack.EMPTY)
-				getOwner().inventory.addItemStackToInventory(inventory[0].copy());
+			if(getOwner()!= null && inventory.get(0) != ItemStack.EMPTY)
+				getOwner().inventory.addItemStackToInventory(inventory.get(0).copy());
 
 			this.setDead();
 		}
