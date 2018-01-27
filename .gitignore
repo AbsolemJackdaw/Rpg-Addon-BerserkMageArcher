@@ -28,3 +28,5 @@ run
 /config/
 *.json
 /crash-reports/
+/world/
+*.properties
